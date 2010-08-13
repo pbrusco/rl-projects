@@ -34,12 +34,12 @@ class Environment:
 			bomb =  self.posUniqueId(self.bomb) else bomb = BOARD_WIDTH*BOARD_HEIGHT	
 	
 		walls = 0
-		for i in range(self.walls.len()):
-			if self.walls[i]: walls = walls + 2**i
+		for i in range(self.stones.len()):
+			if self.stones[i]: stones = stones + 2**i
 
 		hashingExponent = int(math.ceil(math.log(BOARD_WIDTH*BOARD_HEIGHT,2)))) #exponente dado por la cant de posiciones del trablero.
 
-		return bomb + (2**hashingExponent)*pos + (2**(hashingExponent*hashingExponent))*walls
+		return bomb + (2**hashingExponent)*pos + (2**(hashingExponent*hashingExponent))*stones
 	
 	
 	def posUniqueId(self,cords):
