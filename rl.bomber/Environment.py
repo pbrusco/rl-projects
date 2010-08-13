@@ -6,8 +6,8 @@ class Environment:
 	BOARD_HEIGHT = 8
 	BOARD_WIDTH = 8
 	EXIT = (7,7)
-	WIN_REWARD = 1
-	LOSE_REWARD = -1
+	WIN_REWARD = 10
+	LOSE_REWARD = -10
 
 	def __init__(self):
 
@@ -51,6 +51,7 @@ class Environment:
 		reward = 0
 		if (self.bombermanPos == EXIT):
 			reward  = WIN_REWARD
+			self.startNewGame()
 		if (self.die):
 			reward = LOSE_REWARD
 			self.startNewGame()
