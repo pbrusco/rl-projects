@@ -8,16 +8,42 @@ class Environment:
 	EXIT = (7,7)
 	WIN_REWARD = 10
 	LOSE_REWARD = -10
+	STONES = [(2,0),(2,2),(2,4),(2,6),(4,0),(4,2),(4,4),(4,6),(6,0),(6,2),(6,4),(6,6)]
+	WALLS = [(1,2),(1,3),(1,5),(1,7),(3,2),(3,3),(3,5),(3,7),(5,2),(5,3),(5,5),(5,7)]
 
 	def __init__(self):
 
 		self.bombermanPos = (0,0)
 		self.bomb = None
 		self.isBombDropped = False
-		self.walls = []
-		self.stones = []
+		self.walls = WALLS 
+		self.stones = [False] * STONES.len()
 		self.die = False
+	
+
+	def _hash_(self):
 		
+		if self.die:
+			return -1 #if die stateCode = -1
+		else 
+			die = 0 
+
+		pos = self.posUniqueId(self.bombermanPos)
+		
+		if self.isBombDropped:
+			bomb =  self.posUniqueId(self.bomb) else bomb = BOARD_WIDTH*BOARD_HEIGHT	
+	
+		walls = 0
+		for i in range(self.walls.len()):
+			if self.walls[i]: walls = walls + 2**i
+
+		hashingExponent = int(math.ceil(math.log(BOARD_WIDTH*BOARD_HEIGHT,2)))) #exponente dado por la cant de posiciones del trablero.
+
+		return bomb + (2**hashingExponent)*pos + (2**(hashingExponent*hashingExponent))*walls
+	
+	
+	def posUniqueId(self,cords):
+		return cords[0]*BOARD_WIDTH + cords[1]
 	
 	# initialize bomberman game
 	def startNewGame(self):
@@ -25,8 +51,7 @@ class Environment:
 		self.bombermanPos= (0,0)
 		self.bomb = None
 		self.isBombDropped = False
-		self.walls = [(1,2),(1,3),(1,5),(1,7),(3,2),(3,3),(3,5),(3,7),(5,2),(5,3),(5,5),(5,7)]
-		self.stones = [(2,0),(2,2),(2,4),(2,6),(4,0),(4,2),(4,4),(4,6),(6,0),(6,2),(6,4),(6,6)]
+		self.stones = [True] * STONES.len()
 		self.die = False
 	
 	def performAction(self, action):
@@ -57,22 +82,26 @@ class Environment:
 			self.startNewGame()
 
 		state = (self.bombermanPos, self.bomb, self.isBombDropped, self.walls, self.stones)	
-		stateCode = hashear(state)
+		stateCode = self.hash(state)
 		# return state code and reward
 		return (stateCode, reward)
 		
 	def destroyStoneIfpossible(self):
-		 for stone in self.stones:
-			for neighbour in self.neighbours (neighbours):
-				if self.bomb == neighbour:
-					self.stones.remove(stone)
-					
+		
+		for i in range(self.stones.len()):
+			if self.stones[i] == True and STONES[i] in self.neighbours(self.bomb): self.stones[i] = False	
+		
+
+
 	def neighbours(self, position):
 		return [position + (1,0), position + (0,1), position + (-1,0), position + (0, -1)]
 		
 	def changePosIfpossible(self,mov):
 		newPos = self.bombermanPos + mov 
-		if (newPos not in self.walls) and  (newPos not in self.stones) and self.onBoard(newPos): self.bombermanPos = newPos
+		notInWall = newPos not in self.walls
+		notInStone = if newPos in STONES: return self.stones[STONES.index(newPos)] 
+		onBoard = self.onBoard(newPos)
+		return notInWall and notInStone and onBoard: self.bombermanPos = newPos
 		
 
 	def onBoard(self,newPos):
@@ -88,6 +117,9 @@ class Environment:
 			
 	def stateCount(self):
 		return 0
+
+	def currentState(self):
+
 	
 	def actionCount(self):
 		return Action.COUNT;
