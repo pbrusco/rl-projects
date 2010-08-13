@@ -49,15 +49,15 @@ class Environment:
 				self.bomb = None
 		
 		reward = 0
-		if (self.bombermanPos == EXIT):
-			reward  = WIN_REWARD
+		if (self.bombermanPos == self.EXIT):
+			reward  = self.WIN_REWARD
 			self.startNewGame()
 		if (self.die):
-			reward = LOSE_REWARD
+			reward = self.LOSE_REWARD
 			self.startNewGame()
 
-		stateCode = (self.bombermanPos, self.bomb, self.isBombDropped, self.walls, self.stones)	
-				
+		state = (self.bombermanPos, self.bomb, self.isBombDropped, self.walls, self.stones)	
+		stateCode = hashear(state)
 		# return state code and reward
 		return (stateCode, reward)
 		

@@ -4,14 +4,17 @@ from Environment import *
 from Agent import *
 
 env = Environment()
-agent = Agent(env.stateCount(), env.actionCount())
+agent = Agent()
 
 env.startNewGame()
-if False:
-	i = 0
-	MAX = 100000
-	while i < MAX:
-		action = agent.nextAction()
-		(stateCode, reward) = env.performAction(action)
-		agent.learn(stateCode, reward)
-		i += 1
+i = 0
+MAX = 100000
+previous = 0	
+while i < MAX:
+	action = agent.nextAction(previous)
+	(state, reward) = env.performAction(action)
+	agent.learn(previous,state,action,reward)
+	previous = state
+	i += 1
+
+

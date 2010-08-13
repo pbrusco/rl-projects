@@ -1,17 +1,45 @@
+import random
+
+
+ALPHA = 0.8
+GAMMA = 0.95
+EPSILON = 0.1
+ACTIONS = [0,1,2,3,4,5]
 class Agent:
-	
-	def __init__(self, stateCount, actionCount):
 
-		self.stateCount = stateCount
-		self.actionCount = actionCount
+	def __init__(self):
 
+		self.qTable = {}
+		
 	
-	def learn(self, stateCode, reward):
+	def learn(self, previous, state, action, reward):
 		
 		# process state and reward
 		print "learning..."
+		previousValue = self.getQValue(action,previous)
+		value = previousValue + ALPHA*(reward + GAMMA*(max([self.getQValue(a,state) for a in ACTIONS]))) - previousValue
+		self.setQValue(action,previous,value)
+
+	 
+  
+
 		
-	def nextAction(self):
+	def nextAction(self,state):
 		
-		# return next action
-		return 0
+		if self.goRandom(): 
+			return random.choice(ACTIONS)
+		else: 
+			return max(ACTIONS, key=(lambda a: self.getQValue(a,state)))
+
+	def goRandom(self):
+		return random.random() < EPSILON
+
+	def getQValue(self,action,state):
+		return self.qTable.get((action,state)) or 0
+		
+	def setQValue(self,action,state,value):
+ 		self.qTable[(action,state)] = value 
+
+
+
+
