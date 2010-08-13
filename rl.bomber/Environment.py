@@ -7,6 +7,7 @@ class Environment:
 	BOARD_WIDTH = 8
 	EXIT = (7,7)
 	WIN_REWARD = 1
+	LOSE_REWARD = -1
 
 	def __init__(self):
 
