@@ -33,13 +33,11 @@ class Environment:
 		self.state.bomb = self.state.bombermanPos
 
 	def explodeBomb(self):
-		if self.state.bombermanPos in (self.neighbours(self.state.bomb)) or self.state.bombermanPos == self.state.bomb:
-			self.destroyStonesIfPossible()
-			self.state.isBombDropped = False
-			self.state.bomb = None
-			
-			if not IS_IMMORTAL:
-					self.state.die = True
+		if (not IS_IMMORTAL) and self.state.bombermanPos in (self.neighbours(self.state.bomb)) or self.state.bombermanPos == self.state.bomb:
+			self.state.die = True
+		self.destroyStonesIfPossible()
+		self.state.isBombDropped = False
+		self.state.bomb = None
 		
 	def destroyStonesIfPossible(self):		
 		for i in range(len(self.state.stones)):
