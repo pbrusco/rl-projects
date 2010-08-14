@@ -8,7 +8,7 @@ import time
 
 class Manager:
 
-	def __init__(self, iters=100, maxturns=1000):
+	def __init__(self, iters=ITERATIONS, maxturns=MAX_TURNS):
 		self.iters = iters
 		self.maxturns = maxturns
 		self.env = Environment()
