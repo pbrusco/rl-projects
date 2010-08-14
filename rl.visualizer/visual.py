@@ -1,5 +1,11 @@
+import sys
+
+sys.path.append('../rl.bomber')
+
+
 from Settings import *
 from Movements import *
+
 TAMBLOQUE = 48
 COLUMNA = 48
 
@@ -21,7 +27,7 @@ class Map:
 		
 		self.pos = (0, 0)
 		self.bombPos = None
-		self.posExplote = None
+		self.explodePos = None
 		
 		self.matriz = []
 		self.tam_mapa = [BOARD_WIDTH,BOARD_HEIGHT]
@@ -45,10 +51,6 @@ class Map:
 	def move(self,dire,obj,screen):
 		self.pos = self.addPos(self.pos,dire)
 		self.mapear(screen)
-		imgRect = obj.get_rect()
-		imgRect.move(dire)   
-		screen.blit(obj,imgRect)  
-		
 		pg.display.flip()
       
 
@@ -63,17 +65,17 @@ class Map:
 				
 		screen.blit(self.bomberImg1, self.posTablero(self.pos[0],self.pos[1]))
 		screen.blit(self.exitImg,self.posTablero(7,7))
-		if bombPos != None:
+		if self.bombPos != None:
 			screen.blit(self.bombImg1,self.posTablero(self.posBomb[0],self.posBomb[1]))
-		if explodePos != None:
-			screen.blit(self.explodeImg,self.posTablero(self.posExplote[0],self.posExplote[1]))
+		if self.explodePos != None:
+			self.screen.blit(self.explodeImg,self.posTablero(self.posExplote[0],self.posExplote[1]))
 		
 
 
 
 
 
-
+i = 0
 pg.display.set_caption('Bomberman!!!')
 screen = pg.display.set_mode((720,640),0,32)
 m = Map()
@@ -82,6 +84,7 @@ m.mapear(screen)
 
 running = True
 while running:
+
 	event = pg.event.poll()
 	keyinput = pg.key.get_pressed()
 
@@ -89,10 +92,37 @@ while running:
 		raise SystemExit
 	elif event.type == pg.QUIT:
 		running = False
-	
-		m.move((1,1),m.bomberImg1,screen)
+	if event.type == pg.MOUSEBUTTONDOWN:
+		nextMove = MOVEMENTS[i]
+		i = (i+1) % len(MOVEMENTS)
+		if nextMove == UP:
+			m.move((-1,0),m.bomberImg1,screen)
+			print "UP" 
+		elif nextMove == RIGHT:
+			m.move((0,1),m.bomberImg1,screen)
+			print "RIGHT"
+		elif nextMove == DOWN:
+			m.move((1,0),m.bomberImg1,screen)
+			print "DOWN"
+		elif nextMove == LEFT:
+			m.move((0,-1),m.bomberImg1,screen)
+			print "LEFT"	
+		elif nextMove == BOMBDROP:
+			m.bombPos= m.pos
+			m.mapear(screen)
+			pg.display.flip()
 
-				
 		
+			print "BOMBDROP"	
+		elif nextMove == BOMBEXPLODE:	
+			m.explodePos = m.bombPos
+			m.bombPos = None
+			m.mapear(screen)
+			pg.display.flip()
+			print "BOMBEXPLODE"	
+		else:
+			print "ILEGAL ACTION"
+			exit()
+
 
 
