@@ -11,6 +11,8 @@ class Environment:
 		self.state = State()
 	
 	def performAction(self, action):
+		if self.state.die:
+			raise Exception("Cannot execute action when dead")
 		if action == Action.UP: 
 			self.tryChangePos((-1,0))
 		elif action == Action.DOWN: 
@@ -34,7 +36,7 @@ class Environment:
 			
 	def destroyStonesIfPossible(self):		
 		for i in range(len(self.state.stones)):
-			if self.state.stones[i] == True and STONES[i] in self.neighbours(self.bomb): 
+			if self.state.stones[i] == True and STONES[i] in self.neighbours(self.state.bomb): 
 				self.state.stones[i] = False	
 		
 
