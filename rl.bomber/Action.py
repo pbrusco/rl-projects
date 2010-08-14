@@ -1,9 +1,12 @@
 class Action:
 
-	COUNT = 5
+	COUNT = 6
 
 	UP = 0
 	DOWN = 1
 	LEFT = 2
 	RIGHT = 3
-	BOMB = 4
+	DROP_BOMB = 4
+	EXPLODE = 5
+	
+	ACTIONS = [UP, DOWN, LEFT, RIGHT, DROP_BOMB, EXPLODE]

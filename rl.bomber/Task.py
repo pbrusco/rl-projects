@@ -1,17 +1,32 @@
-#!/usr/local/bin/python
+from Settings import *
+from Status import *
+from Environment import Environment
 
-from Environment import *
-from Agent import *
+class Task:
+	
+	def __init__(self,env=Environment()):
+		self.env = env
+		
+	def start(self):
+		self.env.start()
+	
+	def perform(self,action):
+		self.env.performAction(action)
+		
+		reward = 0
+		status = Status.CONTINUE
+		state = self.env.state
+		
+		# TODO: Clone state before returning it
+		
+		if (state.bombermanPos == EXIT):
+			reward = WIN_REWARD
+			status = Status.WIN
+		if (state.die):
+			reward = LOSE_REWARD
+			status = Status.DIE
 
-env = Environment()
-agent = Agent(env.stateCount(), env.actionCount())
-
-env.startNewGame()
-
-i = 0
-MAX = 100000
-while i < MAX:
-	action = agent.nextAction()
-	(stateCode, reward) = env.performAction(action)
-	agent.learn(stateCode, reward)
-	i += 1
+		return (state, reward, status)
+		
+	def getState(self):
+		return self.env.state

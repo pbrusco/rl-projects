@@ -1,48 +1,67 @@
 from Action import *
+from Settings import *
+from State import State
 
 class Environment:
 	
-	# for the moment and for simplicity we fix some values
-	BOARD_HEIGHT = 8;
-	BOARD_WIDTH = 8;	
-	EXIT = (7,7)
-
 	def __init__(self):
-
-		self.bomberman = (0,0)
-		self.bomb = (-1,-1)
-		self.isBombDropped = False
-		self.walls = []
-		self.stones = []
+		self.state = State()
 	
-	# initialize bomberman game
-	def startNewGame(self):
-		
-		self.bomberman = (0,0)
-		self.bomb = (-1,-1)
-		self.isBombDropped = False
-		self.walls = [(1,2),(1,3),(1,5),(1,7),(3,2),(3,3),(3,5),(3,7),(5,2),(5,3),(5,5),(5,7)]
-		self.stones = [(2,0),(2,2),(2,4),(2,6),(4,0),(4,2),(4,4),(4,6),(6,0),(6,2),(6,4),(6,6)]
+	def start(self):
+		self.state = State()
 	
 	def performAction(self, action):
-		
-		# perform action
-		
-		# convert state to state code
-		stateCode = self.calculateStateCode()
-		
-		# return state code and reward
-		return (stateCode, 0)
-
-	def calculateStateCode(self):
-
-			# calculate state code out of class members
-			print "calculating..."
-			
-			return 0
-			
-	def stateCount(self):
-		return 0
+		if action == Action.UP: 
+			self.tryChangePos((0,1))
+		elif action == Action.DOWN: 
+			self.tryChangePos((0,-1))
+		elif action == Action.RIGHT: 
+			self.tryChangePos((1,0))
+		elif action == Action.LEFT: 
+			self.tryChangePos((-1,0))
+		elif action == Action.DROP_BOMB:
+			if not self.state.isBombDropped: 
+				self.state.isBombDropped = True
+				self.state.bomb = self.state.bombermanPos
+		elif action == Action.EXPLODE:
+			if self.state.isBombDropped:
+				if self.state.bombermanPos in (self.neighbours(self.state.bombermanPos)) or self.state.bombermanPos == self.state.bomb:
+					self.state.die = True
+				self.destroyStoneIfpossible()
+				self.state.isBombDropped = False
+				self.state.bomb = None
 	
+			
+	def destroyStoneIfpossible(self):		
+		for i in range(len(self.state.stones)):
+			if self.state.stones[i] == True and STONES[i] in self.neighbours(self.bomb): 
+				self.state.stones[i] = False	
+		
+
+	def neighbours(self, position):
+		return [self.addPos(position,(1,0)),
+				self.addPos(position,(-1,0)),
+				self.addPos(position,(0,1)),
+				self.addPos(position,(0,-1)),]
+		
+		
+	def tryChangePos(self,mov):
+		newPos = self.addPos(self.state.bombermanPos,mov)
+		notInWall = newPos not in WALLS
+		notInStone = not(newPos in STONES and self.state.stones[STONES.index(newPos)])
+		onBoard = self.onBoard(newPos)
+		if notInWall and notInStone and onBoard: self.state.bombermanPos = newPos
+		
+
+	def onBoard(self,newPos):		
+		return (newPos[0]>=0 and newPos[0]<BOARD_WIDTH) and (newPos[1]>=0 and newPos[1]<BOARD_HEIGHT)
+	
+
 	def actionCount(self):
 		return Action.COUNT;
+
+		
+	def addPos(self,pos1,pos2):
+		x1,y1 = pos1
+		x2,y2 = pos2
+		return (x1+x2,y1+y2)
