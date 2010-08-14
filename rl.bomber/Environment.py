@@ -45,7 +45,7 @@ class Environment:
 				self.destroyStone(i)
 		
 	def destroyStone(self, index):
-		self.state.stones[i] = False	
+		self.state.stones[index] = False	
 
 	def neighbours(self, position):
 		return [self.addPos(position,(-1,0)),
@@ -58,10 +58,10 @@ class Environment:
 		notInWall = newPos not in WALLS
 		notInStone = not(newPos in STONES and self.state.stones[STONES.index(newPos)])
 		onBoard = self.onBoard(newPos)
-		if notInWall and notInStone and onBoard: self.doChangePos(newpos)
+		if notInWall and notInStone and onBoard: self.doChangePos(newPos)
 		
 	def doChangePos(self,newpos):
-		self.state.bombermanPos = newPos
+		self.state.bombermanPos = newpos
 
 	def onBoard(self,newPos):
 		row,col = newPos
