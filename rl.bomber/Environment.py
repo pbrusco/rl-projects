@@ -47,7 +47,7 @@ class Environment:
 				self.destroyStone(i)
 		
 	def destroyStone(self, index):
-		self.state.stones[i] = False	
+		self.state.stones[index] = False	
 
 	def neighbours(self, position):
 		return [self.addPos(position,(-1,0)),
