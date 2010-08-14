@@ -4,6 +4,7 @@ import sys
 sys.path.append('../rl.bomber')
 from Environment import Environment
 from Action import *
+from Settings import *
 
 class TestEnvironment(unittest.TestCase):
 	
@@ -80,7 +81,47 @@ class TestEnvironment(unittest.TestCase):
 	def test_die_on_bomb(self):
 		self.drop()
 		self.explode()
-		self.assertStatus(Status.DIE)
+		self.assertAlive(False)
+	
+	def test_die_next_to_bomb(self):
+		self.drop()
+		self.movechk(Action.RIGHT,0,1)
+		self.explode()
+		self.assertAlive(False)
+	
+	def test_cannot_move_dead(self):
+		self.drop()
+		self.explode()
+		self.assertAlive(False)		
+		self.assertRaises(Exception, self.movechk, Action.RIGHT, 0, 1)
+		
+	def test_break_stone(self):
+		self.movechk(Action.DOWN, 1, 0)
+		self.drop()
+		self.movechk(Action.UP, 0, 0)
+		self.movechk(Action.RIGHT, 0, 1)
+		self.explode()
+		self.assertAlive(True)		
+		self.assertStonesBroken((2,0))
+		self.movechk(Action.LEFT, 0, 0)
+		self.movechk(Action.DOWN, 1, 0)
+		self.movechk(Action.DOWN, 2, 0)
+		self.movechk(Action.DOWN, 3, 0)
+	
+	def test_break_two_stones(self):
+		self.test_break_stone()
+		self.movechk(Action.DOWN, 3, 0)
+		self.drop()
+		self.movechk(Action.UP, 2, 0)
+		self.movechk(Action.UP, 1, 0)
+		self.explode()
+		self.assertAlive(True)		
+		self.assertStonesBroken((2,0),(4,0))
+		self.movechk(Action.DOWN, 2, 0)
+		self.movechk(Action.DOWN, 3, 0)
+		self.movechk(Action.DOWN, 4, 0)
+		self.movechk(Action.DOWN, 5, 0)
+		self.movechk(Action.DOWN, 5, 0)
 	
 	def drop(self):
 		return self.env.performAction(Action.DROP_BOMB)
@@ -99,6 +140,13 @@ class TestEnvironment(unittest.TestCase):
 	def setPos(self,i,j):
 		self.env.state.bombermanPos = (i,j)
 
+	def assertAlive(self,status):
+		self.assertEqual(self.env.state.die, status)
+		
 	def assertPos(self,i,j):
 		self.assertEqual(self.env.state.bombermanPos,(i,j))
 		
+	def assertStonesBroken(self,*stones):
+		for index,stone in enumerate(STONES):
+			if stone in stones: self.assertTrue(self.env.state.stones[index])
+			else: self.assertFalse(self.env.state.stones[index])

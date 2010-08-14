@@ -11,6 +11,8 @@ class Environment:
 		self.state = State()
 	
 	def performAction(self, action):
+		if self.state.die:
+			raise Exception("Cannot execute action when dead")
 		if action == Action.UP: 
 			self.tryChangePos((-1,0))
 		elif action == Action.DOWN: 
