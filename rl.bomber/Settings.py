@@ -1,6 +1,14 @@
 # ------------------
 # Bomberman Settings
 # ------------------
+
+# an immortal bomberman does not die due to bomb explotions
+IS_IMMORTAL = True
+
+# ------------
+# Map Settings
+# ------------
+
 MAP_SIZE = 8
 
 if MAP_SIZE == 3:
