@@ -26,7 +26,7 @@ class Agent:
 		return random.random() < EPSILON
 
 	def getQValue(self,action,state):
-		return self.qTable.get((action,int(state))) or 0
+		return self.qTable.get((action,int(state))) or 0.0 #float!
 		
 	def setQValue(self,action,state,value):
  		self.qTable[(action,int(state))] = value 
