@@ -16,7 +16,7 @@ elif MAP_SIZE == 5:
 	STONES = [(2,0),(2,2),(2,4),(4,0),(4,2)]
 	WALLS = [(1,1),(1,3),(3,1),(3,3)]
 	
-elif == MAP_SIZE == 8
+elif MAP_SIZE == 8:
 	BOARD_HEIGHT = 8
 	BOARD_WIDTH = 8
 	EXIT = (7,7)

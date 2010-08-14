@@ -1,18 +1,15 @@
-BOARD_HEIGHT = 8
-BOARD_WIDTH = 8
-EXIT = (7,7)
-STONES = [(2,0),(2,2),(2,4),(2,6),(4,0),(4,2),(4,4),(4,6),(6,0),(6,2),(6,4),(6,6)]
-WALLS = [(1,2),(1,3),(1,5),(1,7),(3,2),(3,3),(3,5),(3,7),(5,2),(5,3),(5,5),(5,7)]
+from Settings import *
+from Movements import *
 TAMBLOQUE = 48
 COLUMNA = 48
-	
+
 import pygame as pg
 import os
 class Map:
 
 	def __init__(self):
 		self.size = (BOARD_HEIGHT*10, BOARD_WIDTH*10)
-		self.pos = (0, 0)
+		
 		self.stoneImg = pg.image.load(os.path.join("images","wall.png"))
 		self.wallImg = pg.image.load(os.path.join("images","wallImg.png"))
 		self.background  = pg.image.load(os.path.join("images","ansontsui.jpg"))
@@ -20,10 +17,11 @@ class Map:
 		self.bomberImg1 = pg.image.load(os.path.join("images","ICON0SuperMarioWar.png"))
 		self.exitImg = pg.image.load(os.path.join("images","salida.png"))
 		self.bombImg1 = pg.image.load(os.path.join("images","bomb1.png"))
-		self.bombImg2 = pg.image.load(os.path.join("images","bomb2.png"))
-		self.bombImg3 = pg.image.load(os.path.join("images","bomb3.png"))
+		self.explodeImg = pg.image.load(os.path.join("images","explode.png"))		
 		
-
+		self.pos = (0, 0)
+		self.bombPos = None
+		self.posExplote = None
 		
 		self.matriz = []
 		self.tam_mapa = [BOARD_WIDTH,BOARD_HEIGHT]
@@ -44,8 +42,8 @@ class Map:
 		return (a,b)
 		
 		
-	def mov(self,dire,obj,screen):
-		self.pos = self.addPos((1,0))
+	def move(self,dire,obj,screen):
+		self.pos = self.addPos(self.pos,dire)
 		self.mapear(screen)
 		imgRect = obj.get_rect()
 		imgRect.move(dire)   
@@ -63,12 +61,13 @@ class Map:
 				if (i,j) in WALLS:
 					screen.blit(self.wallImg, self.posTablero(i,j))
 				
-		screen.blit(self.bomberImg1, self.posTablero(0,0))
+		screen.blit(self.bomberImg1, self.posTablero(self.pos[0],self.pos[1]))
 		screen.blit(self.exitImg,self.posTablero(7,7))
-		screen.blit(self.bombImg1,self.posTablero(0,1))
-		screen.blit(self.bombImg2,self.posTablero(0,2))
-		screen.blit(self.bombImg3,self.posTablero(0,3))
-
+		if bombPos != None:
+			screen.blit(self.bombImg1,self.posTablero(self.posBomb[0],self.posBomb[1]))
+		if explodePos != None:
+			screen.blit(self.explodeImg,self.posTablero(self.posExplote[0],self.posExplote[1]))
+		
 
 
 
@@ -78,8 +77,8 @@ class Map:
 pg.display.set_caption('Bomberman!!!')
 screen = pg.display.set_mode((720,640),0,32)
 m = Map()
-m.mapear(screen)
 
+m.mapear(screen)
 
 running = True
 while running:
@@ -90,8 +89,10 @@ while running:
 		raise SystemExit
 	elif event.type == pg.QUIT:
 		running = False
-	elif event.type == pg.MOUSEBUTTONDOWN:
-		m.mov(event.pos,m.bomberImg1,screen)		
+	
+		m.move((1,1),m.bomberImg1,screen)
+
+				
 		
 
 
