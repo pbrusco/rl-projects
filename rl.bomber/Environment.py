@@ -62,11 +62,11 @@ class Environment:
 		elif action == Action.RIGHT: self.changePosIfpossible((1,0))
 		elif action == Action.LEFT: self.changePosIfpossible((-1,0))
 		elif action == Action.DROP_BOMB:
-			if not self.isBombDroped: 
+			if not self.isBombDropped: 
 				self.isBombDropped = True
 				self.bomb = self.bombermanPos
 		elif action == Action.EXPLODE:
-			if self.isBombDroped:
+			if self.isBombDropped:
 				if self.bombermanPos in (self.neighbours(self.bombermanPos)) or self.bombermanPos == self.bomb:
 					self.die = True
 				self.destroyStoneIfpossible()
