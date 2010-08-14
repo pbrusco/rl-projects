@@ -11,7 +11,6 @@ class Environment:
 		self.state = State()
 	
 	def performAction(self, action):
-		self.action = action
 		if self.state.die:
 			raise Exception("Cannot execute action when dead")
 		if action == Action.UP: 
@@ -28,7 +27,6 @@ class Environment:
 		elif action == Action.EXPLODE:
 			if self.state.isBombDropped:
 				self.explodeBomb()
-		self.action = None
 	
 	def dropBomb(self):
 		self.state.isBombDropped = True
