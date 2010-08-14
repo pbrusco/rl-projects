@@ -11,6 +11,9 @@ class TestEnvironment(unittest.TestCase):
 	def setUp(self):
 		self.env = Environment()
 	
+	def test_settings(self):
+		self.assertEquals(MAP_SIZE, 8)
+	
 	def test_simple_nav(self):
 		self.move(Action.RIGHT)
 		self.assertPos(0,1)
@@ -141,12 +144,12 @@ class TestEnvironment(unittest.TestCase):
 		self.env.state.bombermanPos = (i,j)
 
 	def assertAlive(self,status):
-		self.assertEqual(self.env.state.die, status)
+		self.assertEqual(self.env.state.die, not status)
 		
 	def assertPos(self,i,j):
 		self.assertEqual(self.env.state.bombermanPos,(i,j))
 		
 	def assertStonesBroken(self,*stones):
 		for index,stone in enumerate(STONES):
-			if stone in stones: self.assertTrue(self.env.state.stones[index])
-			else: self.assertFalse(self.env.state.stones[index])
+			if stone in stones: self.assertFalse(self.env.state.stones[index])
+			else: self.assertTrue(self.env.state.stones[index])

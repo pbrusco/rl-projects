@@ -8,7 +8,7 @@ class State:
 		self.bombermanPos = (0,0)
 		self.bomb = None
 		self.isBombDropped = False
-		self.stones = [False] * len(STONES)
+		self.stones = [True] * len(STONES) # position i is true iif stone i is still present and has not been destroyed
 		self.die = False
 	
 	def __int__(self):

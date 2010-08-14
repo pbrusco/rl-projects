@@ -1,5 +1,5 @@
 # Bomberman Settings
-MAP_SIZE = 3
+MAP_SIZE = 8
 
 if MAP_SIZE == 3:
 	BOARD_HEIGHT = 3
