@@ -1,0 +1,66 @@
+\documentclass[a4paper,spanish] {article} 
+\usepackage [spanish] {babel} 
+\usepackage [latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{caratula}
+\usepackage{subfig}
+\usepackage{dsfont}
+\usepackage{algorithm}
+\usepackage{amsmath}
+\usepackage{algorithmic}
+
+\addtolength{\oddsidemargin}{-1in}
+\addtolength{\textwidth}{2in}
+
+\begin{document}
+\pagestyle{headings}
+
+
+
+\newpage
+
+\materia{Algoritmos y Estructuras de Datos III}
+\submateria{Primer Cuatrimestre del 2010}
+\titulo{Trabajo Práctico 3}
+
+\integrante{Nicolás Arias}{369/08}{nik\_261@hotmail.com}
+\integrante{Ezequiel Castellano}{161/08}{ezequielcastellano@gmail.com}
+\integrante{Carolina Hadad}{367/08}{carolinahadad@gmail.com}
+\integrante{Nicolás Papagna Maldonado}{424/03}{nicolas.papagna@gmail.com}
+
+\maketitle
+
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introducción al problema de MAX-CLIQUE}
+	En teoría de grafos, un clique en un grafo no dirigido G es un conjunto de vértices V tal que para todo par de vértices de V, existe una arista que las conecta. En otras palabras, un clique es un subgrafo en que cada vértice está conectado a cada otro vértice del grafo. Esto equivale a decir que el subgrafo inducido por V es un grafo completo. El tamaño de un clique es el número de vértices que contiene.En este trabajo practico nos interesa buscar el clique máximo de un grafo: su máximo subgrafo completo.
+	
+	Veamos un ejemplo:
+	\begin{figure}[h!]
+\centering
+    \includegraphics{cliquesample.PNG}
+\caption{Ejemplo clique máximo}
+\end{figure}
+
+	En este caso tenemos un grafo con 10 nodos cuyo máximo clique tiene 4 nodos. Se puede ver que no existe un subconjunto de más nodos que cumpla que cada uno de ellos esté relacionado con todos los otros.
+	
+	Pese a tener muchas aplicaciones en ciencia e ingeniería (algunas de las cuales detallaremos en la sección siguiente), este problema no está computacionalmente bien resuelto todavía. Aunque existen algoritmos más eficientes que los de fuerza bruta para resolverlo de manera exacta, todos ellos toman un tiempo exponencial en resolver el problema. Por esta razón, se desarrollan muchos algoritmos para resolver el problema eficientemente para grafos particulares. En este trabajo práctico desarrollaremos algoritmos exactos y heurísticos para solucionarlo.
+	
+\section{Ejercicio 1: Aplicaciones del problema}
+
+	\subsection{Aplicacion de nico A}
+	
+	\subsection{Aplicacion de caste}
+
+	\subsection{Aplicacion de nico P}
+
+	\subsection{Aplicacion de caro}
+
+
+
+	 
+	
+\end{document}
