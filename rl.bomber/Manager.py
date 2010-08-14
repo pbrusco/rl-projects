@@ -1,10 +1,10 @@
 #!/usr/local/bin/python
-from Task import Task
+from Task import *
+from StochasticNavigationTask import *
 from TracingEnvironment import *
 from Environment import *
 from Agent import *
 from Status import *
-
 import time
 
 class Manager:
