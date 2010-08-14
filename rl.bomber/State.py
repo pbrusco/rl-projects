@@ -17,7 +17,11 @@ class State:
 	def __hash__(self):
 		
 		def posUniqueId(cords):
-			x,y = cords
+			try:
+				x,y = cords
+			except:
+				print cords
+				raise
 			return x*BOARD_WIDTH + y
 		
 		if self.die: return -1 #if die stateCode = -1

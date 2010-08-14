@@ -39,13 +39,16 @@ class Environment:
 		
 
 	def neighbours(self, position):
-		return [position + (1,0), position + (0,1), position + (-1,0), position + (0, -1)]
+		return [self.addPos(position,(1,0)),
+				self.addPos(position,(-1,0)),
+				self.addPos(position,(0,1)),
+				self.addPos(position,(0,-1)),]
 		
 		
 	def tryChangePos(self,mov):
-		newPos = self.state.bombermanPos + mov 
+		newPos = self.addPos(self.state.bombermanPos,mov)
 		notInWall = newPos not in WALLS
-		notInStone = newPos in STONES and self.state.stones[STONES.index(newPos)] 
+		notInStone = not(newPos in STONES and self.state.stones[STONES.index(newPos)])
 		onBoard = self.onBoard(newPos)
 		if notInWall and notInStone and onBoard: self.state.bombermanPos = newPos
 		
@@ -56,3 +59,9 @@ class Environment:
 
 	def actionCount(self):
 		return Action.COUNT;
+
+		
+	def addPos(self,pos1,pos2):
+		x1,y1 = pos1
+		x2,y2 = pos2
+		return (x1+x2,y1+y2)
