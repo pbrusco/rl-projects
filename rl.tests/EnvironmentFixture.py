@@ -13,6 +13,7 @@ class TestEnvironment(unittest.TestCase):
 	
 	def test_settings(self):
 		self.assertEquals(MAP_SIZE, 8)
+		self.assertEquals(IS_IMMORTAL, False)
 	
 	def test_simple_nav(self):
 		self.move(Action.RIGHT)

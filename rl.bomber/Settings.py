@@ -3,7 +3,7 @@
 # ------------------
 
 # an immortal bomberman does not die due to bomb explotions
-IS_IMMORTAL = True
+IS_IMMORTAL = False
 
 # ------------
 # Map Settings
