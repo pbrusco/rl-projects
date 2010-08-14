@@ -38,7 +38,7 @@ class Environment:
 			self.state.isBombDropped = False
 			self.state.bomb = None
 			
-			if !IS_IMMORTAL:
+			if not IS_IMMORTAL:
 					self.state.die = True
 		
 	def destroyStonesIfPossible(self):		
