@@ -25,14 +25,14 @@ class Environment:
 				self.state.bomb = self.state.bombermanPos
 		elif action == Action.EXPLODE:
 			if self.state.isBombDropped:
-				if self.state.bombermanPos in (self.neighbours(self.state.bombermanPos)) or self.state.bombermanPos == self.state.bomb:
+				if self.state.bombermanPos in (self.neighbours(self.state.bomb)) or self.state.bombermanPos == self.state.bomb:
 					self.state.die = True
-				self.destroyStoneIfpossible()
+				self.destroyStonesIfPossible()
 				self.state.isBombDropped = False
 				self.state.bomb = None
 	
 			
-	def destroyStoneIfpossible(self):		
+	def destroyStonesIfPossible(self):		
 		for i in range(len(self.state.stones)):
 			if self.state.stones[i] == True and STONES[i] in self.neighbours(self.bomb): 
 				self.state.stones[i] = False	
