@@ -1,29 +1,32 @@
-#!/usr/local/bin/python
+from Settings import *
+from Status import *
+from Environment import Environment
 
-from Environment import *
-from Agent import *
-import time
-
-env = Environment()
-agent = Agent()
-
-env.startNewGame()
-
-# This function returns the time as a floating point number expressed in seconds since the epoch, in UTC.
-start = time.time()
-actionsCount = 0
-state = 0
-previous = 0
-while(no termino el juego): 
+class Task:
 	
-	action = agent.nextAction(previous)
+	def __init__(self,env=Environment()):
+		self.env = env
+		
+	def start(self):
+		self.env.start()
 	
-	(state, reward) = env.performAction(action)
-	agent.learn(previous,state,action,reward)
-	previous = state
-	actionsCount += 1
-total = time.time() - start
-didAgentWin = (reward == env.WIN_REWARD)
-	
+	def perform(self,action):
+		self.env.performAction(action)
+		
+		reward = 0
+		status = Status.CONTINUE
+		state = self.env.state
+		
+		# TODO: Clone state before returning it
+		
+		if (state.bombermanPos == EXIT):
+			reward = WIN_REWARD
+			status = Status.WIN
+		if (state.die):
+			reward = LOSE_REWARD
+			status = Status.DIE
 
-
+		return (state, reward, status)
+		
+	def getState(self):
+		return self.env.state
