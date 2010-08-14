@@ -36,7 +36,7 @@ class Environment:
 			
 	def destroyStonesIfPossible(self):		
 		for i in range(len(self.state.stones)):
-			if self.state.stones[i] == True and STONES[i] in self.neighbours(self.bomb): 
+			if self.state.stones[i] == True and STONES[i] in self.neighbours(self.state.bomb): 
 				self.state.stones[i] = False	
 		
 
