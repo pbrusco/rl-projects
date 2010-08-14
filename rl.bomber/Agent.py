@@ -13,7 +13,7 @@ class Agent:
 	
 	def learn(self, previous, state, action, reward):
 		previousValue = self.getQValue(action,previous)
-		value = previousValue + ALPHA*(reward + GAMMA*(max([self.getQValue(a,state) for a in ACTIONS]))) - previousValue
+		value = previousValue + ALPHA*(reward + GAMMA*(max([self.getQValue(a,state) for a in ACTIONS])) - previousValue)
 		self.setQValue(action,previous,value)
 		
 	def nextAction(self,state):
