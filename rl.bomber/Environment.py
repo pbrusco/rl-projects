@@ -12,13 +12,13 @@ class Environment:
 	
 	def performAction(self, action):
 		if action == Action.UP: 
-			self.tryChangePos((0,1))
+			self.tryChangePos((-1,0))
 		elif action == Action.DOWN: 
-			self.tryChangePos((0,-1))
-		elif action == Action.RIGHT: 
 			self.tryChangePos((1,0))
 		elif action == Action.LEFT: 
-			self.tryChangePos((-1,0))
+			self.tryChangePos((0,-1))
+		elif action == Action.RIGHT: 
+			self.tryChangePos((0,1))
 		elif action == Action.DROP_BOMB:
 			if not self.state.isBombDropped: 
 				self.state.isBombDropped = True
@@ -39,10 +39,10 @@ class Environment:
 		
 
 	def neighbours(self, position):
-		return [self.addPos(position,(1,0)),
-				self.addPos(position,(-1,0)),
-				self.addPos(position,(0,1)),
-				self.addPos(position,(0,-1)),]
+		return [self.addPos(position,(-1,0)),
+				self.addPos(position,(1,0)),
+				self.addPos(position,(0,-1)),
+				self.addPos(position,(0,1)),]
 		
 		
 	def tryChangePos(self,mov):
@@ -53,8 +53,9 @@ class Environment:
 		if notInWall and notInStone and onBoard: self.state.bombermanPos = newPos
 		
 
-	def onBoard(self,newPos):		
-		return (newPos[0]>=0 and newPos[0]<BOARD_WIDTH) and (newPos[1]>=0 and newPos[1]<BOARD_HEIGHT)
+	def onBoard(self,newPos):
+		row,col = newPos
+		return (row>=0 and row<BOARD_WIDTH) and (col>=0 and col<BOARD_HEIGHT)
 	
 
 	def actionCount(self):
@@ -62,6 +63,6 @@ class Environment:
 
 		
 	def addPos(self,pos1,pos2):
-		x1,y1 = pos1
-		x2,y2 = pos2
-		return (x1+x2,y1+y2)
+		row1,col1 = pos1
+		row2,col2 = pos2
+		return (row1+row2,col1+col2)
