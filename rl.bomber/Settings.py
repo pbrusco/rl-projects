@@ -8,8 +8,8 @@ WALLS = [(1,2),(1,3),(1,5),(1,7),(3,2),(3,3),(3,5),(3,7),(5,2),(5,3),(5,5),(5,7)
 
 # RL Settings
 
-WIN_REWARD = 10000.0
-LOSE_REWARD = -1000.0
+WIN_REWARD = 10000.0 #float!
+LOSE_REWARD = -1000.0 #float!
 
 # Manager Settings
 
