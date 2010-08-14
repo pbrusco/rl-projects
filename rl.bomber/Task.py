@@ -13,7 +13,7 @@ class Task:
 	def perform(self,action):
 		self.env.performAction(action)
 		
-		reward = 0
+		reward = 0.0 #float
 		status = Status.CONTINUE
 		state = self.env.state
 		
