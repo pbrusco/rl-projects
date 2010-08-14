@@ -25,8 +25,8 @@ elif MAP_SIZE == 8:
 
 # RL Settings
 
-WIN_REWARD = 10
-LOSE_REWARD = -100
+WIN_REWARD = 10000.0 #float!
+LOSE_REWARD = -1000.0 #float!
 
 # Manager Settings
 
