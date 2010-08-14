@@ -11,6 +11,13 @@ class TracingEnvironment(Environment):
 		Environment.__init__(self)
 		self.tracelog = []
 		
+	def start(self):
+		Environment.reset(self)
+		self.tracelog = []
+		
+	def clear(self):
+		self.tracelog = []
+		
 	def dropBomb(self):
 		Environment.dropBomb(self)
 		self.trace(BOMBDROP)
@@ -46,3 +53,8 @@ class TracingEnvironment(Environment):
 	
 	def trace(self,num):
 		self.tracelog.append(num)
+		
+	def dump(self,out=OUTPUT):
+		with open(out,'wa') as f:
+			f.write(str(self.tracelog))
+			f.write('\n')
