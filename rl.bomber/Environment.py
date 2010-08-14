@@ -60,9 +60,9 @@ class Environment:
 		notInWall = newPos not in WALLS
 		notInStone = not(newPos in STONES and self.state.stones[STONES.index(newPos)])
 		onBoard = self.onBoard(newPos)
-		if notInWall and notInStone and onBoard: self.doChangePos(newpos)
+		if notInWall and notInStone and onBoard: self.doChangePos(newPos)
 		
-	def doChangePos(self,newpos):
+	def doChangePos(self,newPos):
 		self.state.bombermanPos = newPos
 
 	def onBoard(self,newPos):
