@@ -12,7 +12,7 @@ class TracingEnvironment(Environment):
 		self.tracelog = []
 		
 	def start(self):
-		Environment.reset(self)
+		Environment.start(self)
 		self.tracelog = []
 		
 	def clear(self):
@@ -39,7 +39,7 @@ class TracingEnvironment(Environment):
 	def destroyStone(self,index):
 		Environment.destroyStone(self,index)
 		stonei,stonej = STONES[index]
-		bombi,bombj = self.bombpos
+		bombi,bombj = self.bombPos
 		diff = (bombi - stonei, bombj - stonej)
 		self.stonesDestroyed += BOMBPOS[diff]
 	
@@ -55,6 +55,6 @@ class TracingEnvironment(Environment):
 		self.tracelog.append(num)
 		
 	def dump(self,out=OUTPUT):
-		with open(out,'wa') as f:
+		with open(out,'a') as f:
 			f.write(str(self.tracelog))
 			f.write('\n')
