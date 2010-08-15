@@ -11,6 +11,7 @@ class Environment:
 		self.state = State()
 	
 	def performAction(self, action):
+		bombsExplodedPosition = []
 		if self.state.die:
 			raise Exception("Cannot execute action when dead")
 		if action == Action.UP: 
@@ -26,7 +27,8 @@ class Environment:
 				self.dropBomb()
 		elif action == Action.EXPLODE:
 			if self.state.isBombDropped:
-				self.explodeBomb()
+				bombsExplodedPosition + self.explodeBomb()
+		return bombsExplodedPosition
 	
 	def dropBomb(self):
 		self.state.isBombDropped = True
@@ -35,14 +37,18 @@ class Environment:
 	def explodeBomb(self):
 		if (not IS_IMMORTAL) and self.state.bombermanPos in (self.neighbours(self.state.bomb)) or self.state.bombermanPos == self.state.bomb:
 			self.state.die = True
-		self.destroyStonesIfPossible()
+		bombsExploded = self.destroyStonesIfPossible()
 		self.state.isBombDropped = False
 		self.state.bomb = None
+		return bombsExploded
 		
-	def destroyStonesIfPossible(self):		
+	def destroyStonesIfPossible(self):	
+		bombsExploded = []	
 		for i in range(len(self.state.stones)):
 			if self.state.stones[i] == True and STONES[i] in self.neighbours(self.state.bomb): 
 				self.destroyStone(i)
+				bombsExploded.append(STONES[i])
+		return bombsExploded
 		
 	def destroyStone(self, index):
 		self.state.stones[index] = False	
