@@ -12,7 +12,7 @@ from Maps import *
 import pygame as pg
 import os
 
-
+GAMESPEED = 0.3
 TAMBLOQUE = 48
 COLUMNA = 48
 class Map:
@@ -57,10 +57,10 @@ class Map:
 	def drawScreen(self,screen):
 		self.drawBackground(screen)
 		self.drawStones(screen)
-		self.drawBomberman(screen)
 		self.drawBomb(screen)
 		self.drawExplosion(screen)
 		self.drawExit(screen)
+		self.drawBomberman(screen)
 		self.drawWalls(screen)
 		
 	def drawBackground(self,screen):
@@ -78,7 +78,7 @@ class Map:
 		screen.blit(self.bomberImg1, self.posTablero(self.pos[0],self.pos[1]))
 
 	def drawExit(self,screen):
-		screen.blit(self.exitImg,self.posTablero(7,7))
+		screen.blit(self.exitImg,self.posTablero(BOARD_WIDTH-1,BOARD_HEIGHT-1))
 
 	def drawBomb(self,screen):
 		if self.bombPos != None:
