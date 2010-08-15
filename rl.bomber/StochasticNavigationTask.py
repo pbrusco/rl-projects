@@ -1,4 +1,5 @@
 from Task import *
+from Action import *
 import random
 
 class StochasticNavigationTask(Task):
@@ -8,9 +9,12 @@ class StochasticNavigationTask(Task):
 		# probability of doing action passed as parameter = 0.8
 		# probability of doing another action1 or action2 = 0.1 each
 		
+		if action not in [Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT]:
+			return super(StochasticNavigationTask, self).perform(action)
+		
 		n = random.random()
 		if n >= 0.2:
-			super(StochasticNavigationTask, self).performAction(action)
+			return super(StochasticNavigationTask, self).perform(action)
 		elif n >= 0.1:
 		 	index = 0
 		else:
@@ -21,4 +25,4 @@ class StochasticNavigationTask(Task):
 		elif action == Action.LEFT or action == Action.RIGHT : 
 			newAction =  [Action.UP, Action.DOWN][index]
 			
-		super(StochasticNavigationTask, self).performAction(newAction)
+		return super(StochasticNavigationTask, self).perform(newAction)
