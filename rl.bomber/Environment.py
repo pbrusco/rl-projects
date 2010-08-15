@@ -1,7 +1,7 @@
 from Action import *
+from State import State
 from Settings import *
 from Maps import *
-from State import State
 
 class Environment:
 	
