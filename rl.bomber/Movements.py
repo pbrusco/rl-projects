@@ -8,6 +8,19 @@ BOMBEXPLODE = 5
 NOACTION = 6
 DEAD = 7
 
+BOMBPOS = {	(0,-1): 0b0001,
+			(0,1): 0b0010,
+			(-1,0): 0b1000,
+			(1,0): 0b0100,
+			}
+			
+MOVDIR = {	(0,-1): LEFT,
+			(0,1): RIGHT,
+			(-1,0): UP,
+			(1,0): DOWN,
+			}
+			
+
 MOVEMENTS = [1,1,3,3,1,4,0,2,5,0,0,1,4]
 
 
