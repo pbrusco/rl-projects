@@ -12,7 +12,8 @@ m = Map()
 m.drawScreen(screen)
 
 running = True
-for i in range(len(MOVEMENTS)):
+i = 0
+while i < len(MOVEMENTS):
 
 	nextMove = MOVEMENTS[i]
 	if nextMove == UP:
@@ -42,6 +43,7 @@ for i in range(len(MOVEMENTS)):
 	elif nextMove == BOMBEXPLODE:
 		i = i + 1
 		stonesBroken = MOVEMENTS[i]
+		print "BOMBEXPLODE"	
 		print stonesBroken
 		if stonesBroken % 2 == 1: 
 			STONES.remove(m.coordSum(m.bombPos,(-1,0)))
@@ -70,7 +72,7 @@ for i in range(len(MOVEMENTS)):
 
 		#entonces N va a estar entre 0 y 15
 
-		print "BOMBEXPLODE"	
+		
 	
 	elif nextMove == NOACTION:	
 		m.explodePos = None
@@ -85,7 +87,8 @@ for i in range(len(MOVEMENTS)):
 
 	else:
 		print "ILEGAL ACTION"
-		
+	
+	i = i + 1
 	time.sleep(0.2)
 
 exit()
