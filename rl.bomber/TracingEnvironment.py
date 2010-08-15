@@ -20,8 +20,9 @@ class TracingEnvironment(Environment):
 		self.tracelog = []
 		
 	def dropBomb(self):
-		Environment.dropBomb(self)
+		r = Environment.dropBomb(self)
 		self.trace(BOMBDROP)
+		return r
 	
 	def explodeBomb(self):
 		self.trace(BOMBEXPLODE)
@@ -39,19 +40,22 @@ class TracingEnvironment(Environment):
 		return exploded
 	
 	def destroyStone(self,index):
-		Environment.destroyStone(self,index)
+		r = Environment.destroyStone(self,index)
 		stonei,stonej = STONES[index]
 		bombi,bombj = self.bombPos
 		diff = (bombi - stonei, bombj - stonej)
 		self.stonesDestroyed += BOMBPOS[diff]
+		return r
 	
 	def didntChangePos(self,mov):
-		Environment.didntChangePos(self,mov)
+		r = Environment.didntChangePos(self,mov)
 		self.trace(NOACTION)
+		return r
 	
 	def doChangePos(self,mov):
-		Environment.doChangePos(self,mov)
+		r = Environment.doChangePos(self,mov)
 		self.trace(MOVDIR[mov])
+		return r
 	
 	def trace(self,num):
 		self.tracelog.append(num)
