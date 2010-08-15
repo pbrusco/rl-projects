@@ -20,11 +20,11 @@ class Map:
 		self.wallImg = pg.image.load(os.path.join("images","wallImg.png"))
 		self.background  = pg.image.load(os.path.join("images","ansontsui.jpg"))
 		self.salidaImg  = pg.image.load(os.path.join("images","salida.png"))
-		self.bomberImg1 = pg.image.load(os.path.join("images","ICON0SuperMarioWar.png"))
+		self.bomberImg1 = pg.image.load(os.path.join("images","fuego.png"))
 		self.exitImg = pg.image.load(os.path.join("images","salida.png"))
 		self.bombImg1 = pg.image.load(os.path.join("images","bomb1.png"))
-		self.explodeImg = pg.image.load(os.path.join("images","explode.png"))		
-		
+		self.explodeImg = pg.image.load(os.path.join("images","explode2.png"))		
+		self.deadImg = pg.image.load(os.path.join("images","guason.jpg"))
 		self.pos = (0, 0)
 		self.bombPos = None
 		self.explodePos = None
@@ -66,9 +66,9 @@ class Map:
 		screen.blit(self.bomberImg1, self.posTablero(self.pos[0],self.pos[1]))
 		screen.blit(self.exitImg,self.posTablero(7,7))
 		if self.bombPos != None:
-			screen.blit(self.bombImg1,self.posTablero(self.posBomb[0],self.posBomb[1]))
+			screen.blit(self.bombImg1,self.posTablero(self.bombPos[0],self.bombPos[1]))
 		if self.explodePos != None:
-			self.screen.blit(self.explodeImg,self.posTablero(self.posExplote[0],self.posExplote[1]))
+			screen.blit(self.explodeImg,self.posTablero(self.explodePos[0],self.explodePos[1]))
 		
 
 
@@ -77,8 +77,11 @@ class Map:
 
 i = 0
 pg.display.set_caption('Bomberman!!!')
-screen = pg.display.set_mode((720,640),0,32)
+screen = pg.display.set_mode((BOARD_HEIGHT*TAMBLOQUE, BOARD_WIDTH*TAMBLOQUE),0,32)
+
+pg.display.toggle_fullscreen()
 m = Map()
+
 
 m.mapear(screen)
 
@@ -114,12 +117,51 @@ while running:
 
 		
 			print "BOMBDROP"	
-		elif nextMove == BOMBEXPLODE:	
-			m.explodePos = m.bombPos
+		elif nextMove == BOMBEXPLODE:
+			
+			stonesBroken = MOVEMENTS[i]
+			print stonesBroken
+			if stonesBroken % 2 == 1: 
+				STONES.remove(m.addPos(m.bombPos,(-1,0)))
+			stonesBroken = stonesBroken/2
+			if stonesBroken % 2 == 1: 
+				STONES.remove(m.addPos(m.bombPos,(0,1)))
+			stonesBroken = stonesBroken/2
+			if stonesBroken % 2 == 1: 
+				STONES.remove(m.addPos(m.bombPos,(0,-1)))
+			stonesBroken = stonesBroken/2
+			if stonesBroken % 2 == 1: 
+				STONES.remove(m.addPos(m.bombPos,(1,0)))
+
+			i = i+1% len(MOVEMENTS)
+					
+			m.explodePos  = m.addPos(m.bombPos,(-1,-1)) 
 			m.bombPos = None
 			m.mapear(screen)
 			pg.display.flip()
+
+
+			#0000 = 0 indica no se rompio ninguna
+			#0001 = 1 se rompio solo derecha
+			#0010 = 2 se rompio solo izq
+			#0100 = 3 se rompio solo arriba
+			#...
+			#1101 = 13 se rompio abajo, arriba y derecha
+
+			#entonces N va a estar entre 0 y 15
+
 			print "BOMBEXPLODE"	
+		
+		elif nextMove == NOACTION:	
+			print "NOACTION"	
+
+		elif nextMove == DEAD:		
+			screen.fill((0,0,0))	
+			screen.blit(m.deadImg,(0,0))
+			pg.display.flip()
+			print "DEAD"	
+
+
 		else:
 			print "ILEGAL ACTION"
 			exit()

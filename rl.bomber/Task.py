@@ -1,4 +1,5 @@
 from Settings import *
+from Maps import *
 from Status import *
 from Environment import Environment
 
