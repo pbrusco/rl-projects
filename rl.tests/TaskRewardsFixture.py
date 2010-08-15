@@ -21,7 +21,19 @@ class TestRewards(unittest.TestCase):
 		self.assertEquals(IS_IMMORTAL, False)
 	
 	def test_simple_nav(self):
-		self.perform(Action.RIGHT, 10)
+		self.perform(Action.RIGHT, 1)
+		self.perform(Action.RIGHT, 2)
+		self.perform(Action.LEFT, 1)
+		self.perform(Action.LEFT, 0)
+		
+		self.perform(Action.RIGHT, 1)
+		self.perform(Action.DOWN, 0)
+		
+		
+		
+		
+		
+		
 		
 	def perform(self, action, expectedReward):
 		state, reward, status = self.task.perform(action)
