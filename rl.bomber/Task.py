@@ -2,6 +2,7 @@ from Settings import *
 from Maps import *
 from Status import *
 from Environment import Environment
+from copy import copy, deepcopy
 
 class Task(object):
 	
@@ -16,9 +17,7 @@ class Task(object):
 		
 		reward = 0.0 #float
 		status = Status.CONTINUE
-		state = self.env.state
-		
-		# TODO: Clone state before returning it
+		state = deepcopy(self.env.state)
 		
 		if False: 
 			for i in range(len(bombsExploded)):

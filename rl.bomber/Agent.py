@@ -16,6 +16,7 @@ class Agent:
 		previousValue = self.getQValue(action,previous)
 		value = previousValue + ALPHA*(reward + GAMMA*(max([self.getQValue(a,state) for a in ACTIONS])) - previousValue)
 		self.setQValue(action,previous,value)
+		#print self.qTable
 		
 	def nextAction(self,state):
 		if self.goRandom(): 

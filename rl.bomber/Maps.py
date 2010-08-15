@@ -1,4 +1,4 @@
-MAP_SIZE = 8
+MAP_SIZE = 3
 
 if MAP_SIZE == 3:
 	BOARD_HEIGHT = 3

@@ -11,8 +11,8 @@ from RmaxAgent import *
 import time
 import pickle
 
-AGENT_FILE_NAME = 'agent.pkl'
-SAVE_EVERY = 10
+AGENT_FILE_NAME = 'qagent.pkl'
+SAVE_EVERY = 0
 
 class Manager:
 
@@ -21,7 +21,7 @@ class Manager:
 		self.maxturns = maxturns
 		self.env = TracingEnvironment()
 		self.task = Task(env=self.env)
-		self.agent = RmaxAgent()
+		self.agent = Agent()
 
 	def run(self):
 		for r in range(self.iters):
@@ -45,7 +45,7 @@ class Manager:
 			self.tryDumpGameTrace()
 			
 			# Dump the agent state every X iters
-			if r > 0 and r % SAVE_EVERY == 0: self.saveAgent()
+			if SAVE_EVERY > 0 and r > 0 and r % SAVE_EVERY == 0: self.saveAgent()
 			
 			
 	def reportgame(self, elapsed, turns, status, ):
