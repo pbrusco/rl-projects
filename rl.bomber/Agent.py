@@ -20,7 +20,8 @@ class Agent:
 		if self.goRandom(): 
 			return random.choice(ACTIONS)
 		else: 
-			return max(ACTIONS, key=(lambda a: self.getQValue(a,state)))
+			qMax = max([self.getQValue(a,state) for a in ACTIONS])	
+			return random.choice([a for a in ACTIONS if getQValue(a)==qMax])
 
 	def goRandom(self):
 		return random.random() < EPSILON

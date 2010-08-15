@@ -5,7 +5,7 @@ sys.path.append('../rl.bomber')
 
 from Settings import *
 from Movements import *
-
+from Maps import *
 TAMBLOQUE = 48
 COLUMNA = 48
 
