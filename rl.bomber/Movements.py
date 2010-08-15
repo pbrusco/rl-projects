@@ -20,12 +20,8 @@ MOVDIR = {	(0,-1): LEFT,
 			(1,0): DOWN,
 			}
 			
-# de prueba:
-#MOVEMENTS = [DOWN,DOWN,RIGHT,RIGHT,UP,UP,LEFT,LEFT,BOMBDROP,BOMBEXPLODE,0,DEAD]
 
-#invalido, devuelto por main.py
-MOVEMENTS =  [3, 3, 3, 3, 1, 4, 0, 6, 2, 5, 8, 2, 3, 3, 1, 4, 1, 1, 1]
-
+MOVEMENTS = [4, 3, 3, 5, 0, 4, 3, 3, 1, 5, 0, 4, 0, 2, 5, 8, 3, 1, 6, 1, 1, 1]
 
 
 #0000 = 0 indica no se rompio ninguna
