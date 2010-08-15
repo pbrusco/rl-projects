@@ -42,58 +42,25 @@ class TestTracingEnvironment(TestEnvironment):
 		self.assertTrace(DOWN,NOACTION,UP,RIGHT,RIGHT,DOWN,NOACTION)
 	
 	def test_not_destroy_wall(self):
-		self.movechk(Action.RIGHT,0,1)
-		self.drop()
-		self.movechk(Action.RIGHT,0,2)
-		self.movechk(Action.RIGHT,0,3)
-		self.explode()
-		self.movechk(Action.LEFT,0,2)
-		self.movechk(Action.LEFT,0,1)
-		self.movechk(Action.DOWN,0,1)
+		TestEnvironment.test_not_destroy_wall(self)
+		self.assertTrace(RIGHT,BOMBDROP,RIGHT,RIGHT,BOMBEXPLODE,0,LEFT,LEFT,NOACTION)
 		
 	def test_die_on_bomb(self):
-		self.drop()
-		self.explode()
-		self.assertAlive(False)
+		TestEnvironment.test_die_on_bomb(self)
+		self.assertTrace(BOMBDROP,BOMBEXPLODE,0,DEAD)
 	
 	def test_die_next_to_bomb(self):
-		self.drop()
-		self.movechk(Action.RIGHT,0,1)
-		self.explode()
-		self.assertAlive(False)
+		TestEnvironment.test_die_next_to_bomb(self)
+		self.assertTrace(BOMBDROP,RIGHT,BOMBEXPLODE,0,DEAD)
 	
 	def test_cannot_move_dead(self):
-		self.drop()
-		self.explode()
-		self.assertAlive(False)		
-		self.assertRaises(Exception, self.movechk, Action.RIGHT, 0, 1)
+		TestEnvironment.test_cannot_move_dead(self)
 		
 	def test_break_stone(self):
-		self.movechk(Action.DOWN, 1, 0)
-		self.drop()
-		self.movechk(Action.UP, 0, 0)
-		self.movechk(Action.RIGHT, 0, 1)
-		self.explode()
-		self.assertAlive(True)		
-		self.assertStonesBroken((2,0))
-		self.movechk(Action.LEFT, 0, 0)
-		self.movechk(Action.DOWN, 1, 0)
-		self.movechk(Action.DOWN, 2, 0)
-		self.movechk(Action.DOWN, 3, 0)
-	
+		TestEnvironment.test_break_stone(self)
+		self.assertTrace(DOWN,BOMBDROP,UP,RIGHT,BOMBEXPLODE,0b1000,LEFT,DOWN,DOWN,DOWN)
+
 	def test_break_two_stones(self):
-		self.test_break_stone()
-		self.movechk(Action.DOWN, 3, 0)
-		self.drop()
-		self.movechk(Action.UP, 2, 0)
-		self.movechk(Action.UP, 1, 0)
-		self.explode()
-		self.assertAlive(True)		
-		self.assertStonesBroken((2,0),(4,0))
-		self.movechk(Action.DOWN, 2, 0)
-		self.movechk(Action.DOWN, 3, 0)
-		self.movechk(Action.DOWN, 4, 0)
-		self.movechk(Action.DOWN, 5, 0)
-		self.movechk(Action.DOWN, 5, 0)
-	
-	
+		TestEnvironment.test_break_two_stones(self)
+		self.assertTrace(DOWN,BOMBDROP,UP,RIGHT,BOMBEXPLODE,0b1000,LEFT,DOWN,DOWN,DOWN,
+						 NOACTION,BOMBDROP,UP,UP,BOMBEXPLODE,0b1000,DOWN,DOWN,DOWN,DOWN,NOACTION)

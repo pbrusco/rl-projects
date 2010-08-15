@@ -28,7 +28,7 @@ class Environment:
 				self.dropBomb()
 		elif action == Action.EXPLODE:
 			if self.state.isBombDropped:
-				bombsExplodedPosition + self.explodeBomb()
+				bombsExplodedPosition += self.explodeBomb()
 		return bombsExplodedPosition
 	
 	def dropBomb(self):
