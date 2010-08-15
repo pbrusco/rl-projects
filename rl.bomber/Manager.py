@@ -13,7 +13,7 @@ class Manager:
 	def __init__(self, iters=ITERATIONS, maxturns=MAX_TURNS):
 		self.iters = iters
 		self.maxturns = maxturns
-		self.env = Environment()
+		self.env = TracingEnvironment()
 		self.task = Task(env=self.env)
 		self.agent = Agent()
 
