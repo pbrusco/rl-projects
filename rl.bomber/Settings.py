@@ -2,7 +2,7 @@
 # Bomberman Settings
 # ------------------
 
-# an immortal bomberman does not die due to bomb explotions
+# an immortal bomberman does not die due to bomb explosions
 IS_IMMORTAL = False
 
 # ------------
