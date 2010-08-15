@@ -21,7 +21,7 @@ MOVDIR = {	(0,-1): LEFT,
 			}
 			
 
-MOVEMENTS = [1,1,3,3,1,4,0,2,5,0,0,1,4]
+MOVEMENTS = [3,3,1,4,0,3,5,8,6,6,6,7]
 
 
 #0000 = 0 indica no se rompio ninguna
