@@ -89,6 +89,6 @@ while i < len(MOVEMENTS):
 		print "ILEGAL ACTION"
 	
 	i = i + 1
-	time.sleep(0.2)
+	time.sleep(GAMESPEED)
 
 exit()

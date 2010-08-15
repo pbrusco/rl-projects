@@ -36,5 +36,5 @@ BOMB_REWARD = 10.0
 # ----------------
 # Manager Settings
 # ----------------
-ITERATIONS = 1000
+ITERATIONS = 100
 MAX_TURNS = 1000
