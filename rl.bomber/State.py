@@ -11,7 +11,7 @@ class State:
 		self.isBombDropped = False
 		self.stones = [True] * len(STONES) # position i is true iif stone i is still present and has not been destroyed
 		self.die = False
-	
+			
 	def __int__(self):
 		return self.__hash__()
 	
