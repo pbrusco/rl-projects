@@ -29,13 +29,14 @@ class TracingEnvironment(Environment):
 		self.bombPos = self.state.bomb
 		
 		# When exploding the bomb, the destroy stone method is invoked for every wall destroyed. The resulting number is stored in stonesDestroyed and logged.
-		Environment.explodeBomb(self)
+		exploded = Environment.explodeBomb(self)
 		self.trace(self.stonesDestroyed)
 		self.stonesDestroyed = 0
 		self.bombPos = None
 		
 		# Store if bomberman died
 		if self.state.die: self.trace(DEAD)
+		return exploded
 	
 	def destroyStone(self,index):
 		Environment.destroyStone(self,index)
