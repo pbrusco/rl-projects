@@ -1,6 +1,8 @@
 syntax: glob
 
 .hgignore
+.hgrc
+trace.out
 *.pyc
 .DS_Store
 *.aux
