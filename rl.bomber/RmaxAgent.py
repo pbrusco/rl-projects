@@ -1,9 +1,10 @@
 from Settings import *
 from Action import *
 import random
+import Print
 
-RMAX_GAMMA_VALUE_ITER = 0.8
-RMAX_EPSILON_VALUE_ITER = 0.05
+RMAX_GAMMA_VALUE_ITER = 0.85
+RMAX_EPSILON_VALUE_ITER = 1
 
 class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 	
@@ -33,10 +34,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		movements = self.learnedTransitions.get((action,intState,intNextState))
 		count = self.learnedCount.get((action,intState))
 		if movements is None:
-			if intState == intNextState:
-				return 1.0
-			else:
-				return 0.0
+			return 0.0
 		else:
 			return float(movements)/float(count)
 			
@@ -58,7 +56,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 			self.visitedStates.append(intState)
 		if intState not in self.reachableStates: #actualizo alcanzables (blancos o grises)
 			self.reachableStates.append(intState)
-		if intNextState not in self.reachableStates: #actualizo alcanzables (blancos o grises)
+		if intNextState not in self.reachableStates and intNextState != -1: #actualizo alcanzables (blancos o grises)
 			self.reachableStates.append(intNextState)
 		
 	def nextAction(self, state):
@@ -67,7 +65,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		#necesitamos previous y current para comparar (current - previous) con el epsilon
 		Q = {} #los q estimados
 		for visited in self.visitedStates: #inicializo en 0 los previous que son aproximables, el current no importa, asi que 0
-			values[visited] = (0,0)
+			values[visited] = (0.0,0.0)
 		errorBig = True #si seguimos iterando
 		iterCount = 0
 		errs = []
@@ -102,11 +100,26 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		
 		#bien, ya sali
 		#ahora, dado el Q, quiero la accion que maximice
-		qMax = max([Q.get((a,intState)) for a in Action.ACTIONS])
-		print iterCount#, errs
-		return random.choice([a for a in Action.ACTIONS if Q.get((a,intState))==qMax])
+		qMax = max([Q.get((a,intState)) or 0.0 for a in Action.ACTIONS])
+		#print Q
+		#print [Q.get((a,intState)) or 0.0 for a in Action.ACTIONS]
+		#print self.inspect()
+		return random.choice([a for a in Action.ACTIONS if (Q.get((a,intState))or 0.0)==qMax])
 		
 		#Old: pick first
 		#return max(Action.ACTIONS, key=(lambda a: Q(a,intState)))
 		#si no esta definido, elijo al azar
 			
+	def inspect(self):
+		return "\n\n".join([
+			"Learned rewards",
+			Print.prnDict(self.learnedRewards),
+			"Learned transitions",
+			Print.prnDict(self.learnedTransitions),
+			"Learned count",
+			Print.prnDict(self.learnedCount),
+			"Blancos",
+			str(self.visitedStates),
+			"Grises y blancos",
+			str(self.reachableStates),
+		])

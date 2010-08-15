@@ -12,7 +12,7 @@ import time
 import pickle
 
 AGENT_FILE_NAME = 'qagent.pkl'
-SAVE_EVERY = 0
+SAVE_EVERY = 2
 
 class Manager:
 
@@ -21,8 +21,7 @@ class Manager:
 		self.maxturns = maxturns
 		self.env = TracingEnvironment()
 		self.task = FlatStateTask(env=self.env)
-		#self.agent = RmaxAgent()
-		self.agent = Agent()
+		self.agent = RmaxAgent()
 
 	def run(self):
 		for r in range(self.iters):
@@ -63,7 +62,10 @@ class Manager:
 	def loadAgent(self, agentName=AGENT_FILE_NAME):
 		with open(agentName, 'rb') as input:
 			self.agent = pickle.load(input)
-			
+	
+	def see(self):
+		return self.loadAndInspectLastSavedAgent()
+	
 	def loadAndInspectLastSavedAgent(self):
 		self.loadAgent()
 		print self.agent.inspect()
