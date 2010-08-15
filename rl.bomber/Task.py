@@ -2,7 +2,7 @@ from Settings import *
 from Status import *
 from Environment import Environment
 
-class Task:
+class Task(object):
 	
 	def __init__(self,env=Environment()):
 		self.env = env

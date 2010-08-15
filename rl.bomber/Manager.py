@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 from Task import *
 from StochasticNavigationTask import *
+from StochasticExplosionTask import *
 from TracingEnvironment import *
 from Environment import *
 from Agent import *
@@ -13,7 +14,7 @@ class Manager:
 		self.iters = iters
 		self.maxturns = maxturns
 		self.env = TracingEnvironment()
-		self.task = Task(env=self.env)
+		self.task = StochasticExplosionTask(env=self.env)
 		self.agent = Agent()
 
 	def run(self):
