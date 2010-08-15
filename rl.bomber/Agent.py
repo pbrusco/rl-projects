@@ -20,8 +20,8 @@ class Agent:
 		if self.goRandom(): 
 			return random.choice(ACTIONS)
 		else: 
-			qMax = max([self.getQValue(a,state) for a in ACTIONS])	
-			return random.choice([a for a in ACTIONS if self.getQValue(a,state)==qMax])
+			qMax = max([self.getQValue(a,state) for a in Action.ACTIONS])	
+			return random.choice([a for a in Action.ACTIONS if self.getQValue(a,state)==qMax])
 
 	def goRandom(self):
 		return random.random() < EPSILON
@@ -30,7 +30,7 @@ class Agent:
 		return self.qTable.get((action,int(state))) or 0.0 #float!
 		
 	def setQValue(self,action,state,value):
- 		self.qTable[(action,int(state))] = value 
+ 		self.qTable[(action,int(state))] = value
 
 
 
