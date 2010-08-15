@@ -20,8 +20,9 @@ class Task(object):
 		
 		# TODO: Clone state before returning it
 		
-		for i in range(len(bombsExploded)):
-			reward += self.getRewardForPosition(state.bombExplodedPosition)
+		if False: 
+			for i in range(len(bombsExploded)):
+				reward += self.getRewardForPosition(state.bombExplodedPosition)
 		
 		if (state.bombermanPos == EXIT):
 			reward = WIN_REWARD
