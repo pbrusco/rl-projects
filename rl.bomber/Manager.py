@@ -14,7 +14,7 @@ class Manager:
 		self.iters = iters
 		self.maxturns = maxturns
 		self.env = TracingEnvironment()
-		self.task = StochasticExplosionTask(env=self.env)
+		self.task = Task(env=self.env)
 		self.agent = Agent()
 
 	def run(self):
