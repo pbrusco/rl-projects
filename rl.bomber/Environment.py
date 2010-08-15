@@ -58,11 +58,15 @@ class Environment:
 		notInWall = newPos not in WALLS
 		notInStone = not(newPos in STONES and self.state.stones[STONES.index(newPos)])
 		onBoard = self.onBoard(newPos)
-		if notInWall and notInStone and onBoard: self.doChangePos(newPos)
+		if notInWall and notInStone and onBoard: self.doChangePos(mov)
+		else: self.didntChangePos(mov)
 		
-	def doChangePos(self,newPos):
-		self.state.bombermanPos = newPos
+	def doChangePos(self,mov):
+		self.state.bombermanPos = self.addPos(self.state.bombermanPos,mov)
 
+	def didntChangePos(self,mov):
+		pass
+		
 	def onBoard(self,newPos):
 		row,col = newPos
 		return (row>=0 and row<BOARD_WIDTH) and (col>=0 and col<BOARD_HEIGHT)
