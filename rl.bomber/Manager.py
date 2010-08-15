@@ -6,6 +6,7 @@ from TracingEnvironment import *
 from Environment import *
 from Agent import *
 from Status import *
+from RmaxAgent import *
 import time
 
 class Manager:
@@ -15,7 +16,7 @@ class Manager:
 		self.maxturns = maxturns
 		self.env = TracingEnvironment()
 		self.task = Task(env=self.env)
-		self.agent = Agent()
+		self.agent = RmaxAgent()
 
 	def run(self):
 		for r in range(self.iters):

@@ -1,5 +1,6 @@
 from Settings import *
 from Action import *
+import random
 
 RMAX_GAMMA_VALUE_ITER = 0.95
 RMAX_EPSILON_VALUE_ITER = 0.05
@@ -72,12 +73,12 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 			for visited in self.visitedStates:
 				for action in Action.ACTIONS:
 					partialQ = self.getRValue(action, visited) #inicializo con el reward dado el estado y la accion
-					for possible in self.reachableStates: #todos los posibles, si no está en reachable el T va a ser 0 y no vale la pena iterar
+					for possible in self.reachableStates: #todos los posibles, si no esta en reachable el T va a ser 0 y no vale la pena iterar
 						if values.get(possible) is None:
-							valueToUse = self.vmax #si no está, uso vmax
+							valueToUse = self.vmax #si no esta, uso vmax
 						else:
-							previous, current = values.get(possible) #si está, uso el previous
-							valueToUse = previous #da lo mismo cuál usar entre previous y current, a esta altura son lo mismo
+							previous, current = values.get(possible) #si esta, uso el previous
+							valueToUse = previous #da lo mismo cual usar entre previous y current, a esta altura son lo mismo
 							#a continuacion, cambio current para comparar con el error, pero, al final de la iteracion
 							#seteo el previous con el current
 						partialQ += RMAX_GAMMA_VALUE_ITER * self.getTValue(action, visited, possible) * valueToUse
@@ -85,20 +86,21 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 						#todo multiplicado por el gamma, obvio
 					Q[(action,visited)] = partialQ
 				previous, current = values[visited]
-				values[visited] = previous, max([Q(a,visited) for a in Action.ACTIONS]) #el valor es el maximo de los Q
+				values[visited] = previous, max([Q[(a,visited)] for a in Action.ACTIONS]) #el valor es el maximo de los Q
 				#actualizo el current con el maximo de los Q, o sea, el V obtenido
-			errorBig = (sum([(i-j)**2 for(i,j) in zip(currentValues, previousValues)]) ** 0.5) > RMAX_EPSILON_VALUE_ITER
+			errorBig = (sum([(i-j)**2 for(i,j) in values.values()]) ** 0.5) > RMAX_EPSILON_VALUE_ITER
 			# obtengo la norma dos de la diferencia entre current y previous. si la norma es mayor al epsilon, sigo iterando, si no, no itero
 			#ahora pongo en previous el valor de current
-			for (key, value) in values:
+			for (key, value) in values.iteritems():
 				previous, current = value
 				values[key] = (current, current) # el previous lo seteo en el current
 		
-		#bien, ya salí
+		#bien, ya sali
 		#ahora, dado el Q, quiero la accion que maximice
-		qMax = max([Q[(a,intState)] for a in Action.ACTIONS])	
-		return random.choice([a for a in Action.ACTIONS if Q[(a,intState)]==qMax])
+		qMax = max([Q.get((a,intState)) for a in Action.ACTIONS])	
+		return random.choice([a for a in Action.ACTIONS if Q.get((a,intState))==qMax])
 		
 		#Old: pick first
 		#return max(Action.ACTIONS, key=(lambda a: Q(a,intState)))
+		#si no esta definido, elijo al azar
 			
