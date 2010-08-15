@@ -5,6 +5,7 @@ sys.path.append('../rl.bomber')
 from Environment import Environment
 from Action import *
 from Settings import *
+from Maps import *
 
 class TestEnvironment(unittest.TestCase):
 	
