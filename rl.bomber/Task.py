@@ -22,7 +22,7 @@ class Task(object):
 		# Intermediate
 		if (BOMB_REWARD_POLICY != BOMB_NO_REWARD):
 			for i in range(len(bombsExploded)):
-				reward += self.getRewardForBombPosition(state.bombExplodedPosition)
+				reward += self.getRewardForBombPosition(bombsExploded[i])
 				
 		if (NAVIGATION_REWARD != NAVIGATION_NO_REWARD):
 			if (self.env.positionChangedInLastAction == True):
