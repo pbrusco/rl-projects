@@ -20,7 +20,7 @@ class Manager:
 		self.iters = iters
 		self.maxturns = maxturns
 		self.env = TracingEnvironment()
-		self.task = Task(env=self.env)
+		self.task = FlatStateTask(env=self.env)
 		#self.agent = RmaxAgent()
 		self.agent = Agent()
 

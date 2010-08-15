@@ -17,7 +17,7 @@ class Task(object):
 		
 		reward = 0.0 #float
 		status = Status.CONTINUE
-		state = deepcopy(self.env.state)
+		state = self.env.state
 		
 		# Intermediate
 		if (BOMB_REWARD_POLICY != BOMB_NO_REWARD):
@@ -35,10 +35,10 @@ class Task(object):
 			reward = LOSE_REWARD
 			status = Status.DIE
 
-		return (state, reward, status)
+		return (self.getState(), reward, status)
 		
 	def getState(self):
-		return self.env.state
+		return deepcopy(self.env.state)
 		
 	def getRewardForBombPosition(self, bombPosition):
 		if (BOMB_REWARD_POLICY == BOMB_REWARD_PER_STONE_DESTROYED_PROPORTIONAL_TO_EXIT):
@@ -50,9 +50,12 @@ class Task(object):
 			return BOMB_REWARD
 		return 0
 		
-		
 	def getRewardForAgentPosition(self, agentPosition):
 		closenessX = abs(MAP_SIZE-1 -(EXIT[0] - agentPosition[0])) 
 		closenessY = abs(MAP_SIZE-1 -(EXIT[1] - agentPosition[1]))
 		closeness = closenessX + closenessY
 		return closeness
+		
+class FlatStateTask(Task):
+	def getState(self):
+		return int(self.env.state)
