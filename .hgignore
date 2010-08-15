@@ -1,0 +1,10 @@
+syntax: glob
+
+.hgignore
+*.pyc
+.DS_Store
+*.aux
+informe.log
+informe.pdf
+*.synctex.gz
+*.toc
