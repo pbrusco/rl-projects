@@ -15,6 +15,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		self.visitedStates = []
 		self.vmax = WIN_REWARD / (1 - RMAX_GAMMA_VALUE_ITER)
 		self.reachableStates = []
+		self.values = {}
 	
 	def getRValue(self, action, intState): #dado un estado y una accion, su reward empirico, o rmax si alguno no conocido
 		reward = self.learnedRewards.get((action,intState))
@@ -61,11 +62,12 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		
 	def nextAction(self, state):
 		intState = int(state)
-		values = {} #los que visitamos, o sea, los aproximables. los no visitados asumimos Vmax. el valor va a ser una tupla (previous, current).
+		#values = {} #los que visitamos, o sea, los aproximables. los no visitados asumimos Vmax. el valor va a ser una tupla (previous, current).
+		values = self.values
 		#necesitamos previous y current para comparar (current - previous) con el epsilon
 		Q = {} #los q estimados
-		for visited in self.visitedStates: #inicializo en 0 los previous que son aproximables, el current no importa, asi que 0
-			values[visited] = (0.0,0.0)
+		#for visited in self.visitedStates: #inicializo en 0 los previous que son aproximables, el current no importa, asi que 0
+		#	values[visited] = (0.0,0.0)
 		errorBig = True #si seguimos iterando
 		iterCount = 0
 		errs = []
@@ -76,7 +78,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 					partialQ = self.getRValue(action, visited) #inicializo con el reward dado el estado y la accion
 					for possible in self.reachableStates: #todos los posibles, si no esta en reachable el T va a ser 0 y no vale la pena iterar
 						if values.get(possible) is None:
-							valueToUse = self.vmax #si no esta, uso vmax
+							valueToUse = 0.0 if possible in self.visitedStates else self.vmax #si no esta, uso vmax
 						else:
 							previous, current = values.get(possible) #si esta, uso el previous
 							valueToUse = previous #da lo mismo cual usar entre previous y current, a esta altura son lo mismo
@@ -86,7 +88,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 						#pongo el valor anterior si es aproximable, o vmax si no es aproximable (si nunca voy a saber nada)
 						#todo multiplicado por el gamma, obvio
 					Q[(action,visited)] = partialQ
-				previous, current = values[visited]
+				previous, current = values.get(visited) or (0.0,0.0)
 				values[visited] = previous, max([Q[(a,visited)] for a in Action.ACTIONS]) #el valor es el maximo de los Q
 				#actualizo el current con el maximo de los Q, o sea, el V obtenido
 			err = (sum([(i-j)**2 for(i,j) in values.values()]) ** 0.5)
@@ -104,6 +106,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		#print Q
 		#print [Q.get((a,intState)) or 0.0 for a in Action.ACTIONS]
 		#print self.inspect()
+		#print iterCount
 		return random.choice([a for a in Action.ACTIONS if (Q.get((a,intState))or 0.0)==qMax])
 		
 		#Old: pick first
