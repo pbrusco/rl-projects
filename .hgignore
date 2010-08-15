@@ -10,3 +10,4 @@ informe.log
 informe.pdf
 *.synctex.gz
 *.toc
+*.pkl

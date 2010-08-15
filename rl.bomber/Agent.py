@@ -1,5 +1,6 @@
 import random
 from Action import *
+import Print
 
 
 ALPHA = 0.8
@@ -34,6 +35,5 @@ class Agent:
 	def setQValue(self,action,state,value):
  		self.qTable[(action,int(state))] = value
 
-
-
-
+	def inspect(self):
+		return Print.prnDict(self.qTable)
