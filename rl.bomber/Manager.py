@@ -21,7 +21,8 @@ class Manager:
 		self.maxturns = maxturns
 		self.env = TracingEnvironment()
 		self.task = Task(env=self.env)
-		self.agent = RmaxAgent()
+		#self.agent = RmaxAgent()
+		self.agent = Agent()
 
 	def run(self):
 		for r in range(self.iters):
@@ -62,3 +63,7 @@ class Manager:
 	def loadAgent(self, agentName=AGENT_FILE_NAME):
 		with open(agentName, 'rb') as input:
 			self.agent = pickle.load(input)
+			
+	def loadAndInspectLastSavedAgent(self):
+		self.loadAgent()
+		print self.agent.inspect()
