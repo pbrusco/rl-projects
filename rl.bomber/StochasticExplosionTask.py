@@ -1,8 +1,7 @@
 from Task import *
 from Action import *
+from Settings import *
 import random
-
-EXPLODING_PROBABILITY = 0.5
 
 class StochasticExplosionTask(Task):
 
@@ -12,7 +11,7 @@ class StochasticExplosionTask(Task):
 			return super(StochasticExplosionTask, self).perform(action)
 		
 		n = random.random()
-		if n >= EXPLODING_PROBABILITY:
+		if n >= BOMB_EXPLODING_PROBABILITY:
 			newAction = Action.EXPLODE
 		else:
 			newAction = Action.DROP_BOMB
