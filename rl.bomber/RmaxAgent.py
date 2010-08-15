@@ -1,4 +1,3 @@
-from Settings import *
 from Action import *
 import random
 import Print

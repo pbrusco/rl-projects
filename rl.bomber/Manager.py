@@ -1,18 +1,16 @@
-#!/usr/local/bin/python
 from Task import *
-from StochasticNavigationTask import *
-from StochasticExplosionTask import *
 from TracingEnvironment import *
 from Environment import *
 from Agent import *
 from Status import *
-from RmaxAgent import *
+from Settings import *
 
+import Factory
 import time
 import pickle
 
 AGENT_FILE_NAME = 'qagent.pkl'
-SAVE_EVERY = 2
+SAVE_EVERY = 0
 
 class Manager:
 
@@ -20,8 +18,8 @@ class Manager:
 		self.iters = iters
 		self.maxturns = maxturns
 		self.env = TracingEnvironment()
-		self.task = FlatStateTask(env=self.env)
-		self.agent = RmaxAgent()
+		self.task = Factory.createTask()
+		self.agent = Factory.createAgent()
 
 	def run(self):
 		for r in range(self.iters):
@@ -62,7 +60,7 @@ class Manager:
 	def loadAgent(self, agentName=AGENT_FILE_NAME):
 		with open(agentName, 'rb') as input:
 			self.agent = pickle.load(input)
-	
+
 	def see(self):
 		return self.loadAndInspectLastSavedAgent()
 	

@@ -1,6 +1,4 @@
-from Settings import *
 from Maps import *
-
 import math
 
 class State:
