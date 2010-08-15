@@ -2,7 +2,7 @@ from Settings import *
 from Action import *
 import random
 
-RMAX_GAMMA_VALUE_ITER = 0.95
+RMAX_GAMMA_VALUE_ITER = 0.8
 RMAX_EPSILON_VALUE_ITER = 0.05
 
 class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
@@ -69,7 +69,10 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		for visited in self.visitedStates: #inicializo en 0 los previous que son aproximables, el current no importa, asi que 0
 			values[visited] = (0,0)
 		errorBig = True #si seguimos iterando
+		iterCount = 0
+		errs = []
 		while errorBig:
+			iterCount += 1
 			for visited in self.visitedStates:
 				for action in Action.ACTIONS:
 					partialQ = self.getRValue(action, visited) #inicializo con el reward dado el estado y la accion
@@ -88,7 +91,9 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 				previous, current = values[visited]
 				values[visited] = previous, max([Q[(a,visited)] for a in Action.ACTIONS]) #el valor es el maximo de los Q
 				#actualizo el current con el maximo de los Q, o sea, el V obtenido
-			errorBig = (sum([(i-j)**2 for(i,j) in values.values()]) ** 0.5) > RMAX_EPSILON_VALUE_ITER
+			err = (sum([(i-j)**2 for(i,j) in values.values()]) ** 0.5)
+			errs.append(err)
+			errorBig = err > RMAX_EPSILON_VALUE_ITER
 			# obtengo la norma dos de la diferencia entre current y previous. si la norma es mayor al epsilon, sigo iterando, si no, no itero
 			#ahora pongo en previous el valor de current
 			for (key, value) in values.iteritems():
@@ -97,7 +102,8 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		
 		#bien, ya sali
 		#ahora, dado el Q, quiero la accion que maximice
-		qMax = max([Q.get((a,intState)) for a in Action.ACTIONS])	
+		qMax = max([Q.get((a,intState)) for a in Action.ACTIONS])
+		print iterCount#, errs
 		return random.choice([a for a in Action.ACTIONS if Q.get((a,intState))==qMax])
 		
 		#Old: pick first
