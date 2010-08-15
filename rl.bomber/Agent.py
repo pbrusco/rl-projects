@@ -1,5 +1,5 @@
-from Action import *
 import random
+from Action import *
 
 
 ALPHA = 0.8
