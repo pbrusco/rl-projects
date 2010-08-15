@@ -19,10 +19,15 @@ class Task(object):
 		status = Status.CONTINUE
 		state = deepcopy(self.env.state)
 		
-		if False: 
+		# Intermediate
+		if (BOMB_REWARD_POLICY != BOMB_NO_REWARD):
 			for i in range(len(bombsExploded)):
-				reward += self.getRewardForPosition(state.bombExplodedPosition)
-		
+				reward += self.getRewardForBombPosition(state.bombExplodedPosition)
+				
+		if (NAVIGATION_REWARD != NAVIGATION_NO_REWARD):
+			if (self.env.positionChangedInLastAction == True):
+				reward += self.getRewardForAgentPosition(state.bombermanPos)
+			
 		if (state.bombermanPos == EXIT):
 			reward = WIN_REWARD
 			status = Status.WIN
@@ -35,11 +40,19 @@ class Task(object):
 	def getState(self):
 		return self.env.state
 		
-	def getRewardForPosition(self, bombPosition):
+	def getRewardForBombPosition(self, bombPosition):
 		if (BOMB_REWARD_POLICY == BOMB_REWARD_PER_STONE_DESTROYED_PROPORTIONAL_TO_EXIT):
-			closenessX = abs(MAP_SIZE -(EXIT[0] - bombPosition[0])) 
-			closenessY = abs(MAP_SIZE -(EXIT[1] - bombPosition[1]))
-			closeness = deltaX + deltaY
+			closenessX = abs(MAP_SIZE-1 -(EXIT[0] - bombPosition[0])) 
+			closenessY = abs(MAP_SIZE-1 -(EXIT[1] - bombPosition[1]))
+			closeness = closenessX + closenessY
 			return closeness * BOMB_REWARD
 		if (BOMB_REWARD_POLICY == BOMB_REWARD_PER_STONE_DESTROYED):
 			return BOMB_REWARD
+		return 0
+		
+		
+	def getRewardForAgentPosition(self, agentPosition):
+		closenessX = abs(MAP_SIZE-1 -(EXIT[0] - agentPosition[0])) 
+		closenessY = abs(MAP_SIZE-1 -(EXIT[1] - agentPosition[1]))
+		closeness = closenessX + closenessY
+		return closeness

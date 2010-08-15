@@ -5,6 +5,7 @@ from State import State
 
 class Environment:
 	
+	
 	def __init__(self):
 		self.state = State()
 	
@@ -13,6 +14,8 @@ class Environment:
 	
 	def performAction(self, action):
 		bombsExplodedPosition = []
+		self.positionChangedInLastAction = False
+		
 		if self.state.die:
 			raise Exception("Cannot execute action when dead")
 		if action == Action.UP: 
@@ -69,6 +72,7 @@ class Environment:
 		else: self.didntChangePos(mov)
 		
 	def doChangePos(self,mov):
+		self.positionChangedInLastAction = True
 		self.state.bombermanPos = self.addPos(self.state.bombermanPos,mov)
 
 	def didntChangePos(self,mov):
