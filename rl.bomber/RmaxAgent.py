@@ -96,8 +96,8 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		
 		#bien, ya salí
 		#ahora, dado el Q, quiero la accion que maximice
-		qMax = max([Q(a,intState) for a in Action.ACTIONS])	
-		return random.choice([a for a in Action.ACTIONS if Q(a,intState)==qMax])
+		qMax = max([Q[(a,intState)] for a in Action.ACTIONS])	
+		return random.choice([a for a in Action.ACTIONS if Q[(a,intState)]==qMax])
 		
 		#Old: pick first
 		#return max(Action.ACTIONS, key=(lambda a: Q(a,intState)))
