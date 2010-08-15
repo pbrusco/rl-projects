@@ -1,5 +1,6 @@
 from Action import *
 from Settings import *
+from Maps import *
 from State import State
 
 class Environment:
