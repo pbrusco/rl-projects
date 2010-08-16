@@ -42,3 +42,4 @@ class BombermanDBN(DBN):
 			Action.DROP_BOMB: drop_dep,
 			Action.EXPLODE: explode_dep
 		})
+		
