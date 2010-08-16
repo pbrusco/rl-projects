@@ -12,7 +12,7 @@ ITERATIONS = 1000
 # if more than MAX_TURNS are used the bomberman dies
 MAX_TURNS = 1000
 
-AGENT = SARSA
+AGENT = SARSALAMBDA
 
 TASK = DETERMINISTIC
 
