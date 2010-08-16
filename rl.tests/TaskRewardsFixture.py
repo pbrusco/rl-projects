@@ -90,12 +90,16 @@ class TestRewards(unittest.TestCase):
 			self.perform(Action.RIGHT, 0)
 			self.perform(Action.RIGHT, 0)
 			self.perform(Action.RIGHT, WIN_REWARD)
+		if (NAVIGATION_REWARD == NAVIGATION_NO_REWARD and BOMB_REWARD_POLICY == BOMB_NO_REWARD):
+			statePrev, rewardPrev, statusPrev = self.task.perform(Action.RIGHT)
+			state, reward, status = self.task.perform(Action.EXPLODE)
+			self.assertEquals(state, statePrev)
+			print hola
 			
 			
 			
 				
-			
-
+		
 		
 	def perform(self, action, expectedReward):
 		state, reward, status = self.task.perform(action)

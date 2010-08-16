@@ -10,3 +10,6 @@ class Action:
 	EXPLODE = 5
 	
 	ACTIONS = [UP, DOWN, LEFT, RIGHT, DROP_BOMB, EXPLODE]
+	@classmethod
+	def isNavigationAction(slf,action):
+		return action < 4

@@ -56,3 +56,12 @@ class State:
 			raise
 		return x*BOARD_WIDTH + y
 		
+
+	def __eq__(self, nextstate)	:
+		bombermanPosEq = (nextstate.bombermanPos == self.bombermanPos)
+		bombEq = (nextstate.bomb == self.bomb)
+		isBombDroppedEq = (nextstate.isBombDropped == self.isBombDropped)
+		stonesEq = (nextstate.stones == self.stones)
+		dieEq = (nextstate.die == self.die)
+		return (bombermanPosEq and bombEq and isBombDroppedEq and stonesEq and dieEq)
+		

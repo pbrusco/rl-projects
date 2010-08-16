@@ -29,6 +29,7 @@ class Manager:
 			start = time.time()
 			status = Status.CONTINUE
 			state = self.task.getState()
+			state = deepcopy(state) if AGENT in FACTOREDAGENTS else int(state)
 			
 			turn = 0
 			totalMovementActionsCount = 0
@@ -39,9 +40,9 @@ class Manager:
 			# Run game for up to max turns 
 			for turn in range(self.maxturns):
 				action = self.agent.nextAction(state)
-				if (action < 4):
+				if (Action.isNavigationAction(action)):
 					totalMovementActionsCount +=1
-				elif (action == 4):
+				elif (action == Action.DROP_BOMB):
 					totalDropActionCount +=1
 				else:
 					totalExplodeActionCount +=1
@@ -56,7 +57,7 @@ class Manager:
 				
 				# Agent learns from action
 				self.agent.learn(state,nextstate,action,reward)
-				if (state == nextstate):
+				if (nextstate == state):
 					noResultActionsCount +=1
 				state = nextstate
 				if status != Status.CONTINUE: break
@@ -68,7 +69,6 @@ class Manager:
 			
 			# Dump the agent state every X iters
 			if SAVE_EVERY > 0 and r > 0 and r % SAVE_EVERY == 0: self.saveAgent()
-			
 			
 	def reportgame(self, elapsed, turns, status,totalMovementActionsCount, totalDropActionCount, totalExplodeActionCount, noResultActionsCount, ):
 		print ' '.join([str(elapsed), str(turns), str(status), str(totalMovementActionsCount), str(totalDropActionCount), str(totalExplodeActionCount), str(noResultActionsCount) ])
