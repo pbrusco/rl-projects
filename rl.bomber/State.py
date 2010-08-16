@@ -1,4 +1,6 @@
 from Maps import *
+from Factor import Factor
+
 import math
 
 class State:
@@ -14,21 +16,12 @@ class State:
 		return self.__hash__()
 	
 	def __hash__(self):
-		
-		def posUniqueId(cords):
-			try:
-				x,y = cords
-			except:
-				print cords
-				raise
-			return x*BOARD_WIDTH + y
-		
 		if self.die: return -1 #if die stateCode = -1
 		else: die = 0 
 
-		pos = posUniqueId(self.bombermanPos)
+		pos = self.posUniqueId(self.bombermanPos)
 	
-		if self.isBombDropped: bomb =  posUniqueId(self.bomb) 
+		if self.isBombDropped: bomb =  self.posUniqueId(self.bomb) 
 		else: bomb = BOARD_WIDTH*BOARD_HEIGHT	
 
 		stones = 0
@@ -40,5 +33,26 @@ class State:
 		return bomb + (2**hashingExponent)*pos + (2**(hashingExponent*hashingExponent))*stones
 
 	def getFactorIntValue(self, factor):
-		return 0
+		if factor == Factor.POSITION:
+			return self.posUniqueId(self.bombermanPos)
+		elif factor == Factor.BOMB:
+			return self.posUniqueId(self.bomb) if self.isBombDropped else BOARD_WIDTH*BOARD_HEIGHT
+		elif factor == Factor.STONES:
+			stones = 0
+			for i in range(len(self.stones)):
+				if self.stones[i]: 
+					stones = stones + 2**i
+			return stones
+		elif factor == Factor.DEAD:
+			return -1 if self.die else 1
+		else:
+			raise Exception("Unknown factor")
+		
+	def posUniqueId(self,cords):
+		try:
+			x,y = cords
+		except:
+			print cords
+			raise
+		return x*BOARD_WIDTH + y
 		
