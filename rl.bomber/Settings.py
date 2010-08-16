@@ -8,11 +8,11 @@ from Constants import *
 CONFIGURATION_NAME = "default"
 
 # amount of games the agent will play
-ITERATIONS = 1000
+ITERATIONS = 100
 # if more than MAX_TURNS are used the bomberman dies
 MAX_TURNS = 1000
 
-AGENT = SARSALAMBDA
+AGENT = FACTOREDRMAX
 
 TASK = DETERMINISTIC
 
@@ -24,7 +24,7 @@ TASK = DETERMINISTIC
 IS_IMMORTAL = False
 
 # size of the map, look in Maps.py file for details
-MAP_SIZE = 5
+MAP_SIZE = 3
 
 # -------------------
 # Stochastic Settings
@@ -45,10 +45,10 @@ USE_DELTABOMB_FACTOR = True
 # -----------
 
 # bomb rewards policy (options in Constants.py)
-BOMB_REWARD_POLICY = BOMB_NO_REWARD
+BOMB_REWARD_POLICY = BOMB_REWARD_PER_STONE_DESTROYED_PROPORTIONAL_TO_EXIT
 
 # navigation rewards policy (options in Constants.py)
-NAVIGATION_REWARD = NAVIGATION_NO_REWARD
+NAVIGATION_REWARD = NAVIGATION_REWARD_PROPORTIONAL_TO_EXIT
 
 # win/lose rewards
 WIN_REWARD = 10000.0

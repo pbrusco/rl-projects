@@ -2,6 +2,7 @@
 <?eclipse-pydev version="1.0"?>
 
 <pydev_project>
+
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/rl.bomber</path>
 </pydev_pathproperty>

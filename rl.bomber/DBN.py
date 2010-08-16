@@ -18,41 +18,41 @@ class BombermanDBN(DBN):
 		
 		nav_dep = {
 			Factor.POSITION:	(Factor.POSITION, Factor.STONES),
-			Factor.BOMB:		(Factor.BOMB),
-			Factor.STONES: 		(Factor.STONES),
-			Factor.DEAD: 		(Factor.DEAD),
+			Factor.BOMB:		(Factor.BOMB,),
+			Factor.STONES: 		(Factor.STONES,),
+			Factor.DEAD: 		(Factor.DEAD,),
 		} if not USE_DELTABOMB_FACTOR else {
 			Factor.POSITION:	(Factor.POSITION, Factor.STONES),
-			Factor.BOMB:		(Factor.BOMB),
-			Factor.STONES: 		(Factor.STONES),
-			Factor.DEAD: 		(Factor.DEAD),
+			Factor.BOMB:		(Factor.BOMB,),
+			Factor.STONES: 		(Factor.STONES,),
+			Factor.DEAD: 		(Factor.DEAD,),
 			Factor.DELTABOMB:	(Factor.POSITION, Factor.DELTABOMB, Factor.STONES)
 		}
 		
 		drop_dep = {
-			Factor.POSITION:	(Factor.POSITION),
+			Factor.POSITION:	(Factor.POSITION,),
 			Factor.BOMB:		(Factor.POSITION,Factor.BOMB),
-			Factor.STONES: 		(Factor.STONES),
-			Factor.DEAD: 		(Factor.DEAD),
+			Factor.STONES: 		(Factor.STONES,),
+			Factor.DEAD: 		(Factor.DEAD,),
 		} if not USE_DELTABOMB_FACTOR else {
-			Factor.POSITION:	(Factor.POSITION),
+			Factor.POSITION:	(Factor.POSITION,),
 			Factor.BOMB:		(Factor.POSITION,Factor.BOMB),
-			Factor.STONES: 		(Factor.STONES),
-			Factor.DEAD: 		(Factor.DEAD),
-			Factor.DELTABOMB: 	(Factor.DELTABOMB),
+			Factor.STONES: 		(Factor.STONES,),
+			Factor.DEAD: 		(Factor.DEAD,),
+			Factor.DELTABOMB: 	(Factor.DELTABOMB,),
 		}
 		
 		explode_dep = {
-			Factor.POSITION:	(Factor.POSITION),
-			Factor.BOMB:		(Factor.BOMB),
+			Factor.POSITION:	(Factor.POSITION,),
+			Factor.BOMB:		(Factor.BOMB,),
 			Factor.STONES: 		(Factor.STONES,Factor.BOMB),
 			Factor.DEAD: 		(Factor.POSITION,Factor.BOMB,Factor.DEAD),
 		} if not USE_DELTABOMB_FACTOR else {
-			Factor.POSITION:	(Factor.POSITION),
-			Factor.BOMB:		(Factor.BOMB),
+			Factor.POSITION:	(Factor.POSITION,),
+			Factor.BOMB:		(Factor.BOMB,),
 			Factor.STONES: 		(Factor.STONES,Factor.BOMB),
-			Factor.DEAD: 		(Factor.DELTABOMB,Factor.DEAD),
-			Factor.DELTABOMB:	(Factor.DELTABOMB)
+			Factor.DEAD: 		(Factor.DEAD,Factor.DELTABOMB),
+			Factor.DELTABOMB:	(Factor.DELTABOMB,)
 		}
 		
 		DBN.__init__(self, {
@@ -71,9 +71,9 @@ class RewardsDBN(object):
 	
 	def getParents(self, rewardfactor):
 		if rewardfactor == Reward.DEAD:
-			return (Factor.DELTABOMB, Factor.DEAD) if USE_DELTABOMB_FACTOR else (Factor.BOMB, Factor.POSITION, Factor.DEAD)
+			return (Factor.DEAD,Factor.DELTABOMB) if USE_DELTABOMB_FACTOR else (Factor.POSITION, Factor.BOMB, Factor.DEAD)
 		elif rewardfactor == Reward.POSITION:
-			return (Factor.POSITION)
+			return (Factor.POSITION,)
 		elif rewardfactor == Reward.STONE:
 			return (Factor.BOMB, Factor.STONES)
 		else:
