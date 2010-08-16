@@ -44,7 +44,7 @@ class Reward:
 class MaxReward:
 	
 	MAX_REWARDS = {
-				Reward.DEAD: 0, 
+				Reward.DEAD: 0.0, 
 				Reward.POSITION: WIN_REWARD, 
 				Reward.STONE: max([Reward.getRewardForBombPosition(stone) for stone in STONES])
 				}

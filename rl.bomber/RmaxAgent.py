@@ -1,6 +1,7 @@
 from Action import *
 import random
 import Print
+from Settings import *
 
 RMAX_GAMMA_VALUE_ITER = 0.85
 RMAX_EPSILON_VALUE_ITER = 1
@@ -74,7 +75,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 			for visited in self.visitedStates:
 				for action in Action.ACTIONS:
 					partialQ = self.getRValue(action, visited) #inicializo con el reward dado el estado y la accion
-					for possible in self.reachableStates: #todos los posibles, si no esta en reachable el T va a ser 0 y no vale la pena iterar
+					for possible in self.reachableStates: #todos los estados que se que existen
 						if values.get(possible) is None:
 							valueToUse = 0.0 if possible in self.visitedStates else self.vmax #si no esta, uso vmax
 						else:
@@ -89,22 +90,18 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 				previous, current = values.get(visited) or (0.0,0.0)
 				values[visited] = previous, max([Q[(a,visited)] for a in Action.ACTIONS]) #el valor es el maximo de los Q
 				#actualizo el current con el maximo de los Q, o sea, el V obtenido
-			err = (sum([(i-j)**2 for(i,j) in values.values()]) ** 0.5)
+			
+			differences = [abs((i-j)) for(i,j) in values.values()]
+			err = max(differences) if differences != [] else 0 #norma infinito, norma 2 tiraba overflow
 			errs.append(err)
-			errorBig = err > RMAX_EPSILON_VALUE_ITER
-			# obtengo la norma dos de la diferencia entre current y previous. si la norma es mayor al epsilon, sigo iterando, si no, no itero
-			#ahora pongo en previous el valor de current
+			errorBig = err > RMAX_EPSILON_VALUE_ITER #si es mayor al epsilon, sigo iterando. si no, no.
 			for (key, value) in values.iteritems():
 				previous, current = value
 				values[key] = (current, current) # el previous lo seteo en el current
 		
 		#bien, ya sali
 		#ahora, dado el Q, quiero la accion que maximice
-		qMax = max([Q.get((a,intState)) or 0.0 for a in Action.ACTIONS])
-		#print Q
-		#print [Q.get((a,intState)) or 0.0 for a in Action.ACTIONS]
-		#print self.inspect()
-		#print iterCount
+		qMax = max([(Q.get((a,intState)) or 0.0) for a in Action.ACTIONS])
 		return random.choice([a for a in Action.ACTIONS if (Q.get((a,intState))or 0.0)==qMax])
 		
 		#Old: pick first

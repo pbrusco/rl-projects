@@ -66,7 +66,7 @@ class State:
 			if self.isBombDropped:
 				mi,mj = self.bombermanPos
 				bi,bj = self.bomb
-				value = self.posUniqueId((mi-bi,mj-bj))
+				value = self.posUniqueId((int(abs(mi-bi)),int(abs(mj-bj))))
 			else:
 				value= BOARD_WIDTH * BOARD_HEIGHT
 			return (2**(hashingExponent*2)) * (value+1)
