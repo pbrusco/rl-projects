@@ -14,7 +14,7 @@ class TestRewards(unittest.TestCase):
 	
 	def setUp(self):
 		self.env = Environment()
-		self.task = Task(self.env)
+		self.task = FlatStateTask(self.env)
 	
 	def test_settings(self):
 		self.assertEquals(MAP_SIZE, 8)
