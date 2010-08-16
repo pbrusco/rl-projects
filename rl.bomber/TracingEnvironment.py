@@ -1,6 +1,7 @@
 from Environment import Environment
 from Movements import *
 from Settings import *
+from Maps import *
 
 OUTPUT = 'trace.out'
 
