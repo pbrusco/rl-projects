@@ -6,7 +6,7 @@ import Print
 ALPHA = 0.8
 GAMMA = 0.95
 EPSILON = 0.1
-ACTIONS = [0,1,2,3,4,5]
+ACTIONS = Action.ACTIONS
 
 class Agent:
 
