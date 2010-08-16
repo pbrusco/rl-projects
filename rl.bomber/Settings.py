@@ -8,7 +8,7 @@ from Constants import *
 CONFIGURATION_NAME = "default"
 
 # amount of games the agent will play
-ITERATIONS = 100
+ITERATIONS = 1000
 # if more than MAX_TURNS are used the bomberman dies
 MAX_TURNS = 1000
 
@@ -24,7 +24,7 @@ TASK = DETERMINISTIC
 IS_IMMORTAL = False
 
 # size of the map, look in Maps.py file for details
-MAP_SIZE = 3
+MAP_SIZE = 5
 
 # -------------------
 # Stochastic Settings
