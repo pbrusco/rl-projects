@@ -23,34 +23,23 @@ class Task(object):
 		# Intermediate
 		if (BOMB_REWARD_POLICY != BOMB_NO_REWARD):
 			for i in range(len(bombsExploded)):
-				#print "Adding reward for bomb"
 				reward.addRewardForFactor(Reward.STONE, self.getRewardForBombPosition(bombsExploded[i]))
 				
 		if (NAVIGATION_REWARD != NAVIGATION_NO_REWARD):
 			if (self.env.positionChangedInLastAction == True):
-				#print "Adding reward for pos"
 				reward.addRewardForFactor(Reward.POSITION, self.getRewardForAgentPosition(state.bombermanPos))
 			
 		if (state.bombermanPos == EXIT):
-			#print "Adding reward for exit"
 			reward.addRewardForFactor(Reward.POSITION, WIN_REWARD)
 			status = Status.WIN
 		if (state.die):
-			#print "Adding reward for dead"
 			reward.addRewardForFactor(Reward.DEAD, LOSE_REWARD)
 			status = Status.DIE
 
-		#print str(reward)
-		return (self.processState(state), self.processReward(reward), status)
+		return (state, reward, status)
 		
 	def getState(self):
-		return self.processState(self.env.state)
-		
-	def processState(self,state):
-		return deepcopy(state)
-		
-	def processReward(self,reward):
-		return deepcopy(reward)
+		return self.env.state
 		
 	def getRewardForBombPosition(self, bombPosition):
 		if (BOMB_REWARD_POLICY == BOMB_REWARD_PER_STONE_DESTROYED_PROPORTIONAL_TO_EXIT):
@@ -67,11 +56,3 @@ class Task(object):
 		closenessY = abs(MAP_SIZE-1 -(EXIT[1] - agentPosition[1]))
 		closeness = closenessX + closenessY
 		return closeness
-		
-class FlatStateTask(Task):
-	
-	def processState(self,state):
-		return int(state)
-	
-	def processReward(self,reward):
-		return float(reward)

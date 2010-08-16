@@ -4,6 +4,7 @@ from StochasticNavigationTask import *
 from StochasticExplosionTask import *
 from Agent import *
 from RmaxAgent import *
+from FactoredRmaxAgent import *
 
 def createAgent():
 	if AGENT == QLEARNING:
@@ -16,8 +17,7 @@ def createAgent():
 def createTask():
 	# TODO: Return flat state stochastic tasks
 	if TASK == DETERMINISTIC:
-		if AGENT in FACTOREDAGENTS: return Task()
-		else: return FlatStateTask()
+		return Task()
 	elif TASK == STOCHASTIC_NAVIGATION:
 		return StochasticNavigationTask()
 	elif TASK == STOCHASTIC_EXPLOSION:

@@ -4,6 +4,8 @@ from Environment import *
 from Agent import *
 from Status import *
 from Settings import *
+from Constants import *
+from copy import copy, deepcopy
 
 import Factory
 import time
@@ -27,13 +29,12 @@ class Manager:
 			start = time.time()
 			status = Status.CONTINUE
 			state = self.task.getState()
+			
 			turn = 0
 			totalMovementActionsCount = 0
 			totalDropActionCount = 0
 			totalExplodeActionCount = 0
-			
 			noResultActionsCount = 0
-			
 					
 			# Run game for up to max turns 
 			for turn in range(self.maxturns):
@@ -45,7 +46,14 @@ class Manager:
 				else:
 					totalExplodeActionCount +=1
 					
+				# Have the agent choose next action
 				nextstate,reward,status = self.task.perform(action)
+				
+				# Convert state and reward to factored if necessary or encode otherwise
+				if AGENT in FACTOREDAGENTS: nextstate, reward = deepcopy(nextstate), deepcopy(reward)
+				else: nextstate, reward = int(nextstate), float(reward)
+				
+				# Agent learns from action
 				self.agent.learn(state,nextstate,action,reward)
 				if (state == nextstate):
 					noResultActionsCount +=1
