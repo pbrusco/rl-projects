@@ -69,7 +69,8 @@ class Environment:
 		notInStone = not(newPos in STONES and self.state.stones[STONES.index(newPos)])
 		onBoard = self.onBoard(newPos)
 		if notInWall and notInStone and onBoard: self.doChangePos(mov)
-		else: self.didntChangePos(mov)
+		else: 
+			self.didntChangePos(mov)
 		
 	def doChangePos(self,mov):
 		self.positionChangedInLastAction = True

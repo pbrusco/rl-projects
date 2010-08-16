@@ -1,7 +1,6 @@
 from Task import *
 from TracingEnvironment import *
 from Environment import *
-from Agent import *
 from Status import *
 from Settings import *
 from Constants import *
@@ -19,8 +18,8 @@ class Manager:
 	def __init__(self, iters=ITERATIONS, maxturns=MAX_TURNS):
 		self.iters = iters
 		self.maxturns = maxturns
-		self.env = TracingEnvironment()
-		self.task = Factory.createTask()
+		env = TracingEnvironment()
+		self.task = Factory.createTask(env)
 		self.agent = Factory.createAgent()
 
 	def run(self):
@@ -36,10 +35,12 @@ class Manager:
 			totalDropActionCount = 0
 			totalExplodeActionCount = 0
 			noResultActionsCount = 0
+
+			action = self.agent.nextAction(state)
 					
 			# Run game for up to max turns 
 			for turn in range(self.maxturns):
-				action = self.agent.nextAction(state)
+
 				if (Action.isNavigationAction(action)):
 					totalMovementActionsCount +=1
 				elif (action == Action.DROP_BOMB):
@@ -55,11 +56,17 @@ class Manager:
 				if AGENT in FACTOREDAGENTS: nextstate, reward = deepcopy(nextstate), deepcopy(reward)
 				else: nextstate, reward = int(nextstate), float(reward)
 				
+				nextChosenAction = self.agent.nextAction(nextstate)
+				
 				# Agent learns from action
-				self.agent.learn(state,nextstate,action,reward)
+				self.agent.learn(state,nextstate,action,reward,nextChosenAction)
+				
 				if (nextstate == state):
 					noResultActionsCount +=1
+				
 				state = nextstate
+				action = nextChosenAction
+				
 				if status != Status.CONTINUE: break
 			
 			elapsed = time.time() - start
@@ -74,7 +81,7 @@ class Manager:
 		print ' '.join([str(elapsed), str(turns), str(status), str(totalMovementActionsCount), str(totalDropActionCount), str(totalExplodeActionCount), str(noResultActionsCount) ])
 		
 	def tryDumpGameTrace(self):
-		try: self.env.dump()
+		try: self.task.env.dump()
 		except Exception as e: print "Error dumping: ", e
 
 	def saveAgent(self, agentName=AGENT_FILE_NAME):

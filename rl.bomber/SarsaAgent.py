@@ -1,23 +1,22 @@
 import random
+from Action import *
 import Print
 
-from Action import *
-
+MAXTURN = 1000
+LAMBDA = 0.9
 ALPHA = 0.8
 GAMMA = 0.95
 EPSILON = 0.1
-ACTIONS = Action.ACTIONS
+ACTIONS = [0,1,2,3,4,5]
 
-class Agent:
+class SarsaAgent:
 
 	def __init__(self):
 		self.qTable = {}
+		self.sarsaTable = {}
 	
-	def learn(self, previous, state, action, reward, nextChosenAction):
-		previousValue = self.getQValue(action,previous)
-		value = previousValue + ALPHA*(reward + GAMMA*(max([self.getQValue(a,state) for a in ACTIONS])) - previousValue)
-		self.setQValue(action,previous,value)
-		#print self.qTable
+	def learn(self, state, nextState, action, reward, nextChosenAction):
+		self.setQValue(state,action,self.getQValue(action,state) + ALPHA*(reward+GAMMA*self.getQValue(nextChosenAction,nextState) - self.getQValue(action,state)))
 		
 	def nextAction(self,state):
 		if self.goRandom(): 
@@ -34,6 +33,7 @@ class Agent:
 		
 	def setQValue(self,action,state,value):
  		self.qTable[(action,int(state))] = value
+
 
 	def inspect(self):
 		return Print.prnDict(self.qTable)

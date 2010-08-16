@@ -19,22 +19,42 @@
 
 \newpage
 
-\materia{Aprendizaje por Refuerzos: Teoría y Aplicaciones en Robótica, Psicología y Neurociencias}
+\materia{Aprendizaje por Refuerzos: Teor√≠a y Aplicaciones en Rob√≥tica, Psicolog√≠a y Neurociencias}
 \submateria{Tp Final}
-\titulo{Desarrollo de algoritmos de aprendizaje y análisis de resultados en una adaptación del problema Bomberman}
+\titulo{Desarrollo de algoritmos de aprendizaje y an√°lisis de resultados en una adaptaci√≥n del problema Bomberman}
 
-
+\integrante{Pablo Brusco}{333}{@gmail.com}
 \integrante{Carolina Hadad}{367/08}{carolinahadad@gmail.com}
+\integrante{Sergio Medina}{333}{@gmail.com}
+\integrante{Santiago Palladino}{333}{@gmail.com}
+\integrante{Andres Taraciuk}{333}{@gmail.com}
+
 
 \maketitle
 
-\section{Introducción}
-	En  este Trabajo Practico nos interesa analizar el desempeño de los algoritmos de aprendizaje aprendidos durante el curso,  aplicándolos  en un problema distinto distinto de los vistos; en nuestro caso, elegimos adaptar el juego del Bomberman. 
-		\subsection{Adaptación del juego del Bomberman}
-		Para probar los algoritmos implementados, buscamos un problema distinto a los vistos en el curso pero con características similares, para poder comparar nuestros resultados con los conocidos?.
-				
-		El juego que vamos usar es una versión simplificada del juego del Bomberman. El objetivo del agente es llegar a la salida. El agente tiene 4 acciones de movimiento: arriba, abajo, hacia la izquierda y hacia la derecha. El tablero tiene paredes que obstaculizan su camino, algunas de ellas son rompibles y otras irrompibles. El agente tiene acciones para poner una bomba y para explotarla. Solo puede haber una bomba en el tablero, si el agente realiza una acción de tirar bomba habiendo una bomba en el juego, la acción no tendrá efecto. Al explotar la bomba se destruirán las paredes que estén arriba, abajo a la izquierda y a la derecha de ella. Si el agente estuviera en alguno de estos lugares o sobre la bomba, el agente muere, teniendo que empezar el juego nuevamente desde la posición inicial. Nos interesa que el agente aprenda una política óptima para llegar a la salida realizando la menor cantidad de acciones posibles.
+\section{Objetivo}
+	En  este Trabajo Practico nos interesa analizar el desempe√±o de los algoritmos de aprendizaje aprendidos durante el curso,  aplic√°ndolos  en un problema distinto de los vistos. En nuestro caso, elegimos adaptar el juego del Bomberman. 
+	
+	Compararemos los resultados del aprendizaje en agentes model-free y model-based, con los algoritmos de QLearning, RMax, RMax Factorizado, Sarsa y Sarsa Lambda, mostrando cu√°les de ellos funcionan mejor en nuestro caso y a qu√© se debe esto. Adem√°s analizaremos el efecto de aplicar rewards intermedios en el tiempo de aprendizaje del agente.
+
+\section{Introducci√≥n}
+	\subsection{Adaptaci√≥n del juego del Bomberman}
+	El juego que vamos usar es una versi√≥n simplificada del juego del Bomberman. El objetivo del agente es llegar a la salida. El agente tiene 4 acciones de movimiento: arriba, abajo, hacia la izquierda y hacia la derecha. El tablero tiene paredes que obstaculizan su camino, algunas de ellas son rompibles y otras irrompibles. El agente tiene acciones para poner una bomba y para explotarla. Solo puede haber una bomba en el tablero, si el agente realiza una acci√≥n de tirar bomba habiendo una bomba en el juego, la acci√≥n no tendr√° efecto. Al explotar la bomba se destruir√°n las paredes que est√©n arriba, abajo a la izquierda y a la derecha de ella. Si el agente estuviera en alguno de estos lugares o sobre la bomba, el agente muere, teniendo que empezar el juego nuevamente desde la posici√≥n inicial. Nos interesa que el agente aprenda una pol√≠tica √≥ptima para llegar a la salida realizando la menor cantidad de acciones posibles.
+
+\section{Algoritmos de Aprendizaje}
+	\subsection{Agentes Model-Free}
+		\subsubsection{QLearning}
+		\subsubsection{Sarsa}
+		\subsubsection{Sarsa ($\lambda$)}	
+	\subsection{Agentes Model-Based}	
+		\subsubsection{R-max}
+		\subsubsection{R-max factorizado}
+
+
+
 		
+
+
 		
 		
 
