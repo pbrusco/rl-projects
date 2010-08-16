@@ -19,10 +19,12 @@ def createAgent():
 		return SarsaAgent()
 	elif AGENT == SARSALAMBDA:
 		return SarsaLambdaAgent()
-def createTask():
+
+def createTask(env=None):
+	env = env or Environment()
 	if TASK == DETERMINISTIC:
-		return Task()
+		return Task(env)
 	elif TASK == STOCHASTIC_NAVIGATION:
-		return StochasticNavigationTask()
+		return StochasticNavigationTask(env)
 	elif TASK == STOCHASTIC_EXPLOSION:
-		return StochasticExplosionTask()
+		return StochasticExplosionTask(env)

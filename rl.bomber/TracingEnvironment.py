@@ -58,7 +58,7 @@ class TracingEnvironment(Environment):
 	
 	def trace(self,num):
 		self.tracelog.append(num)
-		
+				
 	def dump(self,out=OUTPUT):
 		output = "Output/" + CONFIGURATION_NAME + "-" + out
 		with open(output,'a') as f:
