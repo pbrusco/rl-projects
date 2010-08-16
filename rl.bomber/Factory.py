@@ -10,10 +10,14 @@ def createAgent():
 		return Agent()
 	elif AGENT == RMAX:
 		return RmaxAgent()
+	elif AGENT == FACTOREDRMAX:
+		return FactoredRmaxAgent()
 
 def createTask():
+	# TODO: Return flat state stochastic tasks
 	if TASK == DETERMINISTIC:
-		return Task()
+		if AGENT in FACTOREDAGENTS: return Task()
+		else: return FlatStateTask()
 	elif TASK == STOCHASTIC_NAVIGATION:
 		return StochasticNavigationTask()
 	elif TASK == STOCHASTIC_EXPLOSION:
