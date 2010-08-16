@@ -1,0 +1,8 @@
+class Factor:
+
+	POSITION = 0,
+	BOMB = 1,
+	STONES = 2,
+	DEAD = 3
+
+	FACTORS = [POSITION,BOMB,STONES,DEAD]
