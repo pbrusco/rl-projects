@@ -39,5 +39,6 @@ class State:
 
 		return bomb + (2**hashingExponent)*pos + (2**(hashingExponent*hashingExponent))*stones
 
-		
+	def getFactorIntValue(self, factor):
+		return 0
 		
