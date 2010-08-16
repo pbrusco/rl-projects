@@ -1,5 +1,8 @@
 from Factor import Factor
 from Action import Action
+from Reward import Reward
+
+from Settings import USE_DELTABOMB_FACTOR
 
 class DBN(object):
 	
@@ -18,6 +21,12 @@ class BombermanDBN(DBN):
 			Factor.BOMB:		(Factor.BOMB),
 			Factor.STONES: 		(Factor.STONES),
 			Factor.DEAD: 		(Factor.DEAD),
+		} if not USE_DELTABOMB_FACTOR else {
+			Factor.POSITION:	(Factor.POSITION, Factor.STONES),
+			Factor.BOMB:		(Factor.BOMB),
+			Factor.STONES: 		(Factor.STONES),
+			Factor.DEAD: 		(Factor.DEAD),
+			Factor.DELTABOMB:	(Factor.POSITION, Factor.DELTABOMB)
 		}
 		
 		drop_dep = {
@@ -25,6 +34,12 @@ class BombermanDBN(DBN):
 			Factor.BOMB:		(Factor.BOMB),
 			Factor.STONES: 		(Factor.STONES),
 			Factor.DEAD: 		(Factor.DEAD),
+		} if not USE_DELTABOMB_FACTOR else {
+			Factor.POSITION:	(Factor.POSITION),
+			Factor.BOMB:		(Factor.BOMB),
+			Factor.STONES: 		(Factor.STONES),
+			Factor.DEAD: 		(Factor.DEAD),
+			Factor.DELTABOMB: 	(Factor.DELTABOMB),
 		}
 		
 		explode_dep = {
@@ -32,6 +47,12 @@ class BombermanDBN(DBN):
 			Factor.BOMB:		(Factor.BOMB),
 			Factor.STONES: 		(Factor.STONES,Factor.BOMB),
 			Factor.DEAD: 		(Factor.POSITION,Factor.BOMB,Factor.DEAD),
+		} if not USE_DELTABOMB_FACTOR else {
+			Factor.POSITION:	(Factor.POSITION),
+			Factor.BOMB:		(Factor.BOMB),
+			Factor.STONES: 		(Factor.STONES,Factor.BOMB),
+			Factor.DEAD: 		(Factor.DELTABOMB,Factor.DEAD),
+			Factor.DELTABOMB:	(Factor.DELTABOMB)
 		}
 		
 		DBN.__init__(self, {
@@ -43,3 +64,17 @@ class BombermanDBN(DBN):
 			Action.EXPLODE: explode_dep
 		})
 		
+class RewardsDBN(object):
+	
+	def __init__(self):
+		pass
+	
+	def getParents(self, rewardfactor):
+		if rewardfactor == Reward.DEAD:
+			return (Factor.DELTABOMB, Factor.DEAD) if USE_DELTABOMB_FACTOR else (Factor.BOMB, Factor.POSITION, Factor.DEAD)
+		elif rewardfactor == Reward.POSITION:
+			return (Factor.POSITION)
+		elif rewardfactor == Reward.STONE:
+			return (Factor.BOMB, Factor.STONES)
+		else:
+			raise Exception("Unknown reward factor: " + str(rewardfactor))

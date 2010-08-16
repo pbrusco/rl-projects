@@ -33,6 +33,13 @@ MAP_SIZE = 5
 # bomb exploding probability for StochasticExplosionTask
 BOMB_EXPLODING_PROBABILITY = 0.9
 
+# ------------------
+# Factoring Settings
+# ------------------
+
+# whether to use delta bomb as a redundant factor 
+USE_DELTABOMB_FACTOR = True
+
 # -----------
 # RL Settings
 # -----------

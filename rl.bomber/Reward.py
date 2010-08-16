@@ -1,6 +1,6 @@
 from Constants import *
 from Settings import *
-from Task import *
+from Maps import *
 
 class Reward:
 
