@@ -1,0 +1,14 @@
+syntax: glob
+
+.hgignore
+.hgrc
+*.out
+*.pyc
+.DS_Store
+*.aux
+informe.log
+informe.pdf
+*.synctex.gz
+*.toc
+*.pkl
+.metadata
