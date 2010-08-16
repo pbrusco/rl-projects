@@ -9,8 +9,8 @@ import Factory
 import time
 import pickle
 
-AGENT_FILE_NAME = 'qagent.pkl'
-SAVE_EVERY = 0
+AGENT_FILE_NAME = 'agent.pkl'
+SAVE_EVERY = 100
 
 class Manager:
 
@@ -69,10 +69,12 @@ class Manager:
 		except Exception as e: print "Error dumping: ", e
 
 	def saveAgent(self, agentName=AGENT_FILE_NAME):
+		agentName = "Output/" + CONFIGURATION_NAME + "-" + agentName
 		with open(agentName, 'wb') as output:
 			pickle.dump(self.agent, output, -1)
 			
 	def loadAgent(self, agentName=AGENT_FILE_NAME):
+		agentName = "Output/" + CONFIGURATION_NAME + "-" + agentName
 		with open(agentName, 'rb') as input:
 			self.agent = pickle.load(input)
 
