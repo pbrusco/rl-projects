@@ -15,24 +15,16 @@ class SarsaLambdaAgent:
 		self.qTable = {}
 		self.sarsaTable = {}
 	
-	#TODO: no se donde meterlo porque mezcla cosas de mananger y de agent...
-	def sarsaLambda(self):
-		action = self.agent.nextAction(state) #obtengo la proxima accion con e-greedy
-			
-		for turn in range(MAXTURN):
-				nextstate,reward,status = self.task.perform(action) #Ejecuto la accion
-				nextaction = self.agent.nextAction(nextstate) #Calculo cual es la proxima accion a ejecutar
-				delta = reward + GAMMA*(self.getQValue(nextaction,nextstate))- self.getQValue(a,state) 
-				self.setSarsaValue(action,state,self.getSarsaValue(action,state)+1)
-				for a,s in self.sarsaTable.keys(): #Actualizo los diccionarios Q y Sarsa.
-					self.setQValue(a,s,self.getQValue(a,s) + ALPHA*getSarsaValue(a,s)*delta)   
-					self.setSarsaValue(a,s,LAMBDA * GAMMA)
-				action = nextaction					
-				state = nextstate
-				
-				if status != Status.CONTINUE: break
-	
-	
+	def learn(self, state, nextState, action, reward, nextChosenAction):
+		delta = reward + GAMMA*(self.getQValue(nextChosenAction,nextState))- self.getQValue(action,state) 
+		self.setSarsaValue(action,state,self.getSarsaValue(action,state)+1)
+		for a,s in self.sarsaTable.keys(): #Actualizo los diccionarios Q y Sarsa.
+			self.setQValue(a,s,self.getQValue(a,s) + ALPHA*self.getSarsaValue(a,s)*delta)   
+			self.setSarsaValue(a,s,LAMBDA * GAMMA)
+		
+		
+		
+		
 	def nextAction(self,state):
 		if self.goRandom(): 
 			return random.choice(ACTIONS)
