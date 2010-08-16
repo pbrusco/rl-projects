@@ -31,6 +31,18 @@ class State:
 		hashingExponent = self.getHashingExponent()
 		return bomb + (2**hashingExponent)*pos + (2**(hashingExponent*2))*stones
 
+	def __eq__(self, nextstate)	:
+		if nextstate == None: return False
+		bombermanPosEq = (nextstate.bombermanPos == self.bombermanPos)
+		bombEq = (nextstate.bomb == self.bomb)
+		isBombDroppedEq = (nextstate.isBombDropped == self.isBombDropped)
+		stonesEq = (nextstate.stones == self.stones)
+		dieEq = (nextstate.die == self.die)
+		return (bombermanPosEq and bombEq and isBombDroppedEq and stonesEq and dieEq)
+		
+	def __str__(self):
+		return "(Bomberman %s | Bomb %s | Stones %s)" % (self.bombermanPos, self.bomb, self.stones) if not self.die else "(Dead)"
+	
 	def getHashingExponent(self,extrapos=0):
 		# exponente dado por la cant de posiciones del tablero
 		# agregado +1 por bomb fuera de tablero
@@ -65,11 +77,4 @@ class State:
 		x,y = cords
 		return x*BOARD_WIDTH + y
 		
-	def __eq__(self, nextstate)	:
-		bombermanPosEq = (nextstate.bombermanPos == self.bombermanPos)
-		bombEq = (nextstate.bomb == self.bomb)
-		isBombDroppedEq = (nextstate.isBombDropped == self.isBombDropped)
-		stonesEq = (nextstate.stones == self.stones)
-		dieEq = (nextstate.die == self.die)
-		return (bombermanPosEq and bombEq and isBombDroppedEq and stonesEq and dieEq)
-		
+	

@@ -14,7 +14,7 @@ class TestRewards(unittest.TestCase):
 	
 	def setUp(self):
 		self.env = Environment()
-		self.task = FlatStateTask(self.env)
+		self.task = Task(self.env)
 	
 	def test_settings(self):
 		self.assertEquals(MAP_SIZE, 8)
@@ -54,7 +54,7 @@ class TestRewards(unittest.TestCase):
 			self.perform(Action.DROP_BOMB, 0)
 			self.perform(Action.EXPLODE, LOSE_REWARD) #agent die whitout reward for exploding bomb
 			
-	def test_bombs_reward(self):
+	def test_bombs_reward_2(self):
 		if (NAVIGATION_REWARD == NAVIGATION_NO_REWARD and BOMB_REWARD_POLICY == BOMB_REWARD_PER_STONE_DESTROYED_PROPORTIONAL_TO_EXIT):	
 			self.perform(Action.RIGHT, 0)
 			self.perform(Action.RIGHT, 0)
@@ -90,16 +90,12 @@ class TestRewards(unittest.TestCase):
 			self.perform(Action.RIGHT, 0)
 			self.perform(Action.RIGHT, 0)
 			self.perform(Action.RIGHT, WIN_REWARD)
+		
 		if (NAVIGATION_REWARD == NAVIGATION_NO_REWARD and BOMB_REWARD_POLICY == BOMB_NO_REWARD):
 			statePrev, rewardPrev, statusPrev = self.task.perform(Action.RIGHT)
 			state, reward, status = self.task.perform(Action.EXPLODE)
 			self.assertEquals(state, statePrev)
-			print hola
 			
-			
-			
-				
-		
 		
 	def perform(self, action, expectedReward):
 		state, reward, status = self.task.perform(action)
