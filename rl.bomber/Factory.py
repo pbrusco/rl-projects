@@ -15,7 +15,6 @@ def createAgent():
 		return FactoredRmaxAgent()
 
 def createTask():
-	# TODO: Return flat state stochastic tasks
 	if TASK == DETERMINISTIC:
 		return Task()
 	elif TASK == STOCHASTIC_NAVIGATION:
