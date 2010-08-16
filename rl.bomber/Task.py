@@ -1,6 +1,7 @@
 from Status import *
 from Settings import *
 from Maps import *
+from Reward import Reward
 from Environment import Environment
 from copy import copy, deepcopy
 
@@ -15,30 +16,36 @@ class Task(object):
 	def perform(self,action):
 		bombsExploded = self.env.performAction(action)
 		
-		reward = 0.0 #float
+		reward = Reward()
 		status = Status.CONTINUE
 		state = self.env.state
 		
 		# Intermediate
 		if (BOMB_REWARD_POLICY != BOMB_NO_REWARD):
 			for i in range(len(bombsExploded)):
-				reward += self.getRewardForBombPosition(bombsExploded[i])
+				reward.addRewardForFactor(Reward.STONE, self.getRewardForBombPosition(bombsExploded[i]))
 				
 		if (NAVIGATION_REWARD != NAVIGATION_NO_REWARD):
 			if (self.env.positionChangedInLastAction == True):
-				reward += self.getRewardForAgentPosition(state.bombermanPos)
+				reward.addRewardForFactor(Reward.POSITION, self.getRewardForAgentPosition(state.bombermanPos))
 			
 		if (state.bombermanPos == EXIT):
-			reward = WIN_REWARD
+			reward.addRewardForFactor(Reward.POSITION, WIN_REWARD)
 			status = Status.WIN
 		if (state.die):
-			reward = LOSE_REWARD
+			reward.addRewardForFactor(Reward.DEAD, LOSE_REWARD)
 			status = Status.DIE
 
-		return (self.getState(), reward, status)
+		return (self.processState(state), self.processReward(reward), status)
 		
 	def getState(self):
-		return deepcopy(self.env.state)
+		return self.processState(self.env.state)
+		
+	def processState(self,state):
+		return deepcopy(state)
+		
+	def processReward(self,reward):
+		return reward
 		
 	def getRewardForBombPosition(self, bombPosition):
 		if (BOMB_REWARD_POLICY == BOMB_REWARD_PER_STONE_DESTROYED_PROPORTIONAL_TO_EXIT):
@@ -57,5 +64,9 @@ class Task(object):
 		return closeness
 		
 class FlatStateTask(Task):
-	def getState(self):
-		return int(self.env.state)
+	
+	def processState(self,state):
+		return int(state)
+	
+	def processReward(self,reward):
+		return float(reward)
