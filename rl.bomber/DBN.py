@@ -26,17 +26,17 @@ class BombermanDBN(DBN):
 			Factor.BOMB:		(Factor.BOMB),
 			Factor.STONES: 		(Factor.STONES),
 			Factor.DEAD: 		(Factor.DEAD),
-			Factor.DELTABOMB:	(Factor.POSITION, Factor.DELTABOMB)
+			Factor.DELTABOMB:	(Factor.POSITION, Factor.DELTABOMB, Factor.STONES)
 		}
 		
 		drop_dep = {
 			Factor.POSITION:	(Factor.POSITION),
-			Factor.BOMB:		(Factor.BOMB),
+			Factor.BOMB:		(Factor.POSITION,Factor.BOMB),
 			Factor.STONES: 		(Factor.STONES),
 			Factor.DEAD: 		(Factor.DEAD),
 		} if not USE_DELTABOMB_FACTOR else {
 			Factor.POSITION:	(Factor.POSITION),
-			Factor.BOMB:		(Factor.BOMB),
+			Factor.BOMB:		(Factor.POSITION,Factor.BOMB),
 			Factor.STONES: 		(Factor.STONES),
 			Factor.DEAD: 		(Factor.DEAD),
 			Factor.DELTABOMB: 	(Factor.DELTABOMB),
