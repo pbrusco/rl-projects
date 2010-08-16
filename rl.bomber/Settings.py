@@ -5,7 +5,7 @@ from Constants import *
 # ---------------------------------------
 
 # amount of games the agent will play
-ITERATIONS = 100
+ITERATIONS = 1000
 # if more than MAX_TURNS are used the bomberman dies
 MAX_TURNS = 1000
 

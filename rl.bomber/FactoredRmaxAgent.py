@@ -5,7 +5,7 @@ import Print
 RMAX_GAMMA_VALUE_ITER = 0.85
 RMAX_EPSILON_VALUE_ITER = 1
 
-class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
+class FactoredRmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 	
 	def __init__(self):
 		self.learnedRewards = {} #el acumulado, no el valor real
