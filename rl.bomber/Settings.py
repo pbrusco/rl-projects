@@ -4,6 +4,9 @@ from Constants import *
 # Manager Settings and Run Configurations
 # ---------------------------------------
 
+# prefix for output files
+CONFIGURATION_NAME = "default"
+
 # amount of games the agent will play
 ITERATIONS = 1000
 # if more than MAX_TURNS are used the bomberman dies
