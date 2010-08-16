@@ -1,27 +1,20 @@
-# do set MAP_SIZE constant in Settings file
+MAP_SIZE = 5
 
-try:
-  map_size = MAP_SIZE
-except NameError:
-  map_size = 5
-else:
-  pass
-
-if map_size == 3:
+if MAP_SIZE == 3:
 	BOARD_HEIGHT = 3
 	BOARD_WIDTH = 3
 	EXIT = (2,2)
 	STONES = [(1,2),(2,1)]
 	WALLS = [(1,1)]
 
-elif map_size == 5:
+elif MAP_SIZE == 5:
 	BOARD_HEIGHT = 5
 	BOARD_WIDTH = 5
 	EXIT = (4,4)
 	STONES = [(2,0),(2,2),(2,4),(4,0),(4,2)]
 	WALLS = [(1,1),(1,3),(3,1),(3,3)]
 	
-elif map_size == 8:
+elif MAP_SIZE == 8:
 	BOARD_HEIGHT = 8
 	BOARD_WIDTH = 8
 	EXIT = (7,7)
