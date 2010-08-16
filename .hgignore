@@ -2,7 +2,7 @@ syntax: glob
 
 .hgignore
 .hgrc
-trace.out
+*.out
 *.pyc
 .DS_Store
 *.aux
