@@ -7,8 +7,8 @@ from copy import copy, deepcopy
 
 class Task(object):
 	
-	def __init__(self,env=Environment()):
-		self.env = env
+	def __init__(self,env=None):
+		self.env = env or Environment()
 		
 	def start(self):
 		self.env.start()
@@ -23,19 +23,24 @@ class Task(object):
 		# Intermediate
 		if (BOMB_REWARD_POLICY != BOMB_NO_REWARD):
 			for i in range(len(bombsExploded)):
+				#print "Adding reward for bomb"
 				reward.addRewardForFactor(Reward.STONE, self.getRewardForBombPosition(bombsExploded[i]))
 				
 		if (NAVIGATION_REWARD != NAVIGATION_NO_REWARD):
 			if (self.env.positionChangedInLastAction == True):
+				#print "Adding reward for pos"
 				reward.addRewardForFactor(Reward.POSITION, self.getRewardForAgentPosition(state.bombermanPos))
 			
 		if (state.bombermanPos == EXIT):
+			#print "Adding reward for exit"
 			reward.addRewardForFactor(Reward.POSITION, WIN_REWARD)
 			status = Status.WIN
 		if (state.die):
+			#print "Adding reward for dead"
 			reward.addRewardForFactor(Reward.DEAD, LOSE_REWARD)
 			status = Status.DIE
 
+		#print str(reward)
 		return (self.processState(state), self.processReward(reward), status)
 		
 	def getState(self):
@@ -45,7 +50,7 @@ class Task(object):
 		return deepcopy(state)
 		
 	def processReward(self,reward):
-		return reward
+		return deepcopy(reward)
 		
 	def getRewardForBombPosition(self, bombPosition):
 		if (BOMB_REWARD_POLICY == BOMB_REWARD_PER_STONE_DESTROYED_PROPORTIONAL_TO_EXIT):

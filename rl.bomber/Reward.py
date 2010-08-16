@@ -6,12 +6,15 @@ class Reward:
 	
 	REWARDS = [DEAD, POSITION, STONE]
 	
-	def __init__(self, kinds={}):
-		self.kinds = kinds
+	def __init__(self, kinds=None):
+		self.kinds = kinds or {}
 		
 	def __float__(self):
-		return sum(self.kinds.values)
-		
+		return float(sum(self.kinds.values()))
+	
+	def __str__(self):
+		return "Reward: " + str(self.kinds)
+	
 	def getRewardForFactor(self, factor):
 		return self.kinds.get(factor) or 0.0
 		
