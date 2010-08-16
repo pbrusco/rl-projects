@@ -1,6 +1,6 @@
+from Status import *
 from Settings import *
 from Maps import *
-from Status import *
 from Environment import Environment
 from copy import copy, deepcopy
 

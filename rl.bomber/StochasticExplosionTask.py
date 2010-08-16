@@ -1,6 +1,5 @@
 from Task import *
 from Action import *
-from Settings import *
 import random
 
 class StochasticExplosionTask(Task):

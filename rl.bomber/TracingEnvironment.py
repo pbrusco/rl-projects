@@ -2,9 +2,6 @@ OUTPUT = 'trace.out'
 
 from Environment import Environment
 from Movements import *
-from Settings import *
-from Maps import *
-
 
 class TracingEnvironment(Environment):
 
