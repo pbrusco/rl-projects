@@ -12,9 +12,9 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		self.learnedRewards = {} #el acumulado, no el valor real
 		self.learnedTransitions = {} #la cantidad de veces que nos movimos
 		self.learnedCount = {} #dado un par (accion, estado), la cantidad de veces que hicimos la accion partiendo del estado
-		self.visitedStates = []
+		self.visitedStates = set([])
 		self.vmax = WIN_REWARD / (1 - RMAX_GAMMA_VALUE_ITER)
-		self.reachableStates = []
+		self.reachableStates = set([])
 		self.values = {}
 	
 	def getRValue(self, action, intState): #dado un estado y una accion, su reward empirico, o rmax si alguno no conocido
@@ -28,8 +28,6 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 	def updateRValue(self, action, intState, reward): #se updatea el reward dado un estado y la accion
 		prevReward = self.learnedRewards.get((action,intState)) or 0.0
 		self.learnedRewards[(action,intState)] = reward + prevReward
-		
-			
 	
 	def getTValue(self, action, intState, intNextState): #dado un estado, la accion y el siguiente estado, devuelve la probabilidad de moverse
 		movements = self.learnedTransitions.get((action,intState,intNextState))
@@ -53,12 +51,13 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		self.increaseCount(action, intState) #actualizo cantidad de veces que hicimos de estado a accion
 		self.updateRValue(action, intState, reward) #actualizo reward
 		self.increaseTValue(action, intState, intNextState) #actualizo chance de nuevo estado dado accion estado
-		if intState not in self.visitedStates: #actualizo visitados (blancos)
-			self.visitedStates.append(intState)
-		if intState not in self.reachableStates: #actualizo alcanzables (blancos o grises)
-			self.reachableStates.append(intState)
-		if intNextState not in self.reachableStates and intNextState != -1: #actualizo alcanzables (blancos o grises)
-			self.reachableStates.append(intNextState)
+		#actualizo visitados (blancos)
+		self.visitedStates.add(intState)
+		#actualizo alcanzables (blancos o grises)
+		self.reachableStates.add(intState)
+		#actualizo alcanzables (blancos o grises)
+		if intNextState != -1: 
+			self.reachableStates.add(intNextState)
 		
 	def nextAction(self, state):
 		intState = int(state)
