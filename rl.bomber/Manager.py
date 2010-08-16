@@ -28,26 +28,41 @@ class Manager:
 			status = Status.CONTINUE
 			state = self.task.getState()
 			turn = 0
+			totalMovementActionsCount = 0
+			totalDropActionCount = 0
+			totalExplodeActionCount = 0
+			
+			noResultActionsCount = 0
+			
 					
 			# Run game for up to max turns 
 			for turn in range(self.maxturns):
 				action = self.agent.nextAction(state)
+				if (action < 4):
+					totalMovementActionsCount +=1
+				elif (action == 4):
+					totalDropActionCount +=1
+				else:
+					totalExplodeActionCount +=1
+					
 				nextstate,reward,status = self.task.perform(action)
 				self.agent.learn(state,nextstate,action,reward)
+				if (state == nextstate):
+					noResultActionsCount +=1
 				state = nextstate
 				if status != Status.CONTINUE: break
 			
 			elapsed = time.time() - start
 			if status == Status.CONTINUE and turn == self.maxturns-1: status = Status.TURNSUP
-			self.reportgame(elapsed,turn,status)
+			self.reportgame(elapsed,turn,status,totalMovementActionsCount,totalDropActionCount,totalExplodeActionCount,noResultActionsCount)
 			self.tryDumpGameTrace()
 			
 			# Dump the agent state every X iters
 			if SAVE_EVERY > 0 and r > 0 and r % SAVE_EVERY == 0: self.saveAgent()
 			
 			
-	def reportgame(self, elapsed, turns, status, ):
-		print ' '.join([str(elapsed), str(turns), str(status)])
+	def reportgame(self, elapsed, turns, status,totalMovementActionsCount, totalDropActionCount, totalExplodeActionCount, noResultActionsCount, ):
+		print ' '.join([str(elapsed), str(turns), str(status), str(totalMovementActionsCount), str(totalDropActionCount), str(totalExplodeActionCount), str(noResultActionsCount) ])
 		
 	def tryDumpGameTrace(self):
 		try: self.env.dump()
