@@ -45,6 +45,13 @@ class State:
 			return stones
 		elif factor == Factor.DEAD:
 			return -1 if self.die else 1
+		elif factor == Factor.DELTABOMB:
+			if self.isBombDropped:
+				mi,mj = self.bombermanPos
+				bi,bj = self.bomb
+				return self.posUniqueId((mi-bi,mj-bj))
+			else:
+				return BOARD_WIDTH * BOARD_HEIGHT
 		else:
 			raise Exception("Unknown factor")
 		
