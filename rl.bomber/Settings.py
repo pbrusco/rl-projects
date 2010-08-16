@@ -24,7 +24,7 @@ TASK = DETERMINISTIC
 IS_IMMORTAL = False
 
 # size of the map, look in Maps.py file for details
-MAP_SIZE = 5
+MAP_SIZE = 8
 
 # -------------------
 # Stochastic Settings
