@@ -1,7 +1,7 @@
 import random
-from Action import *
 import Print
 
+from Action import *
 
 ALPHA = 0.8
 GAMMA = 0.95

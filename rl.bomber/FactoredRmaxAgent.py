@@ -86,11 +86,11 @@ class FactoredRmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		# self.increaseCount(action, intState) #actualizo cantidad de veces que hicimos de estado a accion
 		# self.updateRValue(action, intState, reward) #actualizo reward
 		# self.increaseTValue(action, intState, intNextState) #actualizo chance de nuevo estado dado accion estado
-		actualizo visitados (blancos)
+		#actualizo visitados (blancos)
 		# self.visitedStates.add(intState)
-		actualizo alcanzables (blancos o grises)
+		#actualizo alcanzables (blancos o grises)
 		# self.reachableStates.add(intState)
-		actualizo alcanzables (blancos o grises)
+		#actualizo alcanzables (blancos o grises)
 		# if intNextState != -1: 
 			# self.reachableStates.add(intNextState)
 		
