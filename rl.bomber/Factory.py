@@ -5,6 +5,8 @@ from StochasticExplosionTask import *
 from Agent import *
 from RmaxAgent import *
 from FactoredRmaxAgent import *
+from SarsaLambdaAgent import *
+from SarsaAgent import *
 
 def createAgent():
 	if AGENT == QLEARNING:
@@ -13,7 +15,10 @@ def createAgent():
 		return RmaxAgent()
 	elif AGENT == FACTOREDRMAX:
 		return FactoredRmaxAgent()
-
+	elif AGENT == SARSA:
+		return SarsaAgent()
+	elif AGENT == SARSALAMBDA:
+		return SarsaLambdaAgent()
 def createTask():
 	if TASK == DETERMINISTIC:
 		return Task()

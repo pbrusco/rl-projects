@@ -44,7 +44,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		prevCount = self.learnedCount.get((action,intState)) or 0
 		self.learnedCount[(action, intState)] = prevCount + 1
 		
-	def learn(self, state, nextState, action, reward):
+	def learn(self, state, nextState, action, reward, nextChosenAction):
 		intState = int(state)
 		intNextState = int(nextState)
 		self.increaseCount(action, intState) #actualizo cantidad de veces que hicimos de estado a accion
