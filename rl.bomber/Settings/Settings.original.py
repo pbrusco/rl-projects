@@ -8,11 +8,11 @@ from Constants import *
 CONFIGURATION_NAME = "default"
 
 # amount of games the agent will play
-ITERATIONS = 1000
+ITERATIONS = 100000
 # if more than MAX_TURNS are used the bomberman dies
 MAX_TURNS = 1000
 
-AGENT = QLEARNING
+AGENT = SARSA
 
 TASK = DETERMINISTIC
 
@@ -32,6 +32,13 @@ MAP_SIZE = 8
 
 # bomb exploding probability for StochasticExplosionTask
 BOMB_EXPLODING_PROBABILITY = 0.9
+
+# ------------------
+# Factoring Settings
+# ------------------
+
+# whether to use delta bomb as a redundant factor 
+USE_DELTABOMB_FACTOR = True
 
 # -----------
 # RL Settings
