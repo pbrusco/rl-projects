@@ -8,11 +8,11 @@ from Constants import *
 CONFIGURATION_NAME = "default"
 
 # amount of games the agent will play
-ITERATIONS = 1000
+ITERATIONS = 100000
 # if more than MAX_TURNS are used the bomberman dies
 MAX_TURNS = 1000
 
-AGENT = SARSALAMBDA
+AGENT = SARSA
 
 TASK = DETERMINISTIC
 
@@ -24,7 +24,7 @@ TASK = DETERMINISTIC
 IS_IMMORTAL = False
 
 # size of the map, look in Maps.py file for details
-MAP_SIZE = 5
+MAP_SIZE = 8
 
 # -------------------
 # Stochastic Settings
