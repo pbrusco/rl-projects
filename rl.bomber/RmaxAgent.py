@@ -1,6 +1,8 @@
 from Action import *
 import random
 import Print
+from Settings import *
+
 
 RMAX_GAMMA_VALUE_ITER = 0.85
 RMAX_EPSILON_VALUE_ITER = 1
