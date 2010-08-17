@@ -95,7 +95,6 @@ class TestRewards(unittest.TestCase):
 			statePrev, rewardPrev, statusPrev = self.task.perform(Action.RIGHT)
 			state, reward, status = self.task.perform(Action.EXPLODE)
 			self.assertEquals(state, statePrev)
-			
 		
 	def perform(self, action, expectedReward):
 		state, reward, status = self.task.perform(action)
