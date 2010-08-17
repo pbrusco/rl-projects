@@ -78,7 +78,7 @@ class Manager:
 			if SAVE_EVERY > 0 and r > 0 and r % SAVE_EVERY == 0: self.saveAgent()
 			
 	def reportgame(self, elapsed, turns, status,totalMovementActionsCount, totalDropActionCount, totalExplodeActionCount, noResultActionsCount, ):
-		print ' '.join([str(elapsed), str(turns), str(status), str(totalMovementActionsCount), str(totalDropActionCount), str(totalExplodeActionCount), str(noResultActionsCount) ])
+		print '	'.join([str(elapsed), str(turns), str(status), str(totalMovementActionsCount), str(totalDropActionCount), str(totalExplodeActionCount), str(noResultActionsCount) ])
 		
 	def tryDumpGameTrace(self):
 		try: self.task.env.dump()
