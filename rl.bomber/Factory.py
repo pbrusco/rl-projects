@@ -7,10 +7,11 @@ from RmaxAgent import *
 from FactoredRmaxAgent import *
 from SarsaLambdaAgent import *
 from SarsaAgent import *
+from DynaAgent import *
 
 def createAgent():
 	if AGENT == QLEARNING:
-		return Agent()
+		return QLearningAgent()
 	elif AGENT == RMAX:
 		return RmaxAgent()
 	elif AGENT == FACTOREDRMAX:
@@ -19,6 +20,8 @@ def createAgent():
 		return SarsaAgent()
 	elif AGENT == SARSALAMBDA:
 		return SarsaLambdaAgent()
+	elif AGENT == DYNA:
+		return DynaAgent()	
 
 def createTask(env=None):
 	env = env or Environment()
