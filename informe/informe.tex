@@ -23,10 +23,10 @@
 \submateria{Tp Final}
 \titulo{Desarrollo de algoritmos de aprendizaje y análisis de resultados en una adaptación del problema Bomberman}
 
-\integrante{Pablo Brusco}{333}{@gmail.com}
+\integrante{Pablo Brusco}{527/08}{pablo.brusco@gmail.com}
 \integrante{Carolina Hadad}{367/08}{carolinahadad@gmail.com}
 \integrante{Sergio Medina}{333}{@gmail.com}
-\integrante{Santiago Palladino}{333}{@gmail.com}
+\integrante{Santiago Palladino}{138/05}{spalladino@gmail.com}
 \integrante{Andres Taraciuk}{333}{@gmail.com}
 
 
@@ -71,6 +71,51 @@
 
 \section{Ambiente Estocastico}
 	\subsection{Resultados}
+	
+ \section{Políticas de Refuerzo}
+ 	Para evaluar el efecto de aplicar políticas de refuerzos intermedios en el tiempo de aprendizaje de los agentes, incluimos los siguientes campos en el archivo de settings, que se agregan al refuerzo por llegar a la salida y al refuerzo negativo en el caso de que el agente muera. En el caso de que el agente llegue a la salida o muera recibe el WIN_REWARD o el LOSE_REWARD respectivamente, pero no se agrega este refuerzo adicional.
+
+\begin{description}
+\item[NAVIGATION_REWARD] 
+	\begin{itemize}
+	\item NAVIGATION_NO_REWARD: No se agrega refuerzos intermedios adicionales.
+	\item NAVIGATION_REWARD_PROPORTIONAL_TO_EXIT : Siempre que el agente realice una acción que cambie su posición recibe un refuerzo adicional proporcional a su distancia a la salida. En el caso de las acciones de movimiento que no cambien el estado, como por ejemplo intentar moverse hacia una posición que tenga una pared, el agente no recibirá ningun refuerzo, de manera de desalentar este tipo de acciones. 
+	
+	Las formula para el cálculo de este refuerzo intermedio es la que sigue:
+	$$ refuerzo = cercania_en_x + cercania_en_y $$
+	donde
+	$$ cercania_en_x =\mid MAP_SIZE-1 -(EXIT_0 - agentPosition_0) \mid$$
+	$$ cercania_en_y =\mid MAP_SIZE-1 -(EXIT_1 - agentPosition_1) \mid$$
+	siendo $EXIT = (EXIT_0, EXIT_1)$ la posición de la salida en el tablero y $ agentPosition= (agentPosition_0, agentPosition_1)$ la posición del agente.
+	
+	Por ejemplo para un tablero de $8 \times 8$ con la salida en $(7,7)$ los refuerzos que recibiría el agente al llegar a cada posición serían estos:
+	\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.5\textwidth]{refuerzos.jpg}
+  \caption{Refuerzos para un tablero de 8 por 8 con salida en (7,7).}
+	\end{figure}	
+	La motivación de este refuerzo es que el agente trate de dirigirse hacia la salida.
+	\end{itemize}
+
+\item[BOMB_REWARD_POLICY] 
+	\begin{itemize}
+	\item BOMB_NO_REWARD: No se agrega refuerzos intermedios adicionales.
+	\item BOMB_REWARD_PER_STONE_DESTROYED: Cada vez que el agente destruye una pared, sin morir, recibe un refuerzo igual al BOMB_REWARD del archivo de settings. La idea de este refuerzo es que el agente aprenda que debe destruir paredes.
+	\item BOMB_REWARD_PER_STONE_DESTROYED_PROPORTIONAL_TO_EXIT: el refuerzo anterior, usado solo podría hacer que el agente, por lo menos en las primeras iteraciones, intente romper muchas paredes. Por eso agregamos esta opción, que le da mayor valor a romper paredes cercanas a la salida. La formula para este valor es $BOMB_REWARD \times cercania_a_la_salida$ calculando la cercanía de la misma forma que antes.
+	
+\item[NO_ACTION_NEGATIVE_REWARD] Para desalentar el que el agente realizara acciones que no modificaran el estado, agregamos este booleano. Si se activa, cada vez que el agente realiza una acción sin efecto, se le da un refuerzo negativo. 
+
+\item[INITIAL_REWARD] En la misma línea que el ítem anterior, también permitimos variar el refuerzo que se le da al agente al realizar cualquier acción. La idea es que si este valor fuera negativo, el agente intentará llegar lo mas rápido a la salida. Esta idea se integra al $\gamma$, pero permite explicitar el valor negativo de realizar acciones.
+
+	\end{itemize}
+
+	
+
+
+\end{description}
+
+	Las funciones para la aplicación de estos refuerzos se pueden encontrar en el archivo $Rewards.py$ y son llamadas desde Task de acuerdo a las políticas elegidas por el usuario en el archivo de Settings.
+ 
 	
 
 
