@@ -2,12 +2,12 @@ import random
 from Action import *
 import Print
 
-MAXTURN = 1000
+
 LAMBDA = 0.9
-ALPHA = 0.8
-GAMMA = 0.95
+LEARNING_RATE = 0.8
+DISCOUNT_FACTOR = 0.95
 EPSILON = 0.1
-ACTIONS = [0,1,2,3,4,5]
+
 
 class SarsaLambdaAgent:
 
@@ -16,11 +16,14 @@ class SarsaLambdaAgent:
 		self.sarsaTable = {}
 	
 	def learn(self, state, nextState, action, reward, nextChosenAction):
-		delta = reward + GAMMA*(self.getQValue(nextChosenAction,nextState))- self.getQValue(action,state) 
+		nextQValue = self.getQValue(nextChosenAction,nextState)
+		previousQValue = self.getQValue(action,state) 
+		
+		delta = reward + DISCOUNT_FACTOR*(nextQValue) - previousQValue
 		self.setSarsaValue(action,state,self.getSarsaValue(action,state)+1)
 		for a,s in self.sarsaTable.keys(): #Actualizo los diccionarios Q y Sarsa.
-			self.setQValue(a,s,self.getQValue(a,s) + ALPHA*self.getSarsaValue(a,s)*delta)   
-			self.setSarsaValue(a,s,LAMBDA * GAMMA)
+			self.setQValue(a,s,self.getQValue(a,s) + LEARNING_RATE*self.getSarsaValue(a,s)*delta)   
+			self.setSarsaValue(a,s,LAMBDA * DISCOUNT_FACTOR)
 		
 		
 		
@@ -49,4 +52,4 @@ class SarsaLambdaAgent:
 
 
 	def inspect(self):
-		return Print.prnDict(self.qTable)
+		return Print.prnDict(self.qTable) + Print.prnDict(self.sarsaTable)
