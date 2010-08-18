@@ -12,7 +12,7 @@ from Maps import *
 import pygame as pg
 import os
 
-GAMESPEED = 0.3
+GAMESPEED = 0.05
 TAMBLOQUE = 48
 COLUMNA = 48
 class Map:

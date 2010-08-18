@@ -46,16 +46,19 @@ while i < len(MOVEMENTS):
 		print "BOMBEXPLODE"	
 		print stonesBroken
 		if stonesBroken % 2 == 1: 
-			STONES.remove(m.coordSum(m.bombPos,(-1,0)))
-		stonesBroken = stonesBroken/2
-		if stonesBroken % 2 == 1: 
-			STONES.remove(m.coordSum(m.bombPos,(0,1)))
+			print STONES
+			print m.coordSum(m.bombPos,(-1,0))
+			print m.bombPos
+			STONES.remove(m.coordSum(m.bombPos,(0,+1)))
 		stonesBroken = stonesBroken/2
 		if stonesBroken % 2 == 1: 
 			STONES.remove(m.coordSum(m.bombPos,(0,-1)))
 		stonesBroken = stonesBroken/2
 		if stonesBroken % 2 == 1: 
-			STONES.remove(m.coordSum(m.bombPos,(1,0)))
+			STONES.remove(m.coordSum(m.bombPos,(-1,0)))
+		stonesBroken = stonesBroken/2
+		if stonesBroken % 2 == 1: 
+			STONES.remove(m.coordSum(m.bombPos,(+1,0)))
 
 		m.explodePos  = m.coordSum(m.bombPos,(-1,-1)) 
 		m.bombPos = None
@@ -76,6 +79,8 @@ while i < len(MOVEMENTS):
 	
 	elif nextMove == NOACTION:	
 		m.explodePos = None
+		m.drawScreen(screen)
+		pg.display.flip()
 		print "NOACTION"	
 
 	elif nextMove == DEAD:		
