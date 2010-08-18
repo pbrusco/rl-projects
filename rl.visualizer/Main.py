@@ -11,10 +11,9 @@ m = Map()
 
 m.drawScreen(screen)
 
-running = True
 i = 0
 while i < len(MOVEMENTS):
-
+	time.sleep(GAMESPEED)
 	nextMove = MOVEMENTS[i]
 	if nextMove == UP:
 		m.move((-1,0),m.bomberImg1,screen)
@@ -65,16 +64,6 @@ while i < len(MOVEMENTS):
 		m.drawScreen(screen)
 		pg.display.flip()
 
-
-		#0000 = 0 indica no se rompio ninguna
-		#0001 = 1 se rompio solo derecha
-		#0010 = 2 se rompio solo izq
-		#0100 = 3 se rompio solo arriba
-		#...
-		#1101 = 13 se rompio abajo, arriba y derecha
-
-		#entonces N va a estar entre 0 y 15
-
 		
 	
 	elif nextMove == NOACTION:	
@@ -87,6 +76,7 @@ while i < len(MOVEMENTS):
 		screen.fill((0,0,0))	
 		screen.blit(m.deadImg,(0,0))
 		pg.display.flip()
+		time.sleep(2)
 		print "DEAD"	
 
 
@@ -94,6 +84,12 @@ while i < len(MOVEMENTS):
 		print "ILEGAL ACTION"
 	
 	i = i + 1
-	time.sleep(GAMESPEED)
 
+
+if MOVEMENTS[-1] != DEAD:
+	screen.fill((0,0,0))	
+	screen.blit(m.winImg,(0,0))
+	pg.display.flip()
+	time.sleep(2)
+	print "YOU WIN.. FLAWLESS VICTORY"
 exit()

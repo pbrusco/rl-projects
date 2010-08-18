@@ -4,14 +4,11 @@ import sys
 sys.path.append('../rl.bomber')
 
 
-from Settings import *
 from Movements import *
 from Maps import *
 
-
 import pygame as pg
 import os
-
 GAMESPEED = 0.05
 TAMBLOQUE = 48
 COLUMNA = 48
@@ -24,12 +21,12 @@ class Map:
 		self.wallImg = pg.image.load(os.path.join("images","Fl-black.png"))
 		self.background  = pg.image.load(os.path.join("images","Fl_lawn.png"))
 		self.salidaImg  = pg.image.load(os.path.join("images","salida.png"))
-		self.bomberImg1 = pg.image.load(os.path.join("images","fuego.png"))
+		self.bomberImg1 = pg.image.load(os.path.join("images","thGoomba.gif"))
 		self.exitImg = pg.image.load(os.path.join("images","salida.png"))
 		self.bombImg1 = pg.image.load(os.path.join("images","bomb1.png"))
 		self.explodeImg = pg.image.load(os.path.join("images","explode2.png"))		
 		self.deadImg = pg.image.load(os.path.join("images","guason.jpg"))
-
+		self.winImg = pg.image.load(os.path.join("images","flawless.jpg"))
 
 		#starting positions:
 		self.pos = (0, 0)
