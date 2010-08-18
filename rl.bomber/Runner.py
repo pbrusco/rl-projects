@@ -1,7 +1,7 @@
 import shutil
 import os
 
-RUN_CONFIGURATIONS = ["conf1", "conf2"]
+RUN_CONFIGURATIONS = ["conf1"]
 
 def main():
 	

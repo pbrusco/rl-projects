@@ -41,7 +41,7 @@
 
 \section{Introducción}
 	\subsection{Adaptación del juego del Bomberman}
-	El juego que vamos usar es una versión simplificada del juego del Bomberman. El objetivo del agente es llegar a la salida. El agente tiene 4 acciones de movimiento: arriba, abajo, hacia la izquierda y hacia la derecha. El tablero tiene paredes que obstaculizan su camino, algunas de ellas son rompibles y otras irrompibles. El agente tiene acciones para poner una bomba y para explotarla. Solo puede haber una bomba en el tablero, si el agente realiza una acción de tirar bomba habiendo una bomba en el juego, la acción no tendrá efecto. Al explotar la bomba se destruirán las paredes que estén arriba, abajo a la izquierda y a la derecha de ella. Si el agente estuviera en alguno de estos lugares o sobre la bomba, el agente muere, teniendo que empezar el juego nuevamente desde la posición inicial. Nos interesa que el agente aprenda una política óptima para llegar a la salida realizando la menor cantidad de acciones posibles.
+	El juego que vamos usar es una versión simplificada del juego del Bomberman. El objetivo del agente es llegar a la salida. El agente tiene 4 acciones de movimiento: arriba, abajo, hacia la izquierda y hacia la derecha. El tablero tiene paredes que obstaculizan su camino, algunas de ellas son rompibles y otras irrompibles. El agente tiene acciones para poner una bomba y para explotarla. Solo puede haber una bomba en el tablero, si el agente realiza una acción de tirar bomba habiendo una bomba en el juego, la acción no tendrá efecto. Al explotar la bomba se destruirán las paredes que estén arriba, abajo a la izquierda y a la derecha de ella. Si el agente estuviera en alguno de estos lugares o sobre la bomba, el agente muere, teniendo que empezar el juego nuevamente desde la posición inicial. Nos interesa que el agente aprenda una política para llegar a la salida realizando la menor cantidad de acciones posibles.
 	\subsection{Modelo Conceptal de la arquitectura}
 	%pagina http://yuml.me/diagram/scruffy/class/draw
 	%codigo [Manager| run()]->1[Task|start(); perform(action)]
@@ -60,6 +60,7 @@
 	\subsection{Visualización}
 	
 \section{Algoritmos de Aprendizaje}
+	Programamos agentes con políticas de aprendizaje distintas 
 	\subsection{Agentes Model-Free}
 		\subsubsection{QLearning}
 		\subsubsection{Sarsa}
