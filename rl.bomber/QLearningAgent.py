@@ -3,25 +3,28 @@ import Print
 
 from Action import *
 
-ALPHA = 0.8
-GAMMA = 0.95
+LEARNING_RATE = 0.8
+DISCOUNT_FACTOR = 0.95
 EPSILON = 0.1
-ACTIONS = Action.ACTIONS
 
-class Agent:
+
+class QLearningAgent:
 
 	def __init__(self):
 		self.qTable = {}
 	
-	def learn(self, previous, state, action, reward, nextChosenAction):
-		previousValue = self.getQValue(action,previous)
-		value = previousValue + ALPHA*(reward + GAMMA*(max([self.getQValue(a,state) for a in ACTIONS])) - previousValue)
-		self.setQValue(action,previous,value)
-		#print self.qTable
+	def learn(self, state, nextState, action, reward, nextChosenAction):
+		
+		previousQValue = self.getQValue(action,state) #valor previo de Q(s,a)
+		maxFutureValue = max([self.getQValue(a,nextState) for a in Action.ACTIONS]) #valor futuro maximo desde el nuevo estado
+		expectedDiscountedReward = reward + DISCOUNT_FACTOR*(maxFutureValue) 
+		
+		self.setQValue(action,state, previousQValue + LEARNING_RATE*(expectedDiscountedReward - previousQValue))
+		
 		
 	def nextAction(self,state):
 		if self.goRandom(): 
-			return random.choice(ACTIONS)
+			return random.choice(Action.ACTIONS)
 		else: 
 			qMax = max([self.getQValue(a,state) for a in Action.ACTIONS])	
 			return random.choice([a for a in Action.ACTIONS if self.getQValue(a,state)==qMax])
