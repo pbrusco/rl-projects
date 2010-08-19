@@ -53,16 +53,22 @@
 
 \section{Visualizaci\'on}
 	
-\section{Modelo Conceptal de la arquitectura}
+\section{Arquitectura}
 	%pagina http://yuml.me/diagram/scruffy/class/draw
 	%codigo [Manager| run()]->1[Task|start(); perform(action)]
 	%		[Task] ->1[Environment|start(); performAction(action)]
 	%		[Manager]->1[Agent | learn(); nextAction()]
 	
+	Las clases mas importantes de la arquitectura son: Agent, Task, Environment y Manager.
+	
+	Como lo indica el modelo conceptual que se muestra debajo, el Manager es la clase que hacer interactuar a la Task (y por medio de esta, al Environment) con el Agent. La responsabilidad del Manager es bastante simple: corre un ciclo en el cual ejecuta acciones en la Task, le da la informaci\'on requerida al Agent para que aprenda y luego le indique la proxima acci\'on a tomar.
+	El Environment es el encargado de ejecutar acciones en el juego del Bomberman y de mantener su estado, el mismo es agnostico de refuerzos, de los cuales se encarga la Task (la cual es tambi\'en la encargada de implementar aleatoriedad, que se explicar\'a luego).
+	
+	
 	\begin{figure}[h!]
   \centering
     \includegraphics[width=0.5\textwidth]{MCarquitectra.png}
-  \caption{Modelo Conceptual Arquitectura.}
+  \caption{Modelo Conceptual de la Arquitectura.}
 
 	\end{figure}
 \section{Algoritmos de Aprendizaje}
@@ -76,6 +82,26 @@
 		\subsubsection{R-max factorizado}
 
 \section{Ambiente Estocastico}
+
+	Se implementaron dos versiones que agregan aleatoriedad al juego, en relaci\'on a la navegaci\'on y a la explosi\'on de las bombas.\\
+	
+	\textbf{Navegaci\'on}: Cuando el Bomberman intenta realizar una acci\'on de navegaci\'on, puede que la misma se ejecute (con una cierta probabilidad) o alguna de otras dos opciones. Estos par\'ametros son configurables pero la configuraci\'on por defecto es la siguiente:
+	
+\begin{center}
+\begin{tabular}{ l | c | r }
+  Acci\'on Ejecutada & Opci\'on 1 & Opci\'on 2 \\
+  \hline
+  Arriba (80\%) & Izquierda (10\%) & Derecha (10\%) \\
+  Abajo (80\%) & Izquierda (10\%) & Derecha (10\%) \\
+  Izquierda (80\%) & Arriba (10\%) & Abajo (10\%) \\
+  Derecha (80\%) & Arriba (10\%) & Abajo (10\%) \\  
+\end{tabular}
+\end{center}
+
+	La clase encargada de implementar esto es StochasticNavigationTask y se configura seteando $TASK = STOCHASTIC\_NAVIGATION$.\\
+	
+		\textbf{Explosi\'on}: Cuando el Bomberman intenta explotar una bomba, esta puede explotar o no con cierta probabilidad. Si bien los par\'ametros son configurables la probabilidad de explosi\'on por defecto es 80\%. Se configura seteando $TASK = STOCHASTIC\_EXPLOSION$.
+
 	\subsection{Resultados}
 	
  \section{Pol\'iticas de Refuerzo}
