@@ -16,7 +16,7 @@ class Task(object):
 	def perform(self,action):
 		bombsExploded = self.env.performAction(action)
 		
-		reward = INITIAL_REWARD
+		reward = Reward(Reward.NOACTION, INITIAL_REWARD)
 		status = Status.CONTINUE
 		state = self.env.state
 		
@@ -28,9 +28,8 @@ class Task(object):
 		if (NAVIGATION_REWARD != NAVIGATION_NO_REWARD):
 			if (self.env.positionChangedInLastAction == True):
 				reward = Reward(Reward.POSITION, Reward.getRewardForAgentPosition(state.bombermanPos))
-			else:
-				if (NO_ACTION_NEGATIVE_REWARD):
-					reward = -10  
+			elif (NO_ACTION_NEGATIVE_REWARD):
+				reward = Reward(Reward.NOACTION, -10)
 			
 		if (state.bombermanPos == EXIT):
 			reward = Reward(Reward.POSITION, WIN_REWARD)
@@ -39,7 +38,7 @@ class Task(object):
 			reward = Reward(Reward.DEAD, LOSE_REWARD)
 			status = Status.DIE
 
-		return (state, reward or Reward(), status)
+		return (state, reward, status)
 		
 	def getState(self):
 		return self.env.state

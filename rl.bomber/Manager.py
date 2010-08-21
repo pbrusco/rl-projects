@@ -50,7 +50,6 @@ class Manager:
 					
 				# Have the agent choose next action
 				nextstate,reward,status = self.task.perform(action)
-				#print reward
 				
 				# Convert state and reward to factored if necessary or encode otherwise
 				if AGENT in FACTOREDAGENTS: nextstate, reward = deepcopy(nextstate), deepcopy(reward)

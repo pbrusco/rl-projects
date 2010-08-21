@@ -6,8 +6,6 @@ import random
 
 RMAX_GAMMA_VALUE_ITER = 0.85
 RMAX_EPSILON_VALUE_ITER = 1
-KWIK_EPS = 0.1
-KWIK_GAMMA = 0.1
 
 class FactoredRmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 	
@@ -17,12 +15,11 @@ class FactoredRmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		self.learnedFTransitions = {} #la cantidad de veces que nos movimos, tripla: action, valor de factores parent, valor de factor destino
 		self.learnedFRewards = {} #acumulado, tripla: action, valor de factores estado parents, nombre factor reward.
 		self.learnedFTCount = {} #dado un par (accion, tupla(factor)). cuantas veces realizamos dicha accion con dicha tupla, para Trans
-		self.learnedFRCount = {} #dado un par (accion, tupla(factor), rfactor). cuantas veces realizamos dicha accion con dicha tupla, para Rewards
+		self.learnedFRCount = {} #dado un par (accion, tupla(factor)). cuantas veces realizamos dicha accion con dicha tupla, para Rewards
+		self.visitedStates = set([])
 		self.vmax = WIN_REWARD / (1 - RMAX_GAMMA_VALUE_ITER)
 		self.reachableStates = set([])
 		self.values = {}
-		self.newKnownState = True #si un estado paso a conocido. si es true, tengo que hacer value iteration
-		self.Q = {} #mi Q calculada con value iteration. si no se conoce estado nuevo, se usa el Q viejo.
 		
 	def increaseFTCount(self, action, factorsVal):
 		prevCount = self.learnedFTCount.get((action, factorsVal)) or 0
@@ -40,9 +37,8 @@ class FactoredRmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 			parentsValuesList = []
 			for parent in parents:
 				parentsValuesList.append(state.getFactorIntValue(parent)) #el valor de los factores parent
-			movements = self.learnedFTransitions.get((action, tuple(parentsValuesList), factorValue)) or (1 if int(state) == int(nextState) else 0)
-			count = self.learnedFTCount.get((action, tuple(parentsValuesList))) or 1
-			
+			movements = self.learnedFTransitions.get((action, tuple(parentsValuesList), factorValue)) or 0 #ver el todo por el 1.0
+			count = self.learnedFTCount.get((action, tuple(parentsValuesList))) or 1 #para que 1.0/1 = 1
 			probability *= float(movements) / float(count)
 		return probability
 		
