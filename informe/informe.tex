@@ -40,7 +40,7 @@
 \section{Objetivo}
 	En  este Trabajo Practico nos interesa analizar el desempe\~ no de los algoritmos de aprendizaje aprendidos durante el curso,  aplic\'andolos  en un problema distinto de los vistos. En nuestro caso, elegimos adaptar el juego del Bomberman. 
 	
-	Compararemos los resultados del aprendizaje en agentes model-free y model-based, con los algoritmos de QLearning, RMax, RMax Factorizado, Sarsa y Sarsa Lambda, mostrando cu\'ales de ellos funcionan mejor en nuestro caso y a qu\'e se debe esto. Adem\'as analizaremos el efecto de aplicar rewards intermedios en el tiempo de aprendizaje del agente.
+	Compararemos los resultados del aprendizaje en agentes model-free y model-based, con los algoritmos de QLearning, RMax y RMax Factorizado, Sarsa y Sarsa Lambda,  y Dyna mostrando cu\'ales de ellos funcionan mejor en nuestro caso y a qu\'e se debe esto. Adem\'as analizaremos el efecto de aplicar rewards intermedios en el tiempo de aprendizaje del agente.
 	
 	Adem\'as veremos como varia el aprendizaje del agente al moverse en un ambiente estoc\'astico con mayor o menor grado de aleatoriedad.
 
@@ -49,10 +49,47 @@
 	El juego que vamos usar es una versi\'on simplificada del juego del Bomberman. El objetivo del agente es llegar a la salida. El agente tiene 4 acciones de movimiento: arriba, abajo, hacia la izquierda y hacia la derecha. El tablero tiene paredes que obstaculizan su camino, algunas de ellas son rompibles y otras irrompibles. El agente tiene acciones para poner una bomba y para explotarla. Solo puede haber una bomba en el tablero, si el agente realiza una acci\'on de tirar bomba habiendo una bomba en el juego, la acci\'on no tendr\'a efecto. Al explotar la bomba se destruir\'an las paredes que est\'en arriba, abajo a la izquierda y a la derecha de ella. Si el agente estuviera en alguno de estos lugares o sobre la bomba, el agente muere, teniendo que empezar el juego nuevamente desde la posici\'on inicial. Nos interesa que el agente aprenda una pol\'itica para llegar a la salida realizando la menor cantidad de acciones posibles.	
 	
 	\subsection{Uso}
-	Para correr el programa se debe correr el archivo
+	Para correr el programa se debe elegir una configuración para los par\'ametos en alg\'un archivo de la carpeta settings. Luego, agregar el nombre del archivo modificado en la lista de RUN\_CONFIGURATIONS del archivo Runner.py. Luego, basta ejecutar el archivo Runner.py($ejecutar\ python\ Runner.py$)y se correr\'an todas las configuraciones agregadas a la lista de RUN\_CONFIGURATIONS.
+	
+	Los archivos de settings deben tener valores para los siguientes par\'ametros:
+\begin{enumerate}
+\item CONFIGURATION\_NAME 
+\item ITERATIONS: cantidad de veces que correrá el algoritmo. El algoritmo corre hasta que el agente muere, llega a la salida o llega a la m\'axima cantidad de acciones posible.
+\item MAX\_TURNS: M\'axima cantidad de acciones que puede realizar el agente hasta que el juego se de por terminado.
+\item AGENT: algoritmo de aprendizaje del agente que correr\'a. Se pueden elegir los siguientes algoritmos:
+\begin{itemize}
+\item QLEARNING
+\item RMAX
+\item FACTOREDRMAX
+\item SARSA
+\item SARSALAMBDA
+\item DYNA
+\end{itemize}
+	
+\item TASK: determina el tipo de ambiente en el que correr\'a el agente. El agente puede correr en un ambiente determin\'istico o estoc\'astico. En los ambientes estoc\'asticos, con cierta probabilidad, las acciones no tienen el efecto esperado. Desarrollamos las siguientes opciones para este par\'ametro:
+\begin{itemize}
+\item DETERMINISTIC: cada acción causa el mismo resultado siempre.
+\item STOCHASTIC\_NAVIGATION: con cierta probabilidad, las acciones de movimiento causan que el agente se mueva en otra direcci\'on. Por ejemplo podria pasar que algente realice la acci\'on UP y que el efecto sea el mismo que el que hubiera causado realizar la acci\'on LEFT en un ambiente deterministico, por ejmplo.
+\item STOCHASTIC\_EXPLOSION: Con cierta probabilidad la acci\'on de explotar bomba no la detona. La bomba queda en el mismo lugar en donde el agente la puso. Esto simula el caso en el que el detonador a veces no funciona.
+\end{itemize}
+
+\item IS\_IMMORTAL: si este booleano esta en True, el agente no muere al detonarse una bomba, pese a estar ubicado en su rango de explosión.
+\item MAP\_SIZE: El tamaño del mapa. Se puede elegir entre mapas de tamaño 3, 5 u 8. Las distribuciones de walls y stones (paredes irrompibles y rompibles) para cada uno de estos mapas, se puede ver en el archivo sample\_board.txt.
+\item BOMB\_EXPLODING\_PROBABILITY: La posibilidad de que las bombas exploten.
+\item BOMB\_REWARD\_POLICY: Política de refuerzo intermedio por explotaci\'on de bomba. M\'as adelante en el informe explicaremos cuales son las opciones posibles y qu\'e significa cada una.
+\item NAVIGATION\_REWARD = Política de refuerzo intermedio por posici\'on del agente. Tambi\'en explicaremos mas adelante cu\'ales son las opciones para este par\'ametro.
+\item WIN\_REWARD: Refuerzo por llegar a la salida.
+\item LOSE\_REWARD:Refuerzo negativo por morir.
+\item BOMB\_REWARD:Refuerzo intermedio por explotar bomba que se usa de acuerdo a la pol\'itica de refuerzos intermedios adoptada.
+\item NO\_ACTION\_NEGATIVE\_REWARD: Si este flag est\'a acrivado se le da un refuerzo negativo al agente cada vez que realiza una acci\'on que no cambia el estado
+\item INITIAL\_REWARD: Refuerzo por acción realizada. Puede estar en 0 o tener un valor negativo.
+\item USE\_DELTABOMB\_FACTOR: Booleano que si est\'a en True indica que se debe agregar al estado una tupla con la posición del bomberman respecto de la bomba lanzada. Se usa para Rmax y ser\'a explicado m\'as adelante.
+\end{enumerate}
+	
 
 \section{Visualizaci\'on}
-	
+
+
 \section{Arquitectura}
 	%pagina http://yuml.me/diagram/scruffy/class/draw
 	%codigo [Manager| run()]->1[Task|start(); perform(action)]
@@ -113,7 +150,7 @@
 \item[NAVIGATION\_REWARD] Rewards por posici\'on del agente.
 	\begin{itemize}
 	\item NAVIGATION\_NO\_REWARD: No se agrega refuerzos intermedios adicionales.
-	\item NAVIGATION\_REWARD\_PROPORTIONAL\_TO\_EXIT: Siempre que el agente realice una acci\'on que cambie su posici\'on recibe un refuerzo adicional proporcional a su distancia a la salida. En el caso de las acciones de movimiento que no cambien el estado, como por ejemplo intentar moverse hacia una posici\'on que tenga una pared, el agente no recibir\'a ningun refuerzo, de manera de desalentar este tipo de acciones. 
+	\item NAVIGATION\_REWARD\_PROPORTIONAL\_TO\_EXIT: Siempre que el agente realice una acci\'on que cambie su posici\'on recibe un refuerzo adicional proporcional a su distancia a la salida. En el caso de las acciones de movimiento que no cambien el estado, como por ejemplo intentar moverse hacia una posici\'on que tenga una pared, el agente no recibir\'a ning\'un refuerzo, de manera de desalentar este tipo de acciones. 
 	
 	Las formula para el c\'alculo de este refuerzo intermedio es la que sigue:
 	$$ refuerzo = cercania\_en\_x + cercania\_en\_y $$
