@@ -20,7 +20,7 @@ class SarsaLambdaAgent:
 		previousQValue = self.getQValue(action,state) 
 		
 		delta = reward + DISCOUNT_FACTOR*(nextQValue) - previousQValue
-		self.setSarsaValue(action,state,self.getSarsaValue(action,state)+1)
+		self.setSarsaValue(action,state,self.getSarsaValue(action,state)+1.0)
 		for a,s in self.sarsaTable.keys(): #Actualizo los diccionarios Q y Sarsa.
 			asvalue = self.getSarsaValue(a,s)
 			self.setQValue(a,s,self.getQValue(a,s) + LEARNING_RATE*asvalue*delta)   
