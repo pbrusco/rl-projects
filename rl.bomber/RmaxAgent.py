@@ -70,6 +70,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 	def nextAction(self, state):
 		intState = int(state)
 		if self.newKnownState: #si hay estado nuevo descubierto o pasado a conocido, hago value iteration. si no, no
+			print 'Entro a value iteration'
 			#values = {} #los que visitamos, o sea, los aproximables. los no visitados asumimos Vmax. el valor va a ser una tupla (previous, current).
 			values = self.values
 			#necesitamos previous y current para comparar (current - previous) con el epsilon
@@ -92,7 +93,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 							partialQ += RMAX_GAMMA_VALUE_ITER * self.getTValue(action, visited, possible) * valueToUse
 						self.Q[(action,visited)] = partialQ
 					previous, current = values.get(visited) or (0.0,0.0)
-					values[visited] = previous, max([Q[(a,visited)] for a in Action.ACTIONS]) #el valor es el maximo de los Q
+					values[visited] = previous, max([self.Q[(a,visited)] for a in Action.ACTIONS]) #el valor es el maximo de los Q
 					#actualizo el current con el maximo de los Q, o sea, el V obtenido
 				
 				differences = [abs((i-j)) for(i,j) in values.values()]
