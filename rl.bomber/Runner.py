@@ -1,14 +1,19 @@
 import shutil
 import os
 
-RUN_CONFIGURATIONS = ["pabloQlearning", "pabloSarsa","pabloSarsaLambda"]
+#RUN_CONFIGURATIONS = ["QLearningBombProportionalToExit", "SarsaBombProportionalToExit","SarsaBombReward", "SarsaLambdaNoRewards", "SarsaLambdaBombReward"]
+RUN_CONFIGURATIONS = ["DynaNoRewards", "DynaNavigationRewards","DynaBombRewards", "DynaBombProportionalToExit"]
 
 def main():
 	
 	for conf in RUN_CONFIGURATIONS:
-		filename = "Settings/" + conf + ".py"
+		#filename = "Settings/SettingsRMax/" + conf + ".py"
+		#filename = "Settings/SettingsFaltantes/" + conf + ".py"
+		filename = "Settings/SettingsDyna/" + conf + ".py"
 		shutil.copyfile(filename, "Settings.py")
-		tofile = "Output/PabloTests/" + conf + "-result.out"
+		#tofile = "Output/RMax/" + conf + "-result.out"
+		#tofile = "Output/Faltantes/" + conf + "-result.out"
+		tofile = "Output/Dyna/" + conf + "-result.out"
 		os.system("python Main.py > " + tofile)
 		
 
