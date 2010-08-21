@@ -1,0 +1,8 @@
+class Status:
+
+	CONTINUE = 0
+	DIE = 1
+	TURNSUP = 2
+	WIN = 3
+	
+	STATUSES = [CONTINUE,DIE,TURNSUP,WIN]
