@@ -1,7 +1,15 @@
 import shutil
 import os
 
-RUN_CONFIGURATIONS = ["pabloSarsaLambda-bombR_PE","pabloSarsaLambda", "pabloDyna-bombR_PE", "pabloQLearning-bombR_PE", "pabloSarsa-bombR_PE" ]
+RUN_CONFIGURATIONS = ['SettingsStochastic/StochasticNav.QLearn',
+'SettingsStochastic/StochasticExplo.QLearn',
+'SettingsStochastic/StochasticNav.Sarsa',
+'SettingsStochastic/StochasticExplo.Sarsa',
+'SettingsStochastic/StochasticNav.SarsaLambda',
+'SettingsStochastic/StochasticExplo.SarsaLambda',
+'SettingsStochastic/StochasticNav.Dyna',
+'SettingsStochastic/StochasticExplo.Dyna',
+]
 
 def main():
 	
