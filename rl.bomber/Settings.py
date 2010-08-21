@@ -1,56 +1,19 @@
 from Constants import *
 
-# ---------------------------------------
-# Manager Settings and Run Configurations
-# ---------------------------------------
-
-# prefix for output files
-CONFIGURATION_NAME = "default"
-
-# amount of games the agent will play
-ITERATIONS = 100000
-# if more than MAX_TURNS are used the bomberman dies
+CONFIGURATION_NAME = "RmaxNoRewards"
+ITERATIONS = 10000
 MAX_TURNS = 1000
-
-AGENT = SARSA
-
+AGENT = RMAX
 TASK = DETERMINISTIC
-
-# ------------------
-# Bomberman Settings
-# ------------------
-
-# an immortal bomberman does not die due to bomb explosions
 IS_IMMORTAL = False
-
-# size of the map, look in Maps.py file for details
-MAP_SIZE = 8
-
-# -------------------
-# Stochastic Settings
-# -------------------
-
-# bomb exploding probability for StochasticExplosionTask
+MAP_SIZE = 5
 BOMB_EXPLODING_PROBABILITY = 0.9
-
-# ------------------
-# Factoring Settings
-# ------------------
-
-# whether to use delta bomb as a redundant factor 
-USE_DELTABOMB_FACTOR = True
-
-# -----------
-# RL Settings
-# -----------
-
-# bomb rewards policy (options in Constants.py)
 BOMB_REWARD_POLICY = BOMB_NO_REWARD
-
-# navigation rewards policy (options in Constants.py)
 NAVIGATION_REWARD = NAVIGATION_NO_REWARD
-
-# win/lose rewards
 WIN_REWARD = 10000.0
 LOSE_REWARD = -10000.0
 BOMB_REWARD = 10.0
+NO_ACTION_NEGATIVE_REWARD = True
+INITIAL_REWARD = -1
+USE_DELTABOMB_FACTOR = True
+

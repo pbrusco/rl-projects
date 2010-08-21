@@ -8,13 +8,13 @@ RUN_CONFIGURATIONS = ["RmaxNoRewards", "RMaxNavigationRewards","RMaxBombRewards"
 def main():
 	
 	for conf in RUN_CONFIGURATIONS:
-		#filename = "Settings/SettingsRMax/" + conf + ".py"
+		filename = "Settings/SettingsRMax/" + conf + ".py"
 		#filename = "Settings/SettingsFaltantes/" + conf + ".py"
-		filename = "Settings/SettingsDyna/" + conf + ".py"
+		#filename = "Settings/SettingsDyna/" + conf + ".py"
 		shutil.copyfile(filename, "Settings.py")
-		#tofile = "Output/RMax/" + conf + "-result.out"
+		tofile = "Output/RMax/" + conf + "-result.out"
 		#tofile = "Output/Faltantes/" + conf + "-result.out"
-		tofile = "Output/SarsaLambda/" + conf + "-result.out"
+		#tofile = "Output/SarsaLambda/" + conf + "-result.out"
 		os.system("python Main.py > " + tofile)
 		
 
