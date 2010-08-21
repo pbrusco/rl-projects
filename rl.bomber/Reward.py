@@ -7,8 +7,9 @@ class Reward:
 	DEAD = 0
 	POSITION = 1
 	STONE = 2
+	NOACTION = 3
 	
-	REWARDS = [DEAD, POSITION, STONE]
+	REWARDS = [DEAD, POSITION, STONE, NOACTION]
 	
 	def __init__(self, kind=None,value=0.0):
 		self.kinds = {kind: value} if not kind is None else {}
@@ -46,7 +47,8 @@ class MaxReward:
 	MAX_REWARDS = {
 				Reward.DEAD: 0.0, 
 				Reward.POSITION: WIN_REWARD, 
-				Reward.STONE: max([Reward.getRewardForBombPosition(stone) for stone in STONES])
+				Reward.STONE: max([Reward.getRewardForBombPosition(stone) for stone in STONES]),
+				Reward.NOACTION: 0.0
 				}
 
 	@classmethod
