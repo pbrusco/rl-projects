@@ -24,7 +24,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 	def getRValue(self, action, intState): #dado un estado y una accion, su reward empirico si count >= cota, o rmax si alguno no conocido
 		reward = self.learnedRewards.get((action,intState))
 		count = self.learnedCount.get((action,intState))
-		if count is not None && count >= self.cota:
+		if count is not None and count >= self.cota:
 			return reward/count
 		else:
 			return WIN_REWARD
@@ -36,11 +36,11 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 	def getTValue(self, action, intState, intNextState): #dado un estado, la accion y el siguiente estado, devuelve la probabilidad de moverse
 		movements = self.learnedTransitions.get((action,intState,intNextState))
 		count = self.learnedCount.get((action,intState))
-		if count is not None && count >= self.cota:
+		if count is not None and count >= self.cota:
 			return float(movements)/float(count)
-		else if intSate == intNextState:
+		elif intSate == intNextState:
 			return 1.0
-		else
+		else:
 			return 0.0
 			
 	def increaseTValue(self, action, intState, intNextState):
@@ -55,11 +55,11 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 		intState = int(state)
 		intNextState = int(nextState)
 		count = self.learnedCount.get((action,intState))
-		if count is None || count < self.cota: #si todavia  no tengo como conocido al estado
+		if count is None or count < self.cota: #si todavia  no tengo como conocido al estado
 			self.increaseCount(action, intState) #actualizo cantidad de veces que hicimos de estado a accion
 			self.updateRValue(action, intState, reward) #actualizo reward
 			self.increaseTValue(action, intState, intNextState) #actualizo chance de nuevo estado dado accion estado
-			if (count is not None && (count + 1) >= self.cota):
+			if (count is not None and (count + 1) >= self.cota):
 				self.newKnownSate = True #si un estado nuevo pasa a conocido
 		#actualizo estados que se que existen
 		self.reachableStates.add(intState)
