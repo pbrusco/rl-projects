@@ -22,10 +22,9 @@ class SarsaLambdaAgent:
 		delta = reward + DISCOUNT_FACTOR*(nextQValue) - previousQValue
 		self.setSarsaValue(action,state,self.getSarsaValue(action,state)+1)
 		for a,s in self.sarsaTable.keys(): #Actualizo los diccionarios Q y Sarsa.
-			self.setQValue(a,s,self.getQValue(a,s) + LEARNING_RATE*self.getSarsaValue(a,s)*delta)   
-			self.setSarsaValue(a,s,LAMBDA * DISCOUNT_FACTOR)
-		
-		
+			asvalue = self.getSarsaValue(a,s)
+			self.setQValue(a,s,self.getQValue(a,s) + LEARNING_RATE*asvalue*delta)   
+			self.setSarsaValue(a,s,LAMBDA * asvalue * DISCOUNT_FACTOR)
 		
 		
 	def nextAction(self,state):
