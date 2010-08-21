@@ -5,7 +5,7 @@ import Print
 LEARNING_RATE = 0.8
 DISCOUNT_FACTOR = 0.95
 EPSILON = 0.1
-N = 1000
+N = 50
 
 class DynaAgent:
 
