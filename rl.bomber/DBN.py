@@ -76,5 +76,7 @@ class RewardsDBN(object):
 			return (Factor.POSITION,)
 		elif rewardfactor == Reward.STONE:
 			return (Factor.BOMB, Factor.STONES)
+		elif rewardfactor == Reward.NOACTION:
+			return (Factor.POSITION, Factor.STONES)
 		else:
 			raise Exception("Unknown reward factor: " + str(rewardfactor))
