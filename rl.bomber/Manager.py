@@ -37,10 +37,10 @@ class Manager:
 			noResultActionsCount = 0
 
 			action = self.agent.nextAction(state)
-					
+			
 			# Run game for up to max turns 
 			for turn in range(self.maxturns):
-
+				
 				if (Action.isNavigationAction(action)):
 					totalMovementActionsCount +=1
 				elif (action == Action.DROP_BOMB):
@@ -56,7 +56,7 @@ class Manager:
 				if AGENT in FACTOREDAGENTS: nextstate, reward = deepcopy(nextstate), deepcopy(reward)
 				else: nextstate, reward = int(nextstate), float(reward)
 				
-				nextChosenAction = self.agent.nextAction(nextstate)
+				nextChosenAction = self.agent.nextAction(nextstate) if AGENT in REQUIRESNEXTACTION else None
 				
 				# Agent learns from action
 				self.agent.learn(state,nextstate,action,reward,nextChosenAction)
@@ -65,7 +65,7 @@ class Manager:
 					noResultActionsCount +=1
 				
 				state = nextstate
-				action = nextChosenAction
+				action = nextChosenAction if AGENT in REQUIRESNEXTACTION else self.agent.nextAction(state)
 				
 				if status != Status.CONTINUE: break
 			

@@ -104,6 +104,7 @@ class RmaxAgent: #usa kwik-rmax. ver p24 slide 5 del curso
 					previous, current = value
 					values[key] = (current, current) # el previous lo seteo en el current
 		
+			print 'Iters ', iterCount
 		#bien, ya sali
 		#ahora, dado el Q, quiero la accion que maximice
 		qMax = max([(self.Q.get((a,intState)) or 0.0) for a in Action.ACTIONS])

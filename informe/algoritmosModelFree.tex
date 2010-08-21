@@ -19,7 +19,7 @@ $$Q(s_t,a_t) \leftarrow \underbrace{Q(s_t,a_t)}_{\footnotesize{\textrm{ viejo va
 Un episodio del algoritmo termina cuando el estado $s_{t+1}$ es un estado final.
 
 
-\subsubsection{ Influencia de las varibles en el algoritmo.}
+\paragraph{ Influencia de las varibles en el algoritmo.}
 
 \paragraph{}\textbf{$\alpha$ (Learning rate)}\\
  La tasa de aprendizaje es el que determina que importancia darle a la nueva información, un factor cerca de 0 implica que el agente aprenda muy poco y una tasa cerca de 1 implica que el agente considerará mayormente la información reciente.
@@ -27,7 +27,7 @@ Un episodio del algoritmo termina cuando el estado $s_{t+1}$ es un estado final.
 \paragraph{}\textbf{$\delta$ (Discount factor)}\\
  El factor de descuento determina la importancia de futuras recompenzas. Un factor cerca de cero hará que el agente concidere solo su acción en el momento y no sus consecuencias futuras, contrario al caso de un factor cerca de uno donde el agente conciderara las recompenzas a largo plazo. (si el factor es mayor a uno Qleaning diverge)
 
-\subsubsection{Implementación:}
+\paragraph{Implementación:}
 
 Q learning usa una tabla para almacenar los datos obtenidos, en nuestro caso un simple diccionario con claves (acción,estado) y el valor de la función Q como valor. A continuación, veremos el pseudocódigo utilizado:
 

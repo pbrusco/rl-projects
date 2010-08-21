@@ -1,8 +1,5 @@
 from Settings import *
 
-
-
-
 if MAP_SIZE == 3:
 	BOARD_HEIGHT = 3
 	BOARD_WIDTH = 3
