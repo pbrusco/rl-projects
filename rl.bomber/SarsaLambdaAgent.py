@@ -30,7 +30,7 @@ class SarsaLambdaAgent:
 		
 	def nextAction(self,state):
 		if self.goRandom(): 
-			return random.choice(ACTIONS)
+			return random.choice(Action.ACTIONS)
 		else: 
 			qMax = max([self.getQValue(a,state) for a in Action.ACTIONS])	
 			return random.choice([a for a in Action.ACTIONS if self.getQValue(a,state)==qMax])

@@ -2,7 +2,7 @@ from Settings import *
 from Task import *
 from StochasticNavigationTask import *
 from StochasticExplosionTask import *
-from Agent import *
+from QLearningAgent import *
 from RmaxAgent import *
 from FactoredRmaxAgent import *
 from SarsaLambdaAgent import *
