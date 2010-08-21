@@ -6,12 +6,10 @@ sys.path.append('../rl.bomber')
 
 from Movements import *
 from Maps import *
-
+from VisualSettings import *
 import pygame as pg
 import os
-GAMESPEED = 0.05
-TAMBLOQUE = 48
-COLUMNA = 48
+
 class Map:
 
 	def __init__(self):
