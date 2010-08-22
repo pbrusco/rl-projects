@@ -8,7 +8,7 @@ def locate(pattern, root=os.curdir):
             yield os.path.join(path, filename)
 
 def main():
-	for filepath in locate('*.out', '..'):
+	for filepath in locate('*-result.out', '..'):
 		file = os.path.basename(filepath)
 		print "set output '%s.png'" % file
 		print "plot '%s' using ($2 + 1/($3 == 1)) t 'Perdio', '%s' using ($2 + 1/($3 == 3)) t 'Gano'" % (filepath, filepath)
