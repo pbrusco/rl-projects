@@ -6,6 +6,7 @@ sys.path.append('../rl.bomber')
 
 from Movements import *
 from Maps import *
+from ToVisualize import *
 from VisualSettings import *
 import pygame as pg
 import os

@@ -21,8 +21,6 @@ MOVDIR = {	(0,-1): LEFT,
 			}
 			
 
-MOVEMENTS = [DOWN,DOWN,DOWN,DOWN,DOWN,DOWN,DOWN,RIGHT,RIGHT,RIGHT,RIGHT,RIGHT,RIGHT,RIGHT]
-
 
 #used code after bomb explosion:
 #0000 = 0 no stones destroyed.
