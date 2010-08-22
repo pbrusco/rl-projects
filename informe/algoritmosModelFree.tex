@@ -1,0 +1,111 @@
+
+\subsubsection{QLearning}
+	
+\paragraph{}	Q-learning es una técnica que funciona aprendiendo una función en base a acciones-valores que devuelve el refuerzo esperado por tomar la acción dada en un estado dado y siguiendo una política fija. Lo importante es que no requiere aprender el modelo del problema.
+	
+	
+\paragraph{}El modelo del problema consiste en un agente, estados S, y un número de acciones por estado A. Realizando las acciones , el agente puede moverse de estado a estado. Cada estado provee al agente de una recompensa (un número natural en nuestro caso) o castigo (una recompensa negativa). El objetivo del agente es maximizar la recompensa total. Lo cual logra aprendiendo que acción es optima para cada estado.
+
+\paragraph{}El algoritmo, por lo tanto, posee una función que calcula la calidad de un par estado-acción.
+
+$Q: S \times A \rightarrow \Re$
+
+\paragraph{}Antes que el aprendizaje empiece, la función Q retorna un valor fijo, elegido por el diseñador del algoritmo. Luego, cada vez que el agente recibe una recompensa, nuevos valores son calculados para cada combinación de estado-acción de S x A. El núcleo del algoritmo es una simple actualización iterada de valores, la cual actualiza los valores en base a nueva información.
+
+
+$$Q(s_t,a_t) \leftarrow \underbrace{Q(s_t,a_t)}_{\footnotesize{\textrm{ viejo valor}}} + \underbrace{\alpha}_{\footnotesize{\textrm{tasa aprendizaje}}}*\left[ \overbrace{ \underbrace{r_{t+1}}_{\footnotesize{\textrm{ recompenza}}} + \underbrace{\gamma}_{\footnotesize{\textrm{factor de descuento}}}* \underbrace{\max_aQ(s_{t+1},a)}_{\footnotesize{\textrm{máximo valor futuro}}}}^{\footnotesize{\textrm{recompenza descontada esperada}}} - \underbrace{Q(s_t,a_t)}_{\footnotesize{\textrm{ viejo valor}}}\right]  $$
+
+
+Un episodio del algoritmo termina cuando el estado $s_{t+1}$ es un estado final.
+
+
+\paragraph{Influencia de las variables en el algoritmo}
+\paragraph{}\textbf{$\alpha$ (Learning rate)}\\
+ La tasa de aprendizaje es el que determina que importancia darle a la nueva información, un factor cerca de 0 implica que el agente aprenda muy poco y una tasa cerca de 1 implica que el agente considerará mayormente la información reciente.
+
+\paragraph{}\textbf{$\delta$ (Discount factor)}\\
+ El factor de descuento determina la importancia de futuras recompensas. Un factor cerca de cero hará que el agente considere solo su acción en el momento y no sus consecuencias futuras, contrario al caso de un factor cerca de uno donde el agente considerara las recompensas a largo plazo. (si el factor es mayor a uno Qleaning diverge)
+
+\paragraph{Implementación}
+\paragraph{}Q learning usa una tabla para almacenar los datos obtenidos, en nuestro caso un simple diccionario con claves (acción,estado) y el valor de la función Q como valor. A continuación, veremos el pseudocódigo utilizado:
+
+	\clearpage
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{qLearning.png}
+			\caption{Algoritmo QLearning}
+		\end{figure}
+	
+	
+	\subsubsection{Sarsa (State-Action-Reward-State-Action)}
+
+Sarsa es otro algoritmo libre de modelo la cual también utiliza la función de valores Q.
+
+El nombre, refleja el hecho que la función principal para actualizar los Q-valores depende en el estado actual, la acción que elije, el reward que obtiene, el estado en el que se encuentra luego de realizar la acción y finalmente la acción la cual el agente va a elegir en su próximo estado.
+
+Un agente Sarsa interectuará con el entorno y actualizará la política en base a acciones tomadas anteriormente. Los valores de la función Q son actualizados en base al error de predicción (ajustado por la tasa de aprendizaje ($\alpha$)).
+Los valores de Q representan el posible reward a recibir en el próximo paso luego de tomar la acción actual en el estado actual sumado a el valor de recompenza futuro descontado  recibido de la próxima observación de acción-estado. Veamos el pseudocódigo del algoritmo:
+
+
+
+		\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.6\textwidth]{Sarsa.png}
+		\caption{Algoritmo Sarsa}
+		\end{figure}
+	
+	
+	
+	
+	\subsubsection{Sarsa ($\lambda$)}	
+\paragraph{} En los algoritmos vistos, la actualización se hace utilizando únicamente la siguiente recompensa.
+\paragraph{}En este algoritmo, se utilizan las trazas de elegibilidad, la idea de ellas es considerar las recompensas de n estados posteriores (o afectar a n anteriores).
+
+\paragraph{}En la práctica, más que esperar n pasos para actualizar (forward view), se realiza al revés (backward view). Se guarda información sobre los estados por los que se pasó y se actualizan hacia atrás las recompensas (descontadas por la distancia). Se puede probar que ambos enfoques son equivalentes.
+
+
+\paragraph{}Para implementar la idea anterior, se asocia a cada estado o par estado-acción
+una variable extra, representando su traza de elegibilidad (eligibility trace)
+que denotaremos por $e_t(s)$ o $e_t(s, a).$
+
+\paragraph{}Este valor va decayendo con la longitud de la traza creada en cada episodio. 
+
+\paragraph{}Para SARSA se tiene lo siguiente:
+
+$$ e_t(s, a) = \gamma \lambda  e_t(s, a) \textrm{\hspace{2cm}si } s \neq s_t$$
+$$ e_t(s, a) = \gamma \lambda  e_t(s, a)+1 \textrm{ \hspace{2cm}si } s = s_t$$
+
+\paragraph{}Obteniendo el siguiente algoritmo: 
+
+
+
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.8\textwidth]{SarsaLambda.png}
+			\caption{Algoritmo Sarsa ($\lambda$)}
+
+		\end{figure}
+	
+	
+\paragraph{}Aquí se puede mantener historia de la traza solo hasta el primer movimiento exploratorio, ignorar las acciones exploratorias, o hacer un esquema un poco más complicado que considera todas las posibles acciones en cada estado.
+	
+	
+	\subsubsection{Dyna-Q}
+		
+		
+\paragraph{}Asumamos que tenemos un modelo del ambiente, esto es, que podemos predecir el siguiente estado y la recompensa dado un estado y una acción. La predicción puede ser un conjunto de posibles estados con su probabilidad asociada o puede ser un estado que es muestreado de acuerdo a la distribución de probabilidad de los estados resultantes. Dado un modelo, es posible hacer planificación. Lo interesante es que podemos utilizar los estados y acciones utilizados en la planificación también para aprender. De hecho al sistema de aprendizaje no le importa si los pares estado-acción son dados de experiencias reales o simuladas. Dado un modelo del ambiente, uno podría seleccionar aleatoriamente un par (estado,acción), usar el modelo para predecir el siguiente estado, obtener una recompensa y actualizar valores Q. Esto se puede repetir indefinidamente hasta converger a Q\*.
+
+\paragraph{}El algoritmo Dyna-Q combina experiencias con planificación para aprender más rápidamente una política óptima.
+La idea es aprender de experiencia, pero también usar un modelo para simular experiencia adicional y así aprender más rápidamente 
+
+\paragraph{}El algoritmo de Dyna-Q selecciona pares estado-acción aleatoriamente de pares anteriores. Sin embargo, la planificación se puede usar mucho mejor si se enfoca a pares estado-acción específicos. Por ejemplo, enfocarnos en las metas e irnos hacia atrás o más generalmente, irnos hacia atrás de cualquier estado que cambie su valor.Los cambios en las estimaciones de valor V o Q pueden cambiar, cuando se está aprendiendo o si el ambiente cambia y un valor estimado deja de ser cierto.
+
+\paragraph{}Veamos el pseudocódigo:
+		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{Dyna.png}
+			\caption{Algoritmo Dyna-Q}
+		\end{figure}
+	
+	
