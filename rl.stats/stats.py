@@ -1,7 +1,7 @@
 import os, fnmatch
 
 MAX_GAMES = 10000
-PERCENTAGE_OF_LOST_GAMES = 0.2
+PERCENTAGE_OF_LOST_GAMES = 0.15
 WIN_STATUS = 3
 
 class GameData():
@@ -32,7 +32,7 @@ def printStats(filepath, games):
 	timePerMovement = totalTime / totalMovements
 	convergence = calculateConvergence(games)
 	
-	print "%s & %s & %s \\\\" % (filepath, timePerMovement, convergence)
+	print "{0} & {1:.2e} & {2} \\\\".format(filepath, timePerMovement, convergence)
 
 	
 def loadData(filepath):

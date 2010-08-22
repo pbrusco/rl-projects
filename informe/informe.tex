@@ -217,6 +217,27 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 	\subsection{Rewards Intermedios por explotar bomba}
 	\subsection{Rewards Intermedios por explotar bomba relativo a la posicion de la bomba}
 
+\section{Stats}
+
+\begin{table}
+\centering
+
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Agente} & \textbf{Tiempo} & \textbf{Convergencia} \\
+\hline
+Dyna-bombR-result.out & 3.04e-02 & 11 \\
+Qlearning-bombR-result.out & 7.34e-05 & 129 \\
+DynaNoRewads-result.out & 8.45e-02 & 160 \\
+QlearningNoRewards-result.out & 7.41e-05 & 167 \\
+SarsaNoRewards-result.out & 5.89e-05 & None \\
+\hline
+\end{tabular}
+
+\caption{Tiempo promedio por movimiento y cantidad de juegos requerida hasta lograr convergencia; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($15\%$) de los ganados.}
+
+\end{table}
+
 \section{Conclusiones}
 	
 \end{document}
