@@ -72,7 +72,10 @@ Si bien este \'ultimo factor puede inferirse directamente a partir de bomberman 
 La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de conversi\'on a enteros puede verse en el archivo \textit{state.py}.
 
 \section{Acciones posibles del agente}
-	El agente cuenta con 4 acciones de movimiento, que se pueden ver en el archivo $Action.py$: \texttt{UP}, \texttt{DOWN}, \texttt{LEFT} y \texttt{RIGHT}. Además puede lanzar una bomba (sólo una por vez, no puede haber 2 bombas activas en el juego) con la acción \texttt{DROP\_BOMB}. La bomba se ubica en la posición en la que estaba el agente cuando la lanzó. El agente puede, por último, explotar una bomba lanzada mediante la acción \texttt{EXPLODE}. El radio de alcance de la bomba es de el casillero donde esta ubicada la bomba y sus aledaños, es decir el de arriba, el de abajo, el de la izquierda y el de la derecha. Cuando una bomba explota destruye las paredes rompibles (\texttt{STONES}) que estén en su radio de alcance y mata al agente si este se encuentra en este radio. Una vez que la bomba es explotada, el agente puede lanzar otra.
+
+	El agente cuenta con 4 acciones de movimiento: \texttt{UP}, \texttt{DOWN}, \texttt{LEFT} y \texttt{RIGHT}. Estas acciones, cambian su posición en el tablero. Además puede lanzar una bomba (sólo una por vez, no puede haber 2 bombas activas en el juego) con la acción \texttt{DROP\_BOMB}. La bomba es ubicada en la posición en la que estaba el agente cuando la la bomba fue lanzada. El agente puede, por último, explotar la bomba mediante la acción \texttt{EXPLODE}. El radio de alcance de la bomba es de el casillero donde esta ubicada la bomba y sus aledaños, es decir el de arriba, el de abajo, el de la izquierda y el de la derecha. Cuando una bomba explota destruye las paredes rompibles (\texttt{STONES}) que estén en su radio de alcance y mata al agente si este se encuentra en este radio. Una vez que la bomba es explotada, el agente puede lanzar otra.
+	
+	Esta información se puede ver en la clase $Action.py$.
 
 
 
