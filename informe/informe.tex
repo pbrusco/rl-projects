@@ -46,7 +46,7 @@
 	\subsection{Adaptaci\'on del juego del Bomberman}
 	El juego que vamos usar es una versi\'on simplificada del juego del Bomberman. El objetivo del agente es llegar a la salida. El agente tiene 4 acciones de movimiento: arriba, abajo, hacia la izquierda y hacia la derecha. El tablero tiene paredes que obstaculizan su camino, algunas de ellas son rompibles y otras irrompibles. El agente tiene acciones para poner una bomba y para explotarla. Solo puede haber una bomba en el tablero, por lo que si el agente realiza una acci\'on de tirar bomba habiendo una bomba en el juego, la acci\'on no tendr\'a efecto. Al explotar la bomba se destruir\'an las paredes que est\'en arriba, abajo a la izquierda y a la derecha de ella. Si el agente estuviera en alguno de estos lugares o sobre la bomba, el agente morir\'ia, teniendo que empezar el juego nuevamente desde la posici\'on inicial. 
 	
-	Nos interesa que el agente aprenda una pol\'itica para llegar a la salida realizando la menor cantidad de acciones posibles, para esto le damos un refuerzo positivo grande en el momento que llega al casillero de salida y un refuerzo negativo de la misma magnitud cuando el agente muere. A estos refuerzos los llamaremos WIN\_REWARD y LOSE\_REWARD respectivamente.
+	Nos interesa que el agente aprenda una pol\'itica para llegar a la salida realizando la menor cantidad de acciones posibles, para esto le damos un refuerzo positivo grande en el momento que llega al casillero de salida y un refuerzo negativo de la misma magnitud cuando el agente muere. A estos refuerzos los llamaremos \texttt{WIN\_REWARD} y \texttt{LOSE\_REWARD} respectivamente.
 	
 \section{Representación del estado}
 
@@ -72,47 +72,47 @@ Si bien este \'ultimo factor puede inferirse directamente a partir de bomberman 
 La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de conversi\'on a enteros puede verse en el archivo \textit{state.py}.
 
 \section{Acciones posibles del agente}
-	El agente cuenta con 4 acciones de movimiento, que se pueden ver en el archivo $Action.py$: UP, DOWN, LEFT y RIGHT. Además puede lanzar una bomba (sólo una por vez, no puede haber 2 bombas activas en el juego) con la acción DROP\_BOMB. La bomba se ubica en la posición en la que estaba el agente cuando la lanzó. El agente puede, por último, explotar una bomba lanzada mediante la acción EXPLODE. El radio de alcance de la bomba es de el casillero donde esta ubicada la bomba y sus aledaños, es decir el de arriba, el de abajo, el de la izquierda y el de la derecha. Cuando una bomba explota destruye las paredes rompibles (STONES) que estén en su radio de alcance y mata al agente si este se encuentra en este radio. Una vez que la bomba es explotada, el agente puede lanzar otra.
+	El agente cuenta con 4 acciones de movimiento, que se pueden ver en el archivo $Action.py$: \texttt{UP}, \texttt{DOWN}, \texttt{LEFT} y \texttt{RIGHT}. Además puede lanzar una bomba (sólo una por vez, no puede haber 2 bombas activas en el juego) con la acción \texttt{DROP\_BOMB}. La bomba se ubica en la posición en la que estaba el agente cuando la lanzó. El agente puede, por último, explotar una bomba lanzada mediante la acción \texttt{EXPLODE}. El radio de alcance de la bomba es de el casillero donde esta ubicada la bomba y sus aledaños, es decir el de arriba, el de abajo, el de la izquierda y el de la derecha. Cuando una bomba explota destruye las paredes rompibles (\texttt{STONES}) que estén en su radio de alcance y mata al agente si este se encuentra en este radio. Una vez que la bomba es explotada, el agente puede lanzar otra.
 
 
 
 \section{Uso}
-	Para correr el programa se debe elegir una configuración para los par\'ametos en alg\'un archivo de la carpeta settings. Luego, agregar el nombre del archivo modificado en la lista de RUN\_CONFIGURATIONS del archivo Runner.py. Luego, basta ejecutar el archivo Runner.py($ejecutar\ python\ Runner.py$)y se correr\'an todas las configuraciones agregadas a la lista de RUN\_CONFIGURATIONS.
+	Para correr el programa se debe elegir una configuración para los par\'ametos en alg\'un archivo de la carpeta settings. Luego, agregar el nombre del archivo modificado en la lista de \texttt{RUN\_CONFIGURATIONS} del archivo Runner.py. Luego, basta ejecutar el archivo \textit{Runner.py} y se correr\'an todas las configuraciones agregadas a la lista de \texttt{RUN\_CONFIGURATIONS}.
 	
 	Los archivos de settings deben tener valores para los siguientes par\'ametros:
 \begin{enumerate}
-\item CONFIGURATION\_NAME 
-\item ITERATIONS: cantidad de veces que correrá el algoritmo. El algoritmo corre hasta que el agente muere, llega a la salida o llega a la m\'axima cantidad de acciones posible.
-\item MAX\_TURNS: M\'axima cantidad de acciones que puede realizar el agente hasta que el juego se de por terminado.
-\item AGENT: algoritmo de aprendizaje del agente que correr\'a. Se pueden elegir los siguientes algoritmos:
+\item \texttt{CONFIGURATION\_NAME}
+\item \texttt{ITERATIONS}: cantidad de veces que correrá el algoritmo. El algoritmo corre hasta que el agente muere, llega a la salida o llega a la m\'axima cantidad de acciones posible.
+\item \texttt{MAX\_TURNS}: M\'axima cantidad de acciones que puede realizar el agente hasta que el juego se de por terminado.
+\item \texttt{AGENT}: algoritmo de aprendizaje del agente que correr\'a. Se pueden elegir los siguientes algoritmos:
 \begin{itemize}
-\item QLEARNING
-\item RMAX
-\item FACTOREDRMAX 
-\item SARSA
-\item SARSALAMBDA
-\item DYNA
+\item \texttt{QLEARNING}
+\item \texttt{RMAX}
+\item \texttt{FACTOREDRMAX}
+\item \texttt{SARSA}
+\item \texttt{SARSALAMBDA}
+\item \texttt{DYNA}
 \end{itemize}
 	
-\item TASK: determina el tipo de ambiente en el que correr\'a el agente. El agente puede correr en un ambiente determin\'istico o estoc\'astico. En los ambientes estoc\'asticos, con cierta probabilidad, las acciones no tienen el efecto esperado. Desarrollamos las siguientes opciones para este par\'ametro:
+\item \texttt{TASK}: determina el tipo de ambiente en el que correr\'a el agente. El agente puede correr en un ambiente determin\'istico o estoc\'astico. En los ambientes estoc\'asticos, con cierta probabilidad, las acciones no tienen el efecto esperado. Desarrollamos las siguientes opciones para este par\'ametro:
 \begin{itemize}
-\item DETERMINISTIC: cada acción causa el mismo resultado siempre.
-\item STOCHASTIC\_NAVIGATION: con cierta probabilidad, las acciones de movimiento causan que el agente se mueva en otra direcci\'on. Por ejemplo podria pasar que algente realice la acci\'on UP y que el efecto sea el mismo que el que hubiera causado realizar la acci\'on LEFT en un ambiente deterministico, por ejmplo.
-\item STOCHASTIC\_EXPLOSION: Con cierta probabilidad la acci\'on de explotar bomba no la detona. La bomba queda en el mismo lugar en donde el agente la puso. Esto simula el caso en el que el detonador a veces no funciona.
+\item \texttt{DETERMINISTIC}: cada acción causa el mismo resultado siempre.
+\item \texttt{STOCHASTIC\_NAVIGATION}: con cierta probabilidad, las acciones de movimiento causan que el agente se mueva en otra direcci\'on. Por ejemplo podria pasar que algente realice la acci\'on UP y que el efecto sea el mismo que el que hubiera causado realizar la acci\'on LEFT en un ambiente deterministico, por ejmplo.
+\item \texttt{STOCHASTIC\_EXPLOSION}: Con cierta probabilidad la acci\'on de explotar bomba no la detona. La bomba queda en el mismo lugar en donde el agente la puso. Esto simula el caso en el que el detonador a veces no funciona.
 \end{itemize} 
 	De todas maneras explicaremos más sobre esto en la sección $Ambiente \ Estocastico$ 
 
-\item IS\_IMMORTAL: si este booleano esta en True, el agente no muere al detonarse una bomba, pese a estar ubicado en su rango de explosión.
-\item MAP\_SIZE: El tamaño del mapa. Se puede elegir entre mapas de tamaño 3, 5 u 8. Las distribuciones de walls y stones (paredes irrompibles y rompibles) para cada uno de estos mapas, se puede ver en el archivo sample\_board.txt.
-\item BOMB\_EXPLODING\_PROBABILITY: La posibilidad de que las bombas exploten.
-\item BOMB\_REWARD\_POLICY: Política de refuerzo intermedio por explotaci\'on de bomba. M\'as adelante en el informe explicaremos cuales son las opciones posibles y qu\'e significa cada una.
-\item NAVIGATION\_REWARD: Política de refuerzo intermedio por posici\'on del agente. Tambi\'en explicaremos mas adelante cu\'ales son las opciones para este par\'ametro.
-\item WIN\_REWARD: Refuerzo por llegar a la salida.
-\item LOSE\_REWARD:Refuerzo negativo por morir.
-\item BOMB\_REWARD:Refuerzo intermedio por explotar bomba que se usa de acuerdo a la pol\'itica de refuerzos intermedios adoptada.
-\item NO\_ACTION\_NEGATIVE\_REWARD: Si este flag est\'a activado se le da un refuerzo negativo al agente cada vez que realiza una acci\'on que no cambia el estado
-\item INITIAL\_REWARD: Refuerzo por acción realizada. Puede estar en 0 o tener un valor negativo.
-\item USE\_DELTABOMB\_FACTOR: Booleano que si est\'a en True indica que se debe agregar al estado una tupla con la posición del bomberman respecto de la bomba lanzada. Se usa para Rmax y ser\'a explicado m\'as adelante.
+\item \texttt{IS\_IMMORTAL}: si este booleano esta en True, el agente no muere al detonarse una bomba, pese a estar ubicado en su rango de explosión.
+\item \texttt{MAP\_SIZE}: El tamaño del mapa. Se puede elegir entre mapas de tamaño 3, 5 u 8. Las distribuciones de walls y stones (paredes irrompibles y rompibles) para cada uno de estos mapas, se puede ver en el archivo sample\_board.txt.
+\item \texttt{BOMB\_EXPLODING\_PROBABILITY}: La posibilidad de que las bombas exploten.
+\item \texttt{BOMB\_REWARD\_POLICY}: Política de refuerzo intermedio por explotaci\'on de bomba. M\'as adelante en el informe explicaremos cuales son las opciones posibles y qu\'e significa cada una.
+\item \texttt{NAVIGATION\_REWARD}: Política de refuerzo intermedio por posici\'on del agente. Tambi\'en explicaremos mas adelante cu\'ales son las opciones para este par\'ametro.
+\item \texttt{WIN\_REWARD}: Refuerzo por llegar a la salida.
+\item \texttt{LOSE\_REWARD}:Refuerzo negativo por morir.
+\item \texttt{BOMB\_REWARD}:Refuerzo intermedio por explotar bomba que se usa de acuerdo a la pol\'itica de refuerzos intermedios adoptada.
+\item \texttt{NO\_ACTION\_NEGATIVE\_REWARD}: Si este flag est\'a activado se le da un refuerzo negativo al agente cada vez que realiza una acci\'on que no cambia el estado
+\item \texttt{INITIAL\_REWARD}: Refuerzo por acción realizada. Puede estar en 0 o tener un valor negativo.
+\item \texttt{USE\_DELTABOMB\_FACTOR}: Booleano que si est\'a en True indica que se debe agregar al estado una tupla con la posición del bomberman respecto de la bomba lanzada. Se usa para Rmax y ser\'a explicado m\'as adelante.
 \end{enumerate}
 	
 
@@ -162,25 +162,25 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \end{tabular}
 \end{center}
 
-	La clase encargada de implementar esto es StochasticNavigationTask y se configura seteando $TASK = STOCHASTIC\_NAVIGATION$.\\
+	La clase encargada de implementar esto es StochasticNavigationTask y se configura seteando como \texttt{TASK} el valor \texttt{STOCHASTIC\_NAVIGATION}.\\
 	
-		\textbf{Explosi\'on}: Cuando el Bomberman intenta explotar una bomba, esta puede explotar o no con cierta probabilidad. Si bien los par\'ametros son configurables la probabilidad de explosi\'on por defecto es 80\%. Se configura seteando $TASK = STOCHASTIC\_EXPLOSION$.
+		\textbf{Explosi\'on}: Cuando el Bomberman intenta explotar una bomba, esta puede explotar o no con cierta probabilidad. Si bien los par\'ametros son configurables la probabilidad de explosi\'on por defecto es 80\%. Se configura seteando como \texttt{TASK} el valor \texttt{STOCHASTIC\_EXPLOSION}.
 	
  \section{Pol\'iticas de Refuerzo}
- 	Para evaluar el efecto de aplicar pol\'iticas de refuerzos intermedios en el tiempo de aprendizaje de los agentes, incluimos los siguientes campos en el archivo de settings, que se agregan al refuerzo por llegar a la salida y al refuerzo negativo en el caso de que el agente muera. En el caso de que el agente llegue a la salida o muera recibe el WIN\_REWARD o el LOSE\_REWARD respectivamente, y no se agrega este refuerzo adicional.
+ 	Para evaluar el efecto de aplicar pol\'iticas de refuerzos intermedios en el tiempo de aprendizaje de los agentes, incluimos los siguientes campos en el archivo de settings, que se agregan al refuerzo por llegar a la salida y al refuerzo negativo en el caso de que el agente muera. En el caso de que el agente llegue a la salida o muera recibe el \texttt{WIN\_REWARD} o el \texttt{LOSE\_REWARD} respectivamente, y no se agrega este refuerzo adicional.
 
 \begin{description}
-\item[NAVIGATION\_REWARD] Rewards por posici\'on del agente.
+\item[\texttt{NAVIGATION\_REWARD}] Rewards por posici\'on del agente.
 	\begin{itemize}
-	\item NAVIGATION\_NO\_REWARD: No se agrega refuerzos intermedios adicionales.
-	\item NAVIGATION\_REWARD\_PROPORTIONAL\_TO\_EXIT: Siempre que el agente realice una acci\'on que cambie su posici\'on recibe un refuerzo adicional proporcional a su distancia a la salida. En el caso de las acciones de movimiento que no cambien el estado, como por ejemplo intentar moverse hacia una posici\'on que tenga una pared, el agente no recibir\'a ning\'un refuerzo, de manera de desalentar este tipo de acciones. 
+	\item \texttt{NAVIGATION\_NO\_REWARD}: No se agrega refuerzos intermedios adicionales.
+	\item \texttt{NAVIGATION\_REWARD\_PROPORTIONAL\_TO\_EXIT}: Siempre que el agente realice una acci\'on que cambie su posici\'on recibe un refuerzo adicional proporcional a su distancia a la salida. En el caso de las acciones de movimiento que no cambien el estado, como por ejemplo intentar moverse hacia una posici\'on que tenga una pared, el agente no recibir\'a ning\'un refuerzo, de manera de desalentar este tipo de acciones. 
 	
 	Las formula para el c\'alculo de este refuerzo intermedio es la que sigue:
 	$$ refuerzo = cercania\_en\_x + cercania\_en\_y $$
 	donde
-	$$ cercania\_en\_x =\mid MAP\_SIZE-1 -(EXIT_0 - agentPosition_0) \mid$$
-	$$ cercania\_en\_y =\mid MAP\_SIZE-1 -(EXIT_1 - agentPosition_1) \mid$$
-	siendo $EXIT = (EXIT_0, EXIT_1)$ la posici\'on de la salida en el tablero
+	$$ cercania\_en\_x =\mid map\_size-1 -(exit_0 - agentPosition_0) \mid$$
+	$$ cercania\_en\_y =\mid map\_size-1 -(exit_1 - agentPosition_1) \mid$$
+	siendo $exit = (exit_0, exit_1)$ la posici\'on de la salida en el tablero
 	
 	y $agentPosition= (agentPosition_0, agentPosition_1)$
  la posici\'on del agente.
@@ -194,21 +194,21 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 	La motivaci\'on de este refuerzo es que el agente trate de dirigirse hacia la salida.
 	\end{itemize}
 
-\item[BOMB\_REWARD\_POLICY] Rewards por destruir paredes.
+\item[\texttt{BOMB\_REWARD\_POLICY}] Rewards por destruir paredes.
 	\begin{itemize}
-	\item BOMB\_NO\_REWARD: No se agrega refuerzos intermedios adicionales.
-	\item BOMB\_REWARD\_PER\_STONE\_DESTROYED: Cada vez que el agente destruye una pared, sin morir, recibe un refuerzo igual al BOMB\_REWARD del archivo de settings. La idea de este refuerzo es que el agente aprenda que debe destruir paredes.
-	\item BOMB\_REWARD\_PER\_STONE\_DESTROYED\_PROPORTIONAL\_TO\_EXIT: el refuerzo anterior, usado solo podr\'ia hacer que el agente, por lo menos en las primeras iteraciones, intente romper muchas paredes. Por eso agregamos esta opci\'on, que le da mayor valor a romper paredes cercanas a la salida. La formula para este valor es $BOMB\_REWARD \times cercania\_a\_la\_salida$ calculando la cercan\'ia de la misma forma que antes.
+	\item \texttt{BOMB\_NO\_REWARD}: No se agrega refuerzos intermedios adicionales.
+	\item \texttt{BOMB\_REWARD\_PER\_STONE\_DESTROYED}: Cada vez que el agente destruye una pared, sin morir, recibe un refuerzo igual al \texttt{BOMB\_REWARD} del archivo de settings. La idea de este refuerzo es que el agente aprenda que debe destruir paredes.
+	\item \texttt{BOMB\_REWARD\_PER\_STONE\_DESTROYED\_PROPORTIONAL\_TO\_EXIT}: el refuerzo anterior, usado solo podr\'ia hacer que el agente, por lo menos en las primeras iteraciones, intente romper muchas paredes. Por eso agregamos esta opci\'on, que le da mayor valor a romper paredes cercanas a la salida. La formula para este valor es $bomb\_reward \times cercania\_a\_la\_salida$ calculando la cercan\'ia de la misma forma que antes.
 	\end{itemize}
 
 	
-\item[NO\_ACTION\_NEGATIVE\_REWARD] Para desalentar el que el agente realizara acciones que no modificaran el estado, agregamos este booleano. Si se activa, cada vez que el agente realiza una acci\'on sin efecto, se le da un refuerzo negativo. Por defecto, cada vez que el agente realice una acci\'on que no cambie el estado, se le dar\'a un refuerzo negativo de -10.
+\item[\texttt{NO\_ACTION\_NEGATIVE\_REWARD}] Para desalentar el que el agente realizara acciones que no modificaran el estado, agregamos este booleano. Si se activa, cada vez que el agente realiza una acci\'on sin efecto, se le da un refuerzo negativo. Por defecto, cada vez que el agente realice una acci\'on que no cambie el estado, se le dar\'a un refuerzo negativo de -10.
 
-\item[INITIAL\_REWARD] En la misma l\'inea que el \'item anterior, tambi\'en permitimos variar el refuerzo que se le da al agente al realizar cualquier acci\'on. La idea es que si este valor fuera negativo, el agente intentar\'a llegar lo mas r\'apido a la salida. Esta idea se integra al $\gamma$, pero permite explicitar el valor negativo de realizar acciones. Por defecto, el agente recibe un -1 por cada acci\'on realizada.
+\item[\texttt{INITIAL\_REWARD}] En la misma l\'inea que el \'item anterior, tambi\'en permitimos variar el refuerzo que se le da al agente al realizar cualquier acci\'on. La idea es que si este valor fuera negativo, el agente intentar\'a llegar lo mas r\'apido a la salida. Esta idea se integra al $\gamma$, pero permite explicitar el valor negativo de realizar acciones. Por defecto, el agente recibe un -1 por cada acci\'on realizada.
 
 \end{description}
 
-	Las funciones para la aplicaci\'on de estos refuerzos se pueden encontrar en el archivo $Rewards.py$ y son llamadas desde Task de acuerdo a las pol\'iticas elegidas por el usuario en el archivo de Settings.
+	Las funciones para la aplicaci\'on de estos refuerzos se pueden encontrar en el archivo \textit{Rewards.py} y son llamadas desde Task de acuerdo a las pol\'iticas elegidas por el usuario en el archivo de Settings.
  
 \section{Pruebas y resultados}
 	\subsection{Sin Rewards Intermedios}
