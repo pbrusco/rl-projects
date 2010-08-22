@@ -48,7 +48,25 @@
 	
 	Nos interesa que el agente aprenda una pol\'itica para llegar a la salida realizando la menor cantidad de acciones posibles, para esto le damos un refuerzo positivo grande en el momento que llega al casillero de salida y un refuerzo negativo de la misma magnitud cuando el agente muere. A estos refuerzos los llamaremos WIN\_REWARD y LOSE\_REWARD respectivamente.
 	
-	\subsection{Uso}
+\section{Representación del estado}
+	En nuestro programa vamos a representar el Estado como una tupla con los valores que listaremos ahora:
+\begin{itemize}
+\item \textbf{bombermanPos}: tupla con la posición del agente, en x y en y en un momento determinado. Valor inicial (0,0)
+\item \textbf{bomb}: tupla que indica la posicion en x y en y de la bomba en el tablero, si es que la hay. None si no hay bomba.
+\item \textbf{isBombDropped}: Valor booleano que indica si el agente lanzó una bomba pero todavía no la detonó.
+\item \textbf{stones}: arreglo de valores booleanos. Cada posición i del arreglo indica si esa pared rompible está presente en el tablero, es decir que aún no fue destruida por el agente. El orden de las paredes va de arriba ala izquierda a abajo a la izquierda. Inicialmente están todas presentes. En el archivo $sample_board.txt$ se puede ver la configuración de los distintos tableros usados.
+\item \textbf{die}: Valor booleano que indica si el agente murió.
+\item \textbf{deltaBomb}: valor que está en el estado sólo para Rmax. Indica la distancia del agente a la bomba lanzada, si la hubiera.
+\end{itemize}
+
+	Serializamos el estado en un número único para .. ?. La implementación de estos metodos se puede ver en el archivo $State.py$, pero consiste principalmente en .. ?.
+
+\section{Acciones posibles del agente}
+	El agente cuenta con 4 acciones de movimiento, que se pueden ver en el archivo $Action.py$: UP, DOWN, LEFT y RIGHT. Además puede lanzar una bomba (sólo una por vez, no puede haber 2 bombas activas en el juego) con la acción DROP\_BOMB. La bomba se ubica en la posición en la que estaba el agente cuando la lanzó. El agente puede, por último, explotar una bomba lanzada mediante la acción EXPLODE. El radio de alcance de la bomba es de el casillero donde esta ubicada la bomba y sus aledaños, es decir el de arriba, el de abajo, el de la izquierda y el de la derecha. Cuando una bomba explota destruye las paredes rompibles (STONES) que estén en su radio de alcance y mata al agente si este se encuentra en este radio. Una vez que la bomba es explotada, el agente puede lanzar otra.
+
+
+
+\section{Uso}
 	Para correr el programa se debe elegir una configuración para los par\'ametos en alg\'un archivo de la carpeta settings. Luego, agregar el nombre del archivo modificado en la lista de RUN\_CONFIGURATIONS del archivo Runner.py. Luego, basta ejecutar el archivo Runner.py($ejecutar\ python\ Runner.py$)y se correr\'an todas las configuraciones agregadas a la lista de RUN\_CONFIGURATIONS.
 	
 	Los archivos de settings deben tener valores para los siguientes par\'ametros:
