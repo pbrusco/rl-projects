@@ -59,7 +59,7 @@
 \item \textbf{deltaBomb}: valor que está en el estado sólo para Rmax. Indica la distancia del agente a la bomba lanzada, si la hubiera.
 \end{itemize}
 
-	Serializamos el estado en un número único para .. ?. La implementación de estos metodos se puede ver en el archivo $State.py$, pero consiste principalmente en .. ?.
+	Serializamos el estado en un número único para .. ?. La implementación de estos métodos se puede ver en el archivo $State.py$, pero consiste principalmente en .. ?.
 
 \section{Acciones posibles del agente}
 	El agente cuenta con 4 acciones de movimiento, que se pueden ver en el archivo $Action.py$: UP, DOWN, LEFT y RIGHT. Además puede lanzar una bomba (sólo una por vez, no puede haber 2 bombas activas en el juego) con la acción DROP\_BOMB. La bomba se ubica en la posición en la que estaba el agente cuando la lanzó. El agente puede, por último, explotar una bomba lanzada mediante la acción EXPLODE. El radio de alcance de la bomba es de el casillero donde esta ubicada la bomba y sus aledaños, es decir el de arriba, el de abajo, el de la izquierda y el de la derecha. Cuando una bomba explota destruye las paredes rompibles (STONES) que estén en su radio de alcance y mata al agente si este se encuentra en este radio. Una vez que la bomba es explotada, el agente puede lanzar otra.
