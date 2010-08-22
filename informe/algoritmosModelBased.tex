@@ -1,3 +1,9 @@
 \subsubsection{RMax}
 
+Para implementar Rmax en nuestro trabajo, decidimos basarnos en la versión de KWIK-Rmax presente en las slides de la quinta clase del curso. Además, para más detalle sobre KWIK, y sobre las cotas matemáticas necesarias, nos basamos fuertemente en una disertación de Lihong Li \cite{li}.
+
+Un agente Rmax, al ser model based, va armando un modelo completo en base a la experiencia adquirida y, al momento de decidir qué acción tomar, elige aquélla que considera más valiosa en base a todo el modelo que tiene computado el agente. Entonces, el algoritmo se divide en dos fases: una fase de aprendizaje, donde actualizamos el modelo en base a la experiencia empírica, y la fase de toma de decisión, donde, en base al modelo, mediante alguna técnica como value iteration, decidimos qué acción es la que más conviene tomar.
+
+Al usar una versión KWIK para Rmax con las cotas necesarias, se garantizaría que el algoritmo completo fuera PAC. 
+
 \subsubsection{RMax Factorizado}
