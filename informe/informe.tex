@@ -215,7 +215,44 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 	Las funciones para la aplicaci\'on de estos refuerzos se pueden encontrar en el archivo \textit{Rewards.py} y son llamadas desde Task de acuerdo a las pol\'iticas elegidas por el usuario en el archivo de Settings.
  
 \section{Pruebas y resultados}
-	\subsection{Sin Rewards Intermedios}
+	En esta sección compararemos el desempeño de los distintos algoritmos implementados, con las distintas politicas de rewards intermedios y los distintos tipos de ambientes. 
+	
+	Para todas las corridas, además del \texttt{WIN\_REWARD} y el \texttt{LOSE\_REWARD}, los algoritmos están recibiendo un \texttt{INITIAL\_REWARD} (el refuerzo que se les da por cada acción efectuada) de -1 y un \texttt{NO\_ACTION\_NEGATIVE\_REWARD} (el refuerzo negativo que se les da a los algoritmos cuando realizan una acción que no les cambia el estado) de -10.
+	
+	\subsection{Comparación de los agentes implementados}
+	Veremos ahora una comparación entre los distintos agentes implementados. Los gráficos que mostraremos corresponden a corridas sin rewards intermedios. En las siguientes secciones veremos el efecto de aplicar rewards intermedios.
+	
+	Separaremos los resultados obtenidos para agentes model free y model based
+	
+	\subsubsection{Model Free}
+\begin{figure}
+\centering
+\subfloat[QLearning]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
+\subfloat[Sarsa]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/SarsaNoRewards-result.png}}
+\\
+\subfloat[Sarsa ($\lambda$)]{\includegraphics[width=0.5\textwidth]{corridas/SarsaLambdaNoRewards-result.png}}
+\caption{Comportamiento de los distintos algoritmos model free, sin rewards intermedios; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
+\label{fig:comparaNoRewardsFree}
+\end{figure}
+
+	Los algoritmos que se ven en la figura \ref{fig:comparaNoRewardsFree} corrieron para un mapa de tamaño 5. 
+	
+	Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. 
+	%aca explicacion de pablo.
+	
+	Sin embargo QLearning si converge a partir de juego 400.
+	
+	\subsubsection{Model Based}
+		\subsubsection{Model Free}
+\begin{figure}
+\centering
+\subfloat[Rmax]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
+\subfloat[Dyna]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
+\label{fig:comparaNoRewardsBased}
+\end{figure}
+
+	Los algoritmos model based que implementamos, fueron corridos en mapas de tamaño 3 debido a que tardaban mucho en correr para mapas de tamaño 5. En la figura \ref{fig:comparaNoRewardsBased} se puede ver que ambos convergen muy rápido. Y que una vez que RMax llega a la salida, no cambia su política. En cambio Dyna varía su política, lo cual causa que a veces el agente pierda. 
+	
 	\subsection{Aplicando Rewards Intermedios}
 	
 A continuaci\'on evaluamos cada uno de los distintos algoritmos aplicando las distintas configuraciones de rewards intermedios antes mencionadas, tanto para navegaci\'on como para stones destruidas. El objetivo es analizar c\'omo la aplicaci\'on de recompensas intermedias favorecen, a modo de breadcrumb, la convergencia de los distintos agentes.
