@@ -1,4 +1,10 @@
 
+\subsubsection{Introducción}
+
+Agentes Model Free:
+Estos agentes no construen un mapa de ambiente sino que eligen la accion a seguir en base a unos valores que van calculando de distintas formas para cada algoritmo La politica de aprendizaje basica es Qlearning, los de mas hacen modificaciones de eso, para el caso de sarsa se agrega x, para sarsa lambda se agrega y sobre sarsa y para dyna se prende fuego la casa de roberto giordano.
+
+
 \subsubsection{QLearning}
 	
 \paragraph{}	Q-learning es una técnica que funciona aprendiendo una función en base a acciones-valores que devuelve el refuerzo esperado por tomar la acción dada en un estado dado y siguiendo una política fija. Lo importante es que no requiere aprender el modelo del problema.
@@ -36,6 +42,11 @@ Un episodio del algoritmo termina cuando el estado $s_{t+1}$ es un estado final.
 			\caption{Algoritmo QLearning}
 		\end{figure}
 	
+	En nuestro caso, la estrategia utilizada para escoger la nueva acción es $\epsilon$-Greedy con $\epsilon$ valiendo 0.1, el cual funciona de la siguiente manera:
+	
+	
+próxima acción a tomar =  maxarg$_a\{Q(s,a)\}$ con probabilidad (1-e) y una acción al azar con probabilidad e.
+
 	
 	\subsubsection{Sarsa (State-Action-Reward-State-Action)}
 
@@ -89,23 +100,5 @@ $$ e_t(s, a) = \gamma \lambda  e_t(s, a)+1 \textrm{ \hspace{2cm}si } s = s_t$$
 	
 \paragraph{}Aquí se puede mantener historia de la traza solo hasta el primer movimiento exploratorio, ignorar las acciones exploratorias, o hacer un esquema un poco más complicado que considera todas las posibles acciones en cada estado.
 	
-	
-	\subsubsection{Dyna-Q}
-		
-		
-\paragraph{}Asumamos que tenemos un modelo del ambiente, esto es, que podemos predecir el siguiente estado y la recompensa dado un estado y una acción. La predicción puede ser un conjunto de posibles estados con su probabilidad asociada o puede ser un estado que es muestreado de acuerdo a la distribución de probabilidad de los estados resultantes. Dado un modelo, es posible hacer planificación. Lo interesante es que podemos utilizar los estados y acciones utilizados en la planificación también para aprender. De hecho al sistema de aprendizaje no le importa si los pares estado-acción son dados de experiencias reales o simuladas. Dado un modelo del ambiente, uno podría seleccionar aleatoriamente un par (estado,acción), usar el modelo para predecir el siguiente estado, obtener una recompensa y actualizar valores Q. Esto se puede repetir indefinidamente hasta converger a Q\*.
-
-\paragraph{}El algoritmo Dyna-Q combina experiencias con planificación para aprender más rápidamente una política óptima.
-La idea es aprender de experiencia, pero también usar un modelo para simular experiencia adicional y así aprender más rápidamente 
-
-\paragraph{}El algoritmo de Dyna-Q selecciona pares estado-acción aleatoriamente de pares anteriores. Sin embargo, la planificación se puede usar mucho mejor si se enfoca a pares estado-acción específicos. Por ejemplo, enfocarnos en las metas e irnos hacia atrás o más generalmente, irnos hacia atrás de cualquier estado que cambie su valor.Los cambios en las estimaciones de valor V o Q pueden cambiar, cuando se está aprendiendo o si el ambiente cambia y un valor estimado deja de ser cierto.
-
-\paragraph{}Veamos el pseudocódigo:
-		
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[width=0.6\textwidth]{Dyna.png}
-			\caption{Algoritmo Dyna-Q}
-		\end{figure}
 	
 	
