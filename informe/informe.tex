@@ -9,6 +9,7 @@
 \usepackage{amsmath}
 \usepackage{algorithmic}
 
+
 \addtolength{\oddsidemargin}{-1in}
 \addtolength{\textwidth}{2in}
 
@@ -215,6 +216,30 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
  
 \section{Pruebas y resultados}
 	\subsection{Sin Rewards Intermedios}
+	\subsection{Aplicando Rewards Intermedios}
+	
+	%	\begin{figure}[h!]
+%  \centering
+%    \includegraphics[width=0.5\textwidth]{corridas/SarsaNoRewards-result.png}
+%  \caption{Modelo Conceptual de la Arquitectura.}
+%
+%	\end{figure}
+%
+%
+%
+%\begin{figure}
+%\centering
+%\subfloat[A gull]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{corridas/SarsaNoRewards-result.png}}
+%\subfloat[A tiger]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{corridas/SarsaNoRewards-result.png}}
+%\\
+%\subfloat[A mouse]{\label{fig:mouse}\includegraphics[width=0.3\textwidth]{corridas/SarsaNoRewards-result.png}}
+%\subfloat[A mouse]{\label{fig:mouse}\includegraphics[width=0.3\textwidth]{corridas/SarsaNoRewards-result.png}}
+%\caption{Pictures of animals}
+%\label{fig:animals}
+%\end{figure}
+
+
+
 	\subsection{Rewards Intermedios por posici\'on del bomberman}
 	\subsection{Rewards Intermedios por explotar bomba}
 	\subsection{Rewards Intermedios por explotar bomba relativo a la posicion de la bomba}
@@ -228,15 +253,36 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \hline
 \textbf{Agente} & \textbf{Tiempo} & \textbf{Convergencia} \\
 \hline
-Dyna-bombR-result.out & 3.04e-02 & 11 \\
+DynaBombRewards-result.out & 8.79e-03 & 30 \\
 Qlearning-bombR-result.out & 7.34e-05 & 129 \\
-DynaNoRewads-result.out & 8.45e-02 & 160 \\
+SarsaBombReward-result.out & 6.04e-05 & None \\
+SarsaLambdaBombRewards-result.out & 1.89e-02 & None \\
+DynaBombProportionalToExit-result.out & 3.40e-03 & 155 \\
+QLearningBombProportionalToExit-result.out & 7.69e-05 & 105 \\
+SarsaBombProportionalToExit-result.out & 5.26e-05 & None \\
+SarsaLambdaBombProportionalToExit-result.out & 1.61e-02 & None \\
+DynaNavigationRewards-result.out & 3.75e-03 & 1184 \\
+QlearningNavigationReward-result.out & 6.45e-05 & 329 \\
+SarsaLambdaNavigationRewards-result.out & 1.77e-02 & None \\
+SarsaNavigationReward-result.out & 4.77e-05 & None \\
+DynaNoRewards-result.out & 1.27e-02 & 115 \\
 QlearningNoRewards-result.out & 7.41e-05 & 167 \\
+SarsaLambdaNoRewards-result.out & 1.89e-02 & None \\
 SarsaNoRewards-result.out & 5.89e-05 & None \\
+RMaxBombProportionalToExit-result.out & 1.14e-01 & 28 \\
+RMaxBombRewards-result.out & 2.73e-02 & 15 \\
+RMaxNavigationRewards-result.out & 1.08e-01 & 29 \\
+RmaxNoRewards-result.out & 6.15e-02 & 18 \\
+StochasticExplo.Dyna-result.out & 4.26e-03 & 19 \\
+StochasticExplo.QLearn-result.out & 5.01e-05 & 8 \\
+StochasticExplo.Sarsa-result.out & 4.18e-05 & 4997 \\
+StochasticNav.Dyna-result.out & 3.46e-03 & 4962 \\
+StochasticNav.QLearn-result.out & 5.74e-05 & 372 \\
+StochasticNav.Sarsa-result.out & 4.47e-05 & None \\
 \hline
 \end{tabular}
 
-\caption{Tiempo promedio por movimiento y cantidad de juegos requerida hasta lograr convergencia; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($15\%$) de los ganados.}
+\caption{Tiempo promedio por movimiento y cantidad de juegos requerida hasta lograr convergencia; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($20\%$) de los ganados.}
 
 \end{table}
 
@@ -264,6 +310,8 @@ Near-Optimal Reinforcement Learning}
 \bibitem{05-Broo87} Carlos Diuk, Lihong Li, Bethany R. Leffler: \textit{The Adaptive k-Meteorologists Problem and Its Application to Structure Learning and Feature Selection in Reinforcement Learning}
 
 \bibitem{c-refuerzo} Eduardo Morales, Jesus Gonzalez: \textit{Aprendizaje Computacional, Cap\'itulo 11: Aprendizaje por Refuerzo}, \texttt{http://ccc.inaoep.mx/~jagonzalez/ML/c-refuerzo.pdf}
+
+\bibitem{pacrl} Alexander L. Strehl, Lihong Li, Eric Wiewiora, John Langford, Michael L. Littman: \textit{PAC Model-Free Reinforcement Learning}, \texttt{http://hunch.net/~jl/projects/RL/Delayed\_Q/icml-talk.pdf}
 
 \end{thebibliography}
 	

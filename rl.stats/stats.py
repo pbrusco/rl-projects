@@ -1,7 +1,7 @@
 import os, fnmatch
 
 MAX_GAMES = 10000
-PERCENTAGE_OF_LOST_GAMES = 0.15
+PERCENTAGE_OF_LOST_GAMES = 0.20
 WIN_STATUS = 3
 
 class GameData():
@@ -16,12 +16,13 @@ def calculateConvergence(games):
 	
 	for i,status in enumerate(statuses):
 		if haswon and float(win) * PERCENTAGE_OF_LOST_GAMES > float(lose):
-			return i
+			return None if MAX_GAMES - i < 50 else i
 		elif status == WIN_STATUS:
 			haswon = True
 			win -= 1
 		else:
 			lose -= 1
+		
 		
 	return None
 	
@@ -53,7 +54,7 @@ def locate(pattern, root=os.curdir):
             yield os.path.join(path, filename)
 			
 def main():
-	for filepath in locate('*-result.out', '..'):
+	for filepath in locate('*-result.out', '../rl.bomber/Corridas'):
 		games = loadData(filepath)
 		file = os.path.basename(filepath)
 		printStats(file, games)
