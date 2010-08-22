@@ -218,26 +218,26 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 	\subsection{Sin Rewards Intermedios}
 	\subsection{Aplicando Rewards Intermedios}
 	
-	%	\begin{figure}[h!]
-%  \centering
-%    \includegraphics[width=0.5\textwidth]{corridas/SarsaNoRewards-result.png}
-%  \caption{Modelo Conceptual de la Arquitectura.}
-%
-%	\end{figure}
-%
-%
-%
-%\begin{figure}
-%\centering
-%\subfloat[A gull]{\label{fig:gull}\includegraphics[width=0.3\textwidth]{corridas/SarsaNoRewards-result.png}}
-%\subfloat[A tiger]{\label{fig:tiger}\includegraphics[width=0.3\textwidth]{corridas/SarsaNoRewards-result.png}}
-%\\
-%\subfloat[A mouse]{\label{fig:mouse}\includegraphics[width=0.3\textwidth]{corridas/SarsaNoRewards-result.png}}
-%\subfloat[A mouse]{\label{fig:mouse}\includegraphics[width=0.3\textwidth]{corridas/SarsaNoRewards-result.png}}
-%\caption{Pictures of animals}
-%\label{fig:animals}
-%\end{figure}
+A continuaci\'on evaluamos cada uno de los distintos algoritmos aplicando las distintas configuraciones de rewards intermedios antes mencionadas, tanto para navegaci\'on como para stones destruidas. El objetivo es analizar c\'omo la aplicaci\'on de recompensas intermedias favorecen, a modo de breadcrumb, la convergencia de los distintos agentes.
 
+\subsubsection{Q-Learning}
+
+En la figura \ref{fig:qlearnrewards} presentamos el comportamiento del algoritmo de q-learning de acuerdo a las distintas configuraciones de rewards. 
+
+Como se puede observar, la aplicaci\'on de navigation rewards no tiene un efecto importante sobre el punto de convergencia, aunque s\'i ayuda a que las partidas ganadas se mantengan m\'as cercanas al \'optimo. Resulta particular el hecho de que los juegos realizados previos al punto de convergencia requieran una mayor cantidad de movimientos al aplicar estas rewards.
+
+Las bomb rewards, por otro lado, tienen un efecto importante en el momento en que el algoritmo converge, reduciendo notablemente la cantidad de juegos que el agente necesita para llegar a una estrategia ganadora, as\'i como la cantidad de movimientos usados en los juegos iniciales. La diferencia entre las dos configuraciones de bomb rewards es \'infima.
+
+\begin{figure}
+\centering
+\subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
+\subfloat[Navigation rewards]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/QlearningNavigationReward-result.png}}
+\\
+\subfloat[Bomb rewards]{\includegraphics[width=0.5\textwidth]{corridas/Qlearning-bombR-result.png}}
+\subfloat[Bomb rewards relativas a la distancia a la salida]{\includegraphics[width=0.5\textwidth]{corridas/QLearningBombProportionalToExit-result.png}}
+\caption{Comportamiento del algoritmo q-learning dependiendo de las distintas configuraciones de rewards intermedias; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
+\label{fig:qlearnrewards}
+\end{figure}
 
 
 	\subsection{Rewards Intermedios por posici\'on del bomberman}
@@ -249,40 +249,39 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \begin{table}
 \centering
 
-\begin{tabular}{|l|r|r|}
+\begin{tabular}{|l|r|r|r|}
 \hline
-\textbf{Agente} & \textbf{Tiempo} & \textbf{Convergencia} \\
+\textbf{Agente} & \textbf{Tiempo} & \textbf{Convergencia} & \textbf{Optimo} \\
 \hline
-DynaBombRewards-result.out & 8.79e-03 & 30 \\
-Qlearning-bombR-result.out & 7.34e-05 & 129 \\
-SarsaBombReward-result.out & 6.04e-05 & None \\
-SarsaLambdaBombRewards-result.out & 1.89e-02 & None \\
-DynaBombProportionalToExit-result.out & 3.40e-03 & 155 \\
-QLearningBombProportionalToExit-result.out & 7.69e-05 & 105 \\
-SarsaBombProportionalToExit-result.out & 5.26e-05 & None \\
-SarsaLambdaBombProportionalToExit-result.out & 1.61e-02 & None \\
-DynaNavigationRewards-result.out & 3.75e-03 & 1184 \\
-QlearningNavigationReward-result.out & 6.45e-05 & 329 \\
-SarsaLambdaNavigationRewards-result.out & 1.77e-02 & None \\
-SarsaNavigationReward-result.out & 4.77e-05 & None \\
-DynaNoRewards-result.out & 1.27e-02 & 115 \\
-QlearningNoRewards-result.out & 7.41e-05 & 167 \\
-SarsaLambdaNoRewards-result.out & 1.89e-02 & None \\
-SarsaNoRewards-result.out & 5.89e-05 & None \\
-RMaxBombProportionalToExit-result.out & 1.14e-01 & 28 \\
-RMaxBombRewards-result.out & 2.73e-02 & 15 \\
-RMaxNavigationRewards-result.out & 1.08e-01 & 29 \\
-RmaxNoRewards-result.out & 6.15e-02 & 18 \\
-StochasticExplo.Dyna-result.out & 4.26e-03 & 19 \\
-StochasticExplo.QLearn-result.out & 5.01e-05 & 8 \\
-StochasticExplo.Sarsa-result.out & 4.18e-05 & 4997 \\
-StochasticNav.Dyna-result.out & 3.46e-03 & 4962 \\
-StochasticNav.QLearn-result.out & 5.74e-05 & 372 \\
-StochasticNav.Sarsa-result.out & 4.47e-05 & None \\
-\hline
+DynaBombRewards-result.out & 8.79e-03 & 30 & 27 \\
+Qlearning-bombR-result.out & 7.34e-05 & 129 & 21 \\
+SarsaBombReward-result.out & 6.04e-05 & None & 13 \\
+SarsaLambdaBombRewards-result.out & 1.89e-02 & None & 26 \\
+DynaBombProportionalToExit-result.out & 3.40e-03 & 155 & 24 \\
+QLearningBombProportionalToExit-result.out & 7.69e-05 & 105 & 21 \\
+SarsaBombProportionalToExit-result.out & 5.26e-05 & None & 13 \\
+SarsaLambdaBombProportionalToExit-result.out & 1.61e-02 & None & 23 \\
+DynaNavigationRewards-result.out & 3.75e-03 & 1184 & 13 \\
+QlearningNavigationReward-result.out & 6.45e-05 & 329 & 13 \\
+SarsaLambdaNavigationRewards-result.out & 1.77e-02 & None & 20 \\
+SarsaNavigationReward-result.out & 4.77e-05 & None & 13 \\
+DynaNoRewards-result.out & 1.27e-02 & 115 & 13 \\
+QlearningNoRewards-result.out & 7.41e-05 & 167 & 13 \\
+SarsaLambdaNoRewards-result.out & 1.89e-02 & None & 16 \\
+SarsaNoRewards-result.out & 5.89e-05 & None & 13 \\
+RMaxBombProportionalToExit-result.out & 1.14e-01 & 28 & 9 \\
+RMaxBombRewards-result.out & 2.73e-02 & 15 & 10 \\
+RMaxNavigationRewards-result.out & 1.08e-01 & 29 & 9 \\
+RmaxNoRewards-result.out & 6.15e-02 & 18 & 10 \\
+StochasticExplo.Dyna-result.out & 4.26e-03 & 19 & 16 \\
+StochasticExplo.QLearn-result.out & 5.01e-05 & 8 & 13 \\
+StochasticExplo.Sarsa-result.out & 4.18e-05 & 4997 & 17 \\
+StochasticNav.Dyna-result.out & 3.46e-03 & 4962 & 14 \\
+StochasticNav.QLearn-result.out & 5.74e-05 & 372 & 13 \\
+StochasticNav.Sarsa-result.out & 4.47e-05 & None & 13 \\
 \end{tabular}
 
-\caption{Tiempo promedio por movimiento y cantidad de juegos requerida hasta lograr convergencia; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($20\%$) de los ganados.}
+\caption{Tiempo promedio por movimiento, cantidad de juegos requerida hasta lograr convergencia y mejor estrategia desarrollada para ganar medida en cantidad de movimientos; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($20\%$) de los ganados.}
 
 \end{table}
 

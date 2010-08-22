@@ -32,8 +32,9 @@ def printStats(filepath, games):
 	totalMovements = float(sum([g.turns for g in games]))
 	timePerMovement = totalTime / totalMovements
 	convergence = calculateConvergence(games)
+	minmoves = min([g.turns for g in games if g.status == WIN_STATUS])
 	
-	print "{0} & {1:.2e} & {2} \\\\".format(filepath, timePerMovement, convergence)
+	print "{0} & {1:.2e} & {2} & {3} \\\\".format(filepath, timePerMovement, convergence, int(minmoves))
 
 	
 def loadData(filepath):
