@@ -3,7 +3,7 @@ from Action import *
 import Print
 
 
-LAMBDA = 0.9
+
 LEARNING_RATE = 0.8
 DISCOUNT_FACTOR = 0.95
 EPSILON = 0.1
