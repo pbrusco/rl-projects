@@ -1,18 +1,9 @@
 
 \subsubsection{Introducción}
 
-\paragraph{}El modelo del problema consiste en el conocimiento de la función de transición de estados y su función de refuerzo. El aprendizaje por refuerzo se ocupa principalmente de obtener una política optima para tal modelo cuando ese modelo no es totalmente conocido. El agente debe interactuar con el entorno directamente para obtener información, la cual puede ser procesada para producir una política optima.
+Agentes Model Free:
+Estos agentes no construen un mapa de ambiente sino que eligen la accion a seguir en base a unos valores que van calculando de distintas formas para cada algoritmo La politica de aprendizaje basica es Qlearning, los de mas hacen modificaciones de eso, para el caso de sarsa se agrega x, para sarsa lambda se agrega y sobre sarsa y para dyna se prende fuego la casa de roberto giordano.
 
-\paragraph{}En este punto hay dos formas de proceder:
-
-\begin{itemize}
-
-	\item Model-Free: Aprender la estrategia sin aprender el modelo.
-	\item Model-Based: Aprender el modelo para luego utilizarlo para derivar la estrategia.
-
-\end{itemize}
-
-\paragraph{}A continuación veremos algunos métodos Model-Free.
 
 \subsubsection{QLearning}
 	
@@ -51,29 +42,19 @@ Un episodio del algoritmo termina cuando el estado $s_{t+1}$ es un estado final.
 			\caption{Algoritmo QLearning}
 		\end{figure}
 	
-\paragraph{}En nuestro caso, la estrategia utilizada para escoger la nueva acción es $\epsilon$-Greedy con $\epsilon$ valiendo 0.1, el cual funciona de la siguiente manera:
+	En nuestro caso, la estrategia utilizada para escoger la nueva acción es $\epsilon$-Greedy con $\epsilon$ valiendo 0.1, el cual funciona de la siguiente manera:
 	
-
-\paragraph{}próxima acción a tomar =  maxarg$_a\{Q(s,a)\}$ con probabilidad (1-e) y una acción al azar con probabilidad e.
-
-
-\paragraph{}Por otra parte, las variables que modifican el comportamiento del algoritmo fueron seteadas en:
-
-
-
-\begin{\begin{itemize}
 	
-	\item LEARNING\_RATE $= \alpha = 0.8 $
-	\item DISCOUNT\_FACTOR $= \delta = 0.95 $
-\end{itemize}	
+próxima acción a tomar =  maxarg$_a\{Q(s,a)\}$ con probabilidad (1-e) y una acción al azar con probabilidad e.
+
 	
-\subsubsection{Sarsa (State-Action-Reward-State-Action)}
+	\subsubsection{Sarsa (State-Action-Reward-State-Action)}
 
-\paragraph{}Sarsa es otro algoritmo libre de modelo la cual también utiliza la función de valores Q.
+Sarsa es otro algoritmo libre de modelo la cual también utiliza la función de valores Q.
 
-\paragraph{}El nombre, refleja el hecho que la función principal para actualizar los Q-valores depende en el estado actual, la acción que elije, el reward que obtiene, el estado en el que se encuentra luego de realizar la acción y finalmente la acción la cual el agente va a elegir en su próximo estado.
+El nombre, refleja el hecho que la función principal para actualizar los Q-valores depende en el estado actual, la acción que elije, el reward que obtiene, el estado en el que se encuentra luego de realizar la acción y finalmente la acción la cual el agente va a elegir en su próximo estado.
 
-\paragraph{}Un agente Sarsa interectuará con el entorno y actualizará la política en base a acciones tomadas anteriormente. Los valores de la función Q son actualizados en base al error de predicción (ajustado por la tasa de aprendizaje ($\alpha$)).
+Un agente Sarsa interectuará con el entorno y actualizará la política en base a acciones tomadas anteriormente. Los valores de la función Q son actualizados en base al error de predicción (ajustado por la tasa de aprendizaje ($\alpha$)).
 Los valores de Q representan el posible reward a recibir en el próximo paso luego de tomar la acción actual en el estado actual sumado a el valor de recompenza futuro descontado  recibido de la próxima observación de acción-estado. Veamos el pseudocódigo del algoritmo:
 
 
@@ -84,16 +65,6 @@ Los valores de Q representan el posible reward a recibir en el próximo paso lueg
 		\caption{Algoritmo Sarsa}
 		\end{figure}
 	
-	
-\paragraph{} Para la implementación, los parametros fueron seteados en:
-
-
-
-\begin{\begin{itemize}
-	
-	\item LEARNING\_RATE $= \alpha = 0.8 $
-	\item DISCOUNT\_FACTOR $= \delta = 0.95 $
-\end{itemize}	
 	
 	
 	
@@ -127,17 +98,7 @@ $$ e_t(s, a) = \gamma \lambda  e_t(s, a)+1 \textrm{ \hspace{2cm}si } s = s_t$$
 		\end{figure}
 	
 	
-\paragraph{}Aquí se podría mantener historia de la traza solo hasta el primer movimiento exploratorio, ignorar las acciones exploratorias, o hacer un esquema un poco más complicado que considera todas las posibles acciones en cada estado.
-
-
-\paragraph{} Para nuestra implementación, los parametros fueron seteados en:
-
-\begin{\begin{itemize}
-	
-	\item DECAY_FACTOR $= \lambda = 0.9 $
-	\item LEARNING\_RATE $= \alpha = 0.8 $
-	\item DISCOUNT\_FACTOR $= \delta = 0.95 $
-\end{itemize}	
+\paragraph{}Aquí se puede mantener historia de la traza solo hasta el primer movimiento exploratorio, ignorar las acciones exploratorias, o hacer un esquema un poco más complicado que considera todas las posibles acciones en cada estado.
 	
 	
 	

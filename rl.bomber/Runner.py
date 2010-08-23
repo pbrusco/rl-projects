@@ -2,7 +2,7 @@ import shutil
 import os
 
 
-RUN_CONFIGURATIONS = ["StochasticExplo.Rmax"]
+RUN_CONFIGURATIONS = ["StochasticNav.Dyna"]
 
 def main():
 	

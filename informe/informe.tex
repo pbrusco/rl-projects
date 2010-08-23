@@ -340,6 +340,49 @@ Las bomb rewards, al igual que en los casos anteriores, generan una leve reducci
 \label{fig:sarsarew}
 \end{figure}
 
+\subsection{Ambiente Estocástico}
+	Veremos ahora los resultados que obtuvimos para cada algoritmo en los distintos ambientes. Analizaremos solamente los algoritmos que convergen.
+	
+	\subsubsection{QLearning}
+	\begin{figure}
+\centering
+\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
+\subfloat[Navegación Estocástica]
+{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavQLearn-result.png}}
+\\
+\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploQLearn-result.png}}
+
+\caption{QLearning en distintos tipos de ambientes.}
+\label{fig:QLearningAmbientes}
+\end{figure}
+
+\subsubsection{Rmax}
+	\begin{figure}
+\centering
+\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
+\subfloat[Navegación Estocástica]
+{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavRmax-result.png}}
+\\
+\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploRmax-result.png}}
+
+\caption{Rmax en distintos tipos de ambientes.}
+\label{fig:RmaxAmbientes}
+\end{figure}
+	
+\subsubsection{Dyna}
+	\begin{figure}
+\centering
+\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
+\subfloat[Navegación Estocástica]
+{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavDyna-result.png}}
+\\
+\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploDyna-result.png}}
+
+\caption{Dyna en distintos tipos de ambientes.}
+\label{fig:DynaAmbientes}
+\end{figure}
+	
+
 
 \clearpage
 
@@ -400,12 +443,6 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 \clearpage
 
 
-
-
-	\subsection{Rewards Intermedios por posici\'on del bomberman}
-	\subsection{Rewards Intermedios por explotar bomba}
-	\subsection{Rewards Intermedios por explotar bomba relativo a la posicion de la bomba}
-
 \section{Stats}
 
 \begin{table}
@@ -438,9 +475,11 @@ RmaxNoRewards-result.out & 6.15e-02 & 18 & 10 \\
 StochasticExplo.Dyna-result.out & 4.26e-03 & 19 & 16 \\
 StochasticExplo.QLearn-result.out & 5.01e-05 & 8 & 13 \\
 StochasticExplo.Sarsa-result.out & 4.18e-05 & 4997 & 17 \\
-StochasticNav.Dyna-result.out & 3.46e-03 & 4962 & 14 \\
+StochasticExplo.Rmax-result.out & 8.86e-02 & 4 & 12 \\
 StochasticNav.QLearn-result.out & 5.74e-05 & 372 & 13 \\
 StochasticNav.Sarsa-result.out & 4.47e-05 & None & 13 \\
+StochasticNav.Dyna-result.out & 3.38e-03 & 3041 & 14 \\
+StochasticNav.Rmax-result.out & 4.93e-01 & 25 & 11 \\
 \end{tabular}
 
 \caption{Tiempo promedio por movimiento, cantidad de juegos requerida hasta lograr convergencia y mejor estrategia desarrollada para ganar medida en cantidad de movimientos; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($20\%$) de los ganados.}
