@@ -496,15 +496,26 @@ StochasticNav.Rmax-result.out & 4.93e-01 & 25 & 11 \\
 
 \section{Conclusiones}
 
-\subsection{Rmax y rmax factorizado}
+\subsection{Q-Learning, sarsa y  sarsa($\lambda$)}
 
-En ambos casos, los resultados son negativos, y nos dejan con sabor amargo.
+\paragraph{}El caso de Qlearning fue realmente exitoso, en todos los casos probados se ve una rápida tendencia a encontrar una solución optima o cercana a ésta en tiempo reducido. 
+
+\paragraph{}Por su parte, Sarsa obtuvo resultados buenos pero no optimos, quizás ajustando los parametros o corriendo el algoritmo más tiempo se pueda llegar a mejores resultados.
+
+\paragraph{}Por otro lado, Sarsa($\lambda$) no obtuvo buenos resultados, quizás se deba a parametros mal configurados dado que pareciera que se fortalecen los malos resultados obteniendo malas técnicas.
+
+\subsection{Rmax, rmax factorizado y Dyna-Q}
+
+\paragraph{}En los primeros dos casos, los resultados son negativos, y nos dejan con sabor amargo.
 
 \paragraph{}En el caso de rmax, concluimos que tenemos un algoritmo correcto, pero que no escala. Esto se debe suponemos a la cantidad de estados que hay que manejar, y al costo de hacer value iteration cada vez. A medida que vamos conociendo nuevos estados, el algoritmo de value iteration se vuelve más pesado. Para 3x3 converge muy rápidamente, pero una vez que encuentra un camino hacia la salida se queda probando ese sin explorar más, por más de que no sea el camino óptimo (el algoritmo no es PAC). Nuestro juego en particular no es una buena situación para rmax por la gran cantidad de estados, éstos se vuelven inmanejables.
 
 \paragraph{}El caso de rmax factorizado es todavía peor, no logramos hacer que convergiera ni para el tablero de 3x3. No sabemos bien a qué se debe esto, pues, según la factorización, al morir el agente con una bomba solamente debería importarle el deltaBomb, por lo que debería aprender rápido a alejarse. Sin embargo, esto no sucede. Suponemos que tenemos algún \textit{bug} en el algoritmo, en la parte de aprendizaje o en la parte de cálculo de siguiente acción, en el cálculo del valor empírico de las función de transición o de recompensa para factor, o en otras partes ajenas al algoritmo, como por ejemplo en la factorización del estado, o del reward, o en el cálculo de valor único de cada factor dado un estado, no pudimos encontrar la falla. Tampoco descartamos un error conceptual del algoritmo de rmax factorizado.
 
 \paragraph{}Es, entonces, en parte, una desilución los resultados alcanzados por rmax y rmax factorizados, pues les dedicamos mucho tiempo a estos dos algoritmos, a leer papers sobre ellos para entender la idea, a implementarlos, optimizarlos, pensar variantes, y no llegamos a ningún buen resultado con ellos. Tratamos de tener algoritmos que tuvieran una garantía teórica de ser PAC y abandonamos esta idea porque la vimos imposible. Rmax no es viable para el tablero de 5x5 (donde sí son viables los algoritmos model free) y rmax factorizado ni siquiera está correcto.
+
+\paragraph{}Por otro lado, el algoritmo Dyna-Q funciono bastante bien para las pruebas realizadas, queda claro que es una buena elección para este tipo de problemas.
+
 
 \section{Trabajo futuro}
 \input{futuro.tex}
