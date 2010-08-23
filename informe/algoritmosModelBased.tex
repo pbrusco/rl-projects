@@ -1,0 +1,29 @@
+\subsubsection{RMax}
+
+\paragraph{}Para implementar Rmax en nuestro trabajo, decidimos basarnos en la versión de KWIK-Rmax presente en las slides de la quinta clase del curso. Además, para más detalle sobre KWIK, y sobre las cotas matemáticas necesarias, nos basamos fuertemente en una disertación de Lihong Li \cite{li}.
+
+\paragraph{}Un agente Rmax, al ser model based, va armando un modelo completo en base a la experiencia adquirida y, al momento de decidir qué acción tomar, elige aquélla que considera más valiosa en base a todo el modelo que tiene computado el agente. Entonces, el algoritmo se divide en dos fases: una fase de aprendizaje, donde actualizamos el modelo en base a la experiencia empírica, y la fase de toma de decisión, donde, en base al modelo, mediante alguna técnica como value iteration, decidimos qué acción es la que más conviene tomar.
+
+\paragraph{}A continuación se presenta el pseudocódigo de KWIK-Rmax extraído de la disertación Li \cite{li}, página 145:
+
+	\clearpage
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{kwik-rmax.png}
+			\caption{kwik-rmax}
+		\end{figure}
+
+\paragraph{}En el algoritmo, es la línea 12 donde se decide la próxima acción. En la línea 13 obtenemos el reward y el estado siguiente, valores que se usan a continuación para la fase de aprendizaje. \textbf{$A_T$} y \textbf{$A_R$} son los algoritmos que, dado un par estado-acción, determinan, respectivamente, el valor empírico de la probabilidad de moverse al estado deseado y el valor empírico del reward esperado, o, si no tienen suficientes datos, dicen que dicho par estado-acción es desconocido. Con una cota suficientemente grande, se garantiza que dicho algoritmo sea PAC dados $\epsilon$ y $\delta$. En la sección 7.2.1, página 148, Li da un valor para esta cota (donde $n$ es la cantidad de estados y $m$ la cantidad de acciones):
+
+\[
+	O(\frac{n^2m}{\epsilon^2}ln(\frac{nm}{\delta}))
+\]
+
+\paragraph{}Sin embargo, en nuestro caso, tenemos el problema de la gran cantidad de estados posibles: En el tablero de 5 x 5 (el tablero utilizado para todas las pruebas) tenemos: 21 casilleros posibles para el agente, 21 casilleros posibles para la bomba, $2^5$ estados de paredes explotadas. Lo que da un total de 21 x 21 x 32 = 14112 estados. Entonces, asumiendo $\epsilon = 1$ y $\gamma = 1$, la cuenta de la cota igualmente es la siguiente (recordar que tenemos 6 acciones posibles):
+\[
+	14000^2\cdot6\cdot ln(14000\cdot6) =
+\]
+
+\subsubsection{RMax Factorizado}
+
+\input{dyna.tex}
