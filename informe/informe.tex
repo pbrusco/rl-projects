@@ -252,6 +252,7 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \subfloat[Rmax]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
 \subfloat[Dyna]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
 \label{fig:comparaNoRewardsBased}
+\caption{Comportamiento de los distintos algoritmos model based, sin rewards intermedios; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
 \end{figure}
 
 	Los algoritmos model based que implementamos, fueron corridos en mapas de tamaño 3 debido a que tardaban mucho en correr para mapas de tamaño 5. En la figura \ref{fig:comparaNoRewardsBased} se puede ver que ambos convergen muy rápido. Y que una vez que RMax llega a la salida, no cambia su política. En cambio Dyna varía su política, lo cual causa que a veces el agente pierda. 
