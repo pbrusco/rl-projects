@@ -406,7 +406,8 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 	Como se puede ver en la figura \ref{fig:QLearningAmbientes} el algoritmo de QLearning tarda más en alcanzar una política óptima cuando la navegación es estocástica. Este resultado es de esperarse ya que lo que el agente aprendió para un estado, no siempre dará el mismo resultado al aplicarse de nuevo. Además de esto, el agente tiene más corridas en las que pierde aún después de haber alcanzado la política óptima, lo cual también evidencia lo que mencionamos antes.
 	
 	En cambio en el caso de la explosión estocástica se observa un resultado que llama la atención: El agente encuentra la política óptima antes.  Creemos que este resultado se debió a una corrida particular del algoritmo en el cual ``tuvo suerte'' y encontró pronto la salida. De todas maneras, también para este caso ocurre que los valores aún después de haber alcanzado la política óptima están más dispersos y se observa una mayor cantidad de corridas en las cuales el agente pierde después de haber alcanzado la política óptima.
-	\begin{figure}
+
+\begin{figure}
 \centering
 \subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
 \subfloat[Navegación Estocástica]
@@ -418,8 +419,11 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 \label{fig:QLearningAmbientes}
 \end{figure}
 
+\clearpage
+
 \subsubsection{Rmax}
-	\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
 \subfloat[Navegación Estocástica]
@@ -433,8 +437,10 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 	
 Los resultados no varían en relación a un ambiente determinístico.
 	
+\clearpage	
+	
 \subsubsection{Dyna}
-	\begin{figure}
+	\begin{figure}[!ht]
 \centering
 \subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
 \subfloat[Navegación Estocástica]
