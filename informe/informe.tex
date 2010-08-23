@@ -54,7 +54,7 @@
 	En nuestro programa vamos a representar el Estado como una tupla con los valores que listaremos a continuaci\'on:
 \begin{itemize}
 \item \textbf{bomberman position}: Tupla con la posición $i,j$ del agente en el tablero, en un momento determinado; valor inicial $(0,0)$.
-7\item \textbf{bomb position}: Tupla con la posicion $i,j$ de la bomba en el tablero, si es que la hay; toma un valor distinguido en caso de que no haya una bomba presente.
+\item \textbf{bomb position}: Tupla con la posicion $i,j$ de la bomba en el tablero, si es que la hay; toma un valor distinguido en caso de que no haya una bomba presente.
 \item \textbf{stones}: Arreglo de valores booleanos. Cada posición $i$ del arreglo indica si esa pared rompible está presente en el tablero, es decir si a\'un no fue destruida por el agente. El orden de las paredes va de arriba a la izquierda a abajo a la izquierda. Inicialmente están todas presentes. En el archivo \textit{sample\_board.txt} se puede ver la configuración de los distintos tableros usados.
 \item \textbf{died}: Valor booleano que indica si el agente murió, lo que implica el fin de la partida.
 \end{itemize}
@@ -252,9 +252,11 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \subfloat[Rmax]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
 \subfloat[Dyna]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
 \label{fig:comparaNoRewardsBased}
+\caption{Comportamiento de los distintos algoritmos model based, sin rewards intermedios; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
 \end{figure}
 
 	Los algoritmos model based que implementamos, fueron corridos en mapas de tamaño 3 debido a que tardaban mucho en correr para mapas de tamaño 5. En la figura \ref{fig:comparaNoRewardsBased} se puede ver que ambos convergen muy rápido. Y que una vez que RMax llega a la salida, no cambia su política. En cambio Dyna varía su política, lo cual causa que a veces el agente pierda. 
+
 
 	\paragraph{}Rmax para tablero de 5x5 tardaban demasiado las corridas. Dejamos el algoritmo corriendo por un día entero y nunca llegamos a las 1000 iteraciones.
 	
@@ -401,6 +403,9 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 	Veremos ahora los resultados que obtuvimos para cada algoritmo en los distintos ambientes. Analizaremos solamente los algoritmos que convergen.
 	
 	\subsubsection{QLearning}
+	Como se puede ver en la figura \ref{fig:QLearningAmbientes} el algoritmo de QLearning tarda más en alcanzar una política óptima cuando la navegación es estocástica. Este resultado es de esperarse ya que lo que el agente aprendió para un estado, no siempre dará el mismo resultado al aplicarse de nuevo. Además de esto, el agente tiene más corridas en las que pierde aún después de haber alcanzado la política óptima, lo cual también evidencia lo que mencionamos antes.
+	
+	En cambio en el caso de la explosión estocástica se observa un resultado que llama la atención: El agente encuentra la política óptima antes.  Creemos que este resultado se debió a una corrida particular del algoritmo en el cual ``tuvo suerte'' y encontró pronto la salida. De todas maneras, también para este caso ocurre que los valores aún después de haber alcanzado la política óptima están más dispersos y se observa una mayor cantidad de corridas en las cuales el agente pierde después de haber alcanzado la política óptima.
 	\begin{figure}
 \centering
 \subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
@@ -440,16 +445,12 @@ Los resultados no varían en relación a un ambiente determinístico.
 \caption{Dyna en distintos tipos de ambientes.}
 \label{fig:DynaAmbientes}
 \end{figure}
+
+\subsubsection{Comparaci\'on}
+	Tal como hicimos en la sección anterior, aquí presentamos la tabla con los tiempos promedios y las políticas alcanzadas por cada algoritmo.
 	
-
-
-\clearpage
-
-
-
-
-\clearpage
-
+	Se puede ver que, salvo casos excepcionales, en los que seguramente la acciónes estocásticas hicieron que alguna corrida particular tardara muy poc
+	
 
 \section{Stats}
 
@@ -459,6 +460,20 @@ Los resultados no varían en relación a un ambiente determinístico.
 \begin{tabular}{|l|r|r|r|}
 \hline
 \textbf{Agente} & \textbf{Tiempo} & \textbf{Convergencia} & \textbf{Optimo} \\
+\hline
+DynaNoRewards & 1.27e-02 & 115 & 13 \\
+QlearningNoRewards& 7.41e-05 & 167 & 13 \\
+SarsaLambdaNoRewards & 1.89e-02 & None & 16 \\
+SarsaNoRewards & 5.89e-05 & None & 13 \\
+RmaxNoRewards & 6.15e-02 & 18 & 10 \\
+StochasticExploDyna & 4.26e-03 & 19 & 16 \\
+StochasticExploQLearn & 5.01e-05 & 8 & 13 \\
+StochasticExploSarsa & 4.18e-05 & 4997 & 17 \\
+StochasticExploRmax & 8.86e-02 & 4 & 12 \\
+StochasticNav.QLearn & 5.74e-05 & 372 & 13 \\
+StochasticNav.Sarsa & 4.47e-05 & None & 13 \\
+StochasticNav.Dyna & 3.38e-03 & 3041 & 14 \\
+StochasticNav.Rmax & 4.93e-01 & 25 & 11 \\
 \hline
 DynaBombRewards-result.out & 8.79e-03 & 30 & 27 \\
 Qlearning-bombR-result.out & 7.34e-05 & 129 & 21 \\
