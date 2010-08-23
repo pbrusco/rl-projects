@@ -140,7 +140,7 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 	
 	\begin{figure}[h!]
   \centering
-    \includegraphics[width=0.5\textwidth]{MCarquitectra.png}
+    \includegraphics[scale=0.7]{MCarquitectra.png}
   \caption{Modelo Conceptual de la Arquitectura.}
 
 	\end{figure}
@@ -228,7 +228,8 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 	Separaremos los resultados obtenidos para agentes model free y model based
 	
 	\subsubsection{Model Free}
-\begin{figure}
+\clearpage
+\begin{figure}[h!]
 \centering
 \subfloat[QLearning]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
 \subfloat[Sarsa]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/SarsaNoRewards-result.png}}
@@ -236,18 +237,19 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \subfloat[Sarsa ($\lambda$)]{\includegraphics[width=0.5\textwidth]{corridas/SarsaLambdaNoRewards-result.png}}
 \caption{Comportamiento de los distintos algoritmos model free, sin rewards intermedios; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
 \label{fig:comparaNoRewardsFree}
-\end{figure}
+\end{figure} 
 
 	Los algoritmos que se ven en la figura \ref{fig:comparaNoRewardsFree} corrieron para un mapa de tamaño 5. 
 	
-	Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. 
-	%aca explicacion de pablo.
+	Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. Lo más probable es que esto esté sucediendo por los parámetros utilizados, ya que en otras implementaciones, pudimos observar que se utilizaban valores como 42412. Creemos que modificando estos parámetros nuestros algoritmos pueden llegar a converger más rápidamente, pero no dispusimos del tiempo necesario para hacer las pruebas.
+	
+	 En sarsa($\lambda$) lo que sucede es que se están fortaleciendo experiencias que no dieron buen resultado, es posible que bajando la cantidad de veces que se fortalecen las experiencias (N) o cambiando la importancia que se le da a esas experiencias, se logren mejores resultados.
 	
 	Sin embargo QLearning si converge a partir de juego 400.
 	
 	\subsubsection{Model Based}
-		\subsubsection{Model Free}
-\begin{figure}
+	\clearpage
+\begin{figure}[h!]
 \centering
 \subfloat[Rmax]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
 \subfloat[Dyna]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
@@ -272,7 +274,7 @@ Como se puede observar, la aplicaci\'on de navigation rewards no genera una mejo
 
 Las bomb rewards, por otro lado, tienen un efecto importante en el momento en que el algoritmo converge, reduciendo notablemente la cantidad de juegos que el agente necesita para llegar a una estrategia ganadora, as\'i como la cantidad de movimientos usados en los juegos iniciales. La diferencia entre las dos configuraciones de bomb rewards es \'infima.
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
 \subfloat[Navigation rewards]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/QlearningNavigationReward-result.png}}
@@ -293,7 +295,7 @@ En este caso, a diferencia de q-learning, la aplicaci\'on de rewards intermedias
 Las bomb rewards, por otra parte, tambi\'en mejoraron notablemente la velocidad de convergencia hacia una estrategia ganadora, aunque en menor medida que las rewards de navegaci\'on. Nuevamente se observa una reducci\'on en la cantidad de movimientos realizada en los juegos perdidos. 
 
 En este caso, las recompensas constantes para todas las stones dieron resultados levemente mejores que la contraparte proporcional a la distancia a la salida.
-
+\clearpage
 \begin{figure}
 \centering
 \subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
@@ -312,8 +314,8 @@ Para el caso de R-Max, como puede verse en la figura \ref{fig:rmaxrew}, el compo
 Las ligeras diferencias observadas entre las distintas configuraciones de rewards dependen m\'as del componente aleatorio que tiene el algoritmo a la hora de elegir una acci\'on (en caso de no tener informaci\'on suficiente para tomar una decisi\'on), que de una diferencia efectiva generada por las rewards intermedias.
 
 De todas maneras, cabe destacar que la estrategia arribada pasa de tener $10$ movimientos en los casos sin rewards y con rewards constantes por stones, a tener $9$ en las configuraciones restantes.
-
-\begin{figure}
+\clearpage
+\begin{figure}[h!]
 \centering
 \subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
 \subfloat[Navigation rewards]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/RMaxNavigationRewards-result.png}}
@@ -330,7 +332,7 @@ Los resultados de las aplicaciones de las rewards intermedios para Sarsa pueden 
 
 Las bomb rewards, al igual que en los casos anteriores, generan una leve reducci\'on en la cantidad de movimientos por juego, aunque en este caso afectando tanto a los juegos ganados como a los perdidos.
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/SarsaNoRewards-result.png}}
 \subfloat[Navigation rewards]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/SarsaNavigationReward-result.png}}
@@ -341,54 +343,7 @@ Las bomb rewards, al igual que en los casos anteriores, generan una leve reducci
 \label{fig:sarsarew}
 \end{figure}
 
-\subsection{Ambiente Estocástico}
-	Veremos ahora los resultados que obtuvimos para cada algoritmo en los distintos ambientes. Analizaremos solamente los algoritmos que convergen.
-	
-	\subsubsection{QLearning}
-	\begin{figure}
-\centering
-\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
-\subfloat[Navegación Estocástica]
-{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavQLearn-result.png}}
-\\
-\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploQLearn-result.png}}
-
-\caption{QLearning en distintos tipos de ambientes.}
-\label{fig:QLearningAmbientes}
-\end{figure}
-
-\subsubsection{Rmax}
-	\begin{figure}
-\centering
-\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
-\subfloat[Navegación Estocástica]
-{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavRmax-result.png}}
-\\
-\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploRmax-result.png}}
-
-\caption{Rmax en distintos tipos de ambientes.}
-\label{fig:RmaxAmbientes}
-\end{figure}
-	
-\subsubsection{Dyna}
-	\begin{figure}
-\centering
-\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
-\subfloat[Navegación Estocástica]
-{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavDyna-result.png}}
-\\
-\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploDyna-result.png}}
-
-\caption{Dyna en distintos tipos de ambientes.}
-\label{fig:DynaAmbientes}
-\end{figure}
-	
-
-
-\clearpage
-
-
-\subsection{Comparaci\'on}
+\subsubsection{Comparaci\'on}
 
 Volcamos en la tabla \ref{table:rewards} los datos correspondientes al tiempo promedio por movimiento, el punto de convergencia y la menor cantidad de movimientos alcanzada por cada algoritmo seg\'un distintas rewards para una f\'acil comparaci\'on entre ellos. Es importante para la comparaci\'on recordar que RMax fue ejecutado sobre un tablero de menor tama\'no; asimismo incluimos en esta secci\'on Sarsa-$\lambda$ pese a no haber logrado resultados aceptables.
 
@@ -439,6 +394,55 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 \caption{Tiempo promedio por movimiento, cantidad de juegos requerida hasta lograr convergencia y mejor estrategia desarrollada para ganar medida en cantidad de movimientos; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($20\%$) de los ganados.}
 
 \end{table}
+
+
+\subsection{Ambiente Estocástico}
+	Veremos ahora los resultados que obtuvimos para cada algoritmo en los distintos ambientes. Analizaremos solamente los algoritmos que convergen.
+	
+	\subsubsection{QLearning}
+	\begin{figure}
+\centering
+\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
+\subfloat[Navegación Estocástica]
+{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavQLearn-result.png}}
+\\
+\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploQLearn-result.png}}
+
+\caption{QLearning en distintos tipos de ambientes.}
+\label{fig:QLearningAmbientes}
+\end{figure}
+
+\subsubsection{Rmax}
+	\begin{figure}
+\centering
+\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
+\subfloat[Navegación Estocástica]
+{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavRmax-result.png}}
+\\
+\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploRmax-result.png}}
+
+\caption{Rmax en distintos tipos de ambientes.}
+\label{fig:RmaxAmbientes}
+\end{figure}
+	
+\subsubsection{Dyna}
+	\begin{figure}
+\centering
+\subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
+\subfloat[Navegación Estocástica]
+{\includegraphics[width=0.5\textwidth]{corridas/StochasticNavDyna-result.png}}
+\\
+\subfloat[Explosión estocástica]{\includegraphics[width=0.5\textwidth]{corridas/StochasticExploDyna-result.png}}
+
+\caption{Dyna en distintos tipos de ambientes.}
+\label{fig:DynaAmbientes}
+\end{figure}
+	
+
+
+\clearpage
+
+
 
 
 \clearpage
@@ -498,13 +502,13 @@ StochasticNav.Rmax-result.out & 4.93e-01 & 25 & 11 \\
 \bibitem{rmax} Ronen I. Brafman, Moshe Tennenholtz: \textit{R-max A General Polynomial Time Algorithm for
 Near-Optimal Reinforcement Learning}
 
-\bibitem{frmax1} Carlos Guestrin, Relu Patrascu, Dale Schuurmans: \textit{Algorithm-Directed Exploration for Model-Based Reinforcement Learning in Factored MDPs}
+\bibitem{rmaxfact} Carlos Guestrin, Relu Patrascu, Dale Schuurmans: \textit{Algorithm-Directed Exploration for Model-Based Reinforcement Learning in Factored MDPs}
 
 \bibitem{kroonicmla09} Mark Kroon, Shimon Whiteson: \textit{Automatic Feature Selection for Model-Based Reinforcement Learning in Factored MDPs}
 
-\bibitem{frmax2} Michael Kearns, Daphne Koller: \textit{Efficient Reinforcement Learning in Factored MDPs}
+\bibitem{dbne3} Michael Kearns, Daphne Koller: \textit{Efficient Reinforcement Learning in Factored MDPs}
 
-\bibitem{frmax3} Alexander L. Strehl, Carlos Diuk, Michael L. Littman: \textit{Efficient Structure Learning in Factored-state MDPs}
+\bibitem{AAAI07-102} Alexander L. Strehl, Carlos Diuk, Michael L. Littman: \textit{Efficient Structure Learning in Factored-state MDPs}
 
 \bibitem{12-64-FP-0295} Todd Hester, Peter Stone: \textit{Generalized Model Learning for Reinforcement Learning in Factored Domains}
 
