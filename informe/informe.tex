@@ -228,7 +228,6 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 	Separaremos los resultados obtenidos para agentes model free y model based
 	
 	\subsubsection{Model Free}
-\clearpage
 \begin{figure}[h!]
 \centering
 \subfloat[QLearning]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
@@ -241,14 +240,13 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 
 	\paragraph{} Los algoritmos que se ven en la figura \ref{fig:comparaNoRewardsFree} corrieron para un mapa de tamaño 5. 
 	
-	\paragraph{}Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. Lo más probable es que esto esté sucediendo por los parámetros utilizados, ya que en otras implementaciones, pudimos observar que se utilizaban otros valores, como $\alpha$ mas chicos o $\delta$ más cercanos a 1. Creemos que modificando estos parámetros nuestros algoritmos pueden llegar a converger más rápidamente, pero no dispusimos del tiempo necesario para hacer las pruebas.
+	\paragraph{}Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. Al ver que nuestros algoritmos no convergían investigamos un poco sobre otras implementaciones de estos mismos algoritmos y vimos que los valores de los parámetros eran distintos. Por ejemplo se usaban valores mas chicos para  $\alpha$ o más cercanos a 1 para $\delta$. Creemos que modificando estos parámetros nuestros algoritmos pueden llegar a converger más rápidamente, pero no dispusimos del tiempo necesario para hacer las pruebas.
 	
 	 \paragraph{}En sarsa($\lambda$) lo que sucede es que se están fortaleciendo experiencias que no dieron buen resultado, es posible que bajando la cantidad de veces que se fortalecen las experiencias (N) o cambiando la importancia que se le da a esas experiencias, se logren mejores resultados.
 	
-	\paragraph{}Sin embargo QLearning si converge a partir de juego 400.
+	\paragraph{}Sin embargo QLearning si converge a partir de juego 400, lo cual nos parece un buen resultado.
 	
 	\subsubsection{Model Based}
-	\clearpage
 \begin{figure}[h!]
 \centering
 \subfloat[Rmax]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
@@ -258,7 +256,9 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 
 	Los algoritmos model based que implementamos, fueron corridos en mapas de tamaño 3 debido a que tardaban mucho en correr para mapas de tamaño 5. En la figura \ref{fig:comparaNoRewardsBased} se puede ver que ambos convergen muy rápido. Y que una vez que RMax llega a la salida, no cambia su política. En cambio Dyna varía su política, lo cual causa que a veces el agente pierda. 
 
-
+	\paragraph{}Rmax para tablero de 5x5 tardaban demasiado las corridas. Dejamos el algoritmo corriendo por un día entero y nunca llegamos a las 1000 iteraciones.
+	
+	\paragraph{}Rmax factorizado no llegó a converger para mapas de 3x3 inclusive. No sabemos por qué pasa esto, ya que, según la factorización, el agente debería aprender en 5 explosiones que siempre que una bomba explota cerca de él, se muere. Sin embargo, después de muchas iteraciones, el agente seguía muriendo por explosión de bomba. Suponemos que tenemos un error en el algoritmo de rmax factorizado (puede ser en el aprendizaje o en la elección), o en el algoritmo para factorizar el estado, y para, dado un factor, codificar su valor en un entero que sea único. Sea cual sea el error, no pudimos hacer anda rmax factorizado. Igualmente, enviamos el código.
 
 	\subsection{Aplicando Rewards Intermedios}
 	
@@ -295,7 +295,7 @@ En este caso, a diferencia de q-learning, la aplicaci\'on de rewards intermedias
 Las bomb rewards, por otra parte, tambi\'en mejoraron notablemente la velocidad de convergencia hacia una estrategia ganadora, aunque en menor medida que las rewards de navegaci\'on. Nuevamente se observa una reducci\'on en la cantidad de movimientos realizada en los juegos perdidos. 
 
 En este caso, las recompensas constantes para todas las stones dieron resultados levemente mejores que la contraparte proporcional a la distancia a la salida.
-\clearpage
+
 \begin{figure}
 \centering
 \subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
@@ -314,7 +314,7 @@ Para el caso de R-Max, como puede verse en la figura \ref{fig:rmaxrew}, el compo
 Las ligeras diferencias observadas entre las distintas configuraciones de rewards dependen m\'as del componente aleatorio que tiene el algoritmo a la hora de elegir una acci\'on (en caso de no tener informaci\'on suficiente para tomar una decisi\'on), que de una diferencia efectiva generada por las rewards intermedias.
 
 De todas maneras, cabe destacar que la estrategia arribada pasa de tener $10$ movimientos en los casos sin rewards y con rewards constantes por stones, a tener $9$ en las configuraciones restantes.
-\clearpage
+
 \begin{figure}[h!]
 \centering
 \subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
@@ -325,6 +325,7 @@ De todas maneras, cabe destacar que la estrategia arribada pasa de tener $10$ mo
 \caption{Comportamiento del algoritmo R-Max dependiendo de las distintas configuraciones de rewards intermedias; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
 \label{fig:rmaxrew}
 \end{figure}
+\newpage 
 
 \subsubsection{Sarsa}
 
@@ -345,7 +346,7 @@ Las bomb rewards, al igual que en los casos anteriores, generan una leve reducci
 
 \subsubsection{Comparaci\'on}
 
-Volcamos en la tabla \ref{table:rewards} los datos correspondientes al tiempo promedio por movimiento, el punto de convergencia y la menor cantidad de movimientos alcanzada por cada algoritmo seg\'un distintas rewards para una f\'acil comparaci\'on entre ellos. Es importante para la comparaci\'on recordar que RMax fue ejecutado sobre un tablero de menor tama\'no; asimismo incluimos en esta secci\'on Sarsa-$\lambda$ pese a no haber logrado resultados aceptables.
+Volcamos en el cuadro \ref{table:rewards} los datos correspondientes al tiempo promedio por movimiento, el punto de convergencia y la menor cantidad de movimientos alcanzada por cada algoritmo seg\'un distintas rewards para una f\'acil comparaci\'on entre ellos. Es importante para la comparaci\'on recordar que RMax fue ejecutado sobre un tablero de menor tama\'no; asimismo incluimos en esta secci\'on Sarsa-$\lambda$ pese a no haber logrado resultados aceptables.
 
 Los tiempos de procesamiento se ven poco afectados por la aplicaci\'on de rewards, manteni\'endose bajos para algoritmos livianos como Q-learning o Sarsa, y con valores m\'as altos para Dyna, Sarsa-$\lambda$ y especialmente RMax.
 
@@ -425,6 +426,8 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 \label{fig:RmaxAmbientes}
 \end{figure}
 	
+Los resultados no varían en relación a un ambiente determinístico.
+	
 \subsubsection{Dyna}
 	\begin{figure}
 \centering
@@ -491,12 +494,20 @@ StochasticNav.Rmax-result.out & 4.93e-01 & 25 & 11 \\
 
 \end{table}
 
-\section{Trabajo Futuro}
-\input{futuro.tex}
-
-
 \section{Conclusiones}
 
+\subsection{Rmax y rmax factorizado}
+
+En ambos casos, los resultados son negativos, y nos dejan con sabor amargo.
+
+\paragraph{}En el caso de rmax, concluimos que tenemos un algoritmo correcto, pero que no escala. Esto se debe suponemos a la cantidad de estados que hay que manejar, y al costo de hacer value iteration cada vez. A medida que vamos conociendo nuevos estados, el algoritmo de value iteration se vuelve más pesado. Para 3x3 converge muy rápidamente, pero una vez que encuentra un camino hacia la salida se queda probando ese sin explorar más, por más de que no sea el camino óptimo (el algoritmo no es PAC). Nuestro juego en particular no es una buena situación para rmax por la gran cantidad de estados, éstos se vuelven inmanejables.
+
+\paragraph{}El caso de rmax factorizado es todavía peor, no logramos hacer que convergiera ni para el tablero de 3x3. No sabemos bien a qué se debe esto, pues, según la factorización, al morir el agente con una bomba solamente debería importarle el deltaBomb, por lo que debería aprender rápido a alejarse. Sin embargo, esto no sucede. Suponemos que tenemos algún \textit{bug} en el algoritmo, en la parte de aprendizaje o en la parte de cálculo de siguiente acción, en el cálculo del valor empírico de las función de transición o de recompensa para factor, o en otras partes ajenas al algoritmo, como por ejemplo en la factorización del estado, o del reward, o en el cálculo de valor único de cada factor dado un estado, no pudimos encontrar la falla. Tampoco descartamos un error conceptual del algoritmo de rmax factorizado.
+
+\paragraph{}Es, entonces, en parte, una desilución los resultados alcanzados por rmax y rmax factorizados, pues les dedicamos mucho tiempo a estos dos algoritmos, a leer papers sobre ellos para entender la idea, a implementarlos, optimizarlos, pensar variantes, y no llegamos a ningún buen resultado con ellos. Tratamos de tener algoritmos que tuvieran una garantía teórica de ser PAC y abandonamos esta idea porque la vimos imposible. Rmax no es viable para el tablero de 5x5 (donde sí son viables los algoritmos model free) y rmax factorizado ni siquiera está correcto.
+
+\section{Trabajo futuro}
+\input{futuro.tex}
 
 \clearpage
 
