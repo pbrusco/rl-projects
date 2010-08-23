@@ -54,7 +54,7 @@
 	En nuestro programa vamos a representar el Estado como una tupla con los valores que listaremos a continuaci\'on:
 \begin{itemize}
 \item \textbf{bomberman position}: Tupla con la posición $i,j$ del agente en el tablero, en un momento determinado; valor inicial $(0,0)$.
-\item \textbf{bomb position}: Tupla con la posicion $i,j$ de la bomba en el tablero, si es que la hay; toma un valor distinguido en caso de que no haya una bomba presente.
+7\item \textbf{bomb position}: Tupla con la posicion $i,j$ de la bomba en el tablero, si es que la hay; toma un valor distinguido en caso de que no haya una bomba presente.
 \item \textbf{stones}: Arreglo de valores booleanos. Cada posición $i$ del arreglo indica si esa pared rompible está presente en el tablero, es decir si a\'un no fue destruida por el agente. El orden de las paredes va de arriba a la izquierda a abajo a la izquierda. Inicialmente están todas presentes. En el archivo \textit{sample\_board.txt} se puede ver la configuración de los distintos tableros usados.
 \item \textbf{died}: Valor booleano que indica si el agente murió, lo que implica el fin de la partida.
 \end{itemize}
@@ -491,7 +491,12 @@ StochasticNav.Rmax-result.out & 4.93e-01 & 25 & 11 \\
 
 \end{table}
 
+\section{Trabajo Futuro}
+\input{futuro.tex}
+
+
 \section{Conclusiones}
+
 
 \clearpage
 
