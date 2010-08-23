@@ -254,16 +254,20 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \end{figure}
 
 	Los algoritmos model based que implementamos, fueron corridos en mapas de tamaño 3 debido a que tardaban mucho en correr para mapas de tamaño 5. En la figura \ref{fig:comparaNoRewardsBased} se puede ver que ambos convergen muy rápido. Y que una vez que RMax llega a la salida, no cambia su política. En cambio Dyna varía su política, lo cual causa que a veces el agente pierda. 
-	
+
+
+
 	\subsection{Aplicando Rewards Intermedios}
 	
-A continuaci\'on evaluamos cada uno de los distintos algoritmos aplicando las distintas configuraciones de rewards intermedios antes mencionadas, tanto para navegaci\'on como para stones destruidas. El objetivo es analizar c\'omo la aplicaci\'on de recompensas intermedias favorecen, a modo de breadcrumb, la convergencia de los distintos agentes.
+A continuaci\'on evaluamos cada uno de los distintos algoritmos aplicando las distintas configuraciones de rewards intermedios antes mencionadas, tanto para navegaci\'on como para stones destruidas. El objetivo es analizar c\'omo la aplicaci\'on de recompensas intermedias favorecen, a modo de breadcrumb, la convergencia de los distintos agentes\footnote{No incluimos a los agentes de R-Max factorizado ni Sarsa-$\lambda$ pues los resultados obtenidos no fueron satisfactorios, independientemente de la aplicaci\'on de rewards}.
+
+Todas las pruebas fueron ejecutadas sobre tableros de $5 \times 5$, a excepci\'on de RMax que fue ejecutado sobre un tablero de $3 \times 3$ debido al alto tiempo de procesamiento que tuvo.
 
 \subsubsection{Q-Learning}
 
 En la figura \ref{fig:qlearnrewards} presentamos el comportamiento del algoritmo de q-learning de acuerdo a las distintas configuraciones de rewards. 
 
-Como se puede observar, la aplicaci\'on de navigation rewards no tiene un efecto importante sobre el punto de convergencia, aunque s\'i ayuda a que las partidas ganadas se mantengan m\'as cercanas al \'optimo. Resulta particular el hecho de que los juegos realizados previos al punto de convergencia requieran una mayor cantidad de movimientos al aplicar estas rewards.
+Como se puede observar, la aplicaci\'on de navigation rewards no genera una mejora importante sobre el punto de convergencia (por el contrario, lo empeora), aunque s\'i ayuda a que las partidas ganadas se mantengan m\'as cercanas al \'optimo. Resulta particular el hecho de que los juegos realizados previos al punto de convergencia requieran una mayor cantidad de movimientos al aplicar estas rewards.
 
 Las bomb rewards, por otro lado, tienen un efecto importante en el momento en que el algoritmo converge, reduciendo notablemente la cantidad de juegos que el agente necesita para llegar a una estrategia ganadora, as\'i como la cantidad de movimientos usados en los juegos iniciales. La diferencia entre las dos configuraciones de bomb rewards es \'infima.
 
@@ -277,6 +281,125 @@ Las bomb rewards, por otro lado, tienen un efecto importante en el momento en qu
 \caption{Comportamiento del algoritmo q-learning dependiendo de las distintas configuraciones de rewards intermedias; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
 \label{fig:qlearnrewards}
 \end{figure}
+
+
+\subsubsection{Dyna}
+
+En \ref{fig:dynarew} presentamos los gr\'aficos correspondientes al efecto de la aplicaci\'on de rewards intermedias para el algoritmo dyna.
+
+En este caso, a diferencia de q-learning, la aplicaci\'on de rewards intermedias para navegaci\'on mejor\'o notablemente la velocidad de convergencia del algoritmo, al punto de que el agente perdiera en muy pocas oportunidades, dando excelentes resultados. De todas maneras, y al igual que en el caso de q-learning, la aplicaci\'on de estas rewards llev\'o a que en los juegos perdidos la cantidad de movimientos fuera mucho mayor.
+
+Las bomb rewards, por otra parte, tambi\'en mejoraron notablemente la velocidad de convergencia hacia una estrategia ganadora, aunque en menor medida que las rewards de navegaci\'on. Nuevamente se observa una reducci\'on en la cantidad de movimientos realizada en los juegos perdidos. 
+
+En este caso, las recompensas constantes para todas las stones dieron resultados levemente mejores que la contraparte proporcional a la distancia a la salida.
+
+\begin{figure}
+\centering
+\subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/DynaNoRewards-result.png}}
+\subfloat[Navigation rewards]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/DynaNavigationRewards-result.png}}
+\\
+\subfloat[Bomb rewards]{\includegraphics[width=0.5\textwidth]{corridas/DynaBombRewards-result.png}}
+\subfloat[Bomb rewards relativas a la distancia a la salida]{\includegraphics[width=0.5\textwidth]{corridas/DynaBombProportionalToExit-result.png}}
+\caption{Comportamiento del algoritmo dyna dependiendo de las distintas configuraciones de rewards intermedias; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
+\label{fig:dynarew}
+\end{figure}
+
+\subsubsection{R-Max}
+
+Para el caso de R-Max, como puede verse en la figura \ref{fig:rmaxrew}, el comportamiento var\'ia muy poco de acuerdo a las rewards aplicadas. En todos los casos se mantiene el comportamiento de arribar a una estrategia ganadora r\'apidamente y no intentar explorar alternativa alguna. 
+
+Las ligeras diferencias observadas entre las distintas configuraciones de rewards dependen m\'as del componente aleatorio que tiene el algoritmo a la hora de elegir una acci\'on (en caso de no tener informaci\'on suficiente para tomar una decisi\'on), que de una diferencia efectiva generada por las rewards intermedias.
+
+De todas maneras, cabe destacar que la estrategia arribada pasa de tener $10$ movimientos en los casos sin rewards y con rewards constantes por stones, a tener $9$ en las configuraciones restantes.
+
+\begin{figure}
+\centering
+\subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/RmaxNoRewards-result.png}}
+\subfloat[Navigation rewards]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/RMaxNavigationRewards-result.png}}
+\\
+\subfloat[Bomb rewards]{\includegraphics[width=0.5\textwidth]{corridas/RMaxBombRewards-result.png}}
+\subfloat[Bomb rewards relativas a la distancia a la salida]{\includegraphics[width=0.5\textwidth]{corridas/RMaxBombProportionalToExit-result.png}}
+\caption{Comportamiento del algoritmo R-Max dependiendo de las distintas configuraciones de rewards intermedias; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego, distinguiendo si el agente gan\'o o perdi\'o.}
+\label{fig:rmaxrew}
+\end{figure}
+
+\subsubsection{Sarsa}
+
+Los resultados de las aplicaciones de las rewards intermedios para Sarsa pueden verse en la figura \ref{fig:sarsarew}. Si bien los resultados obtenidos por Sarsa, independientemente de las rewards, no son muy satisfactorios, tanto por la cantidad de juegos perdidos como por la cantidad de movimientos por juego, el uso rewards muestra una cierta mejora en la cantidad de juegos ganados.
+
+Las bomb rewards, al igual que en los casos anteriores, generan una leve reducci\'on en la cantidad de movimientos por juego, aunque en este caso afectando tanto a los juegos ganados como a los perdidos.
+
+\begin{figure}
+\centering
+\subfloat[Sin rewards intermedias]{\includegraphics[width=0.5\textwidth]{corridas/SarsaNoRewards-result.png}}
+\subfloat[Navigation rewards]{\label{fig:tiger}\includegraphics[width=0.5\textwidth]{corridas/SarsaNavigationReward-result.png}}
+\\
+\subfloat[Bomb rewards]{\includegraphics[width=0.5\textwidth]{corridas/SarsaBombReward-result.png}}
+\subfloat[Bomb rewards relativas a la distancia a la salida]{\includegraphics[width=0.5\textwidth]{corridas/SarsaBombProportionalToExit-result.png}}
+\caption{Comportamiento del algoritmo Sarsa dependiendo de las distintas configuraciones de rewards intermedias; cada gr\'afico muestra la cantidad de movimientos en funci\'on del n\'umero de juego (notar que el n\'umero de juego debe multiplicarse por 10), distinguiendo si el agente gan\'o o perdi\'o.}
+\label{fig:sarsarew}
+\end{figure}
+
+
+\clearpage
+
+
+\subsection{Comparaci\'on}
+
+Volcamos en la tabla \ref{table:rewards} los datos correspondientes al tiempo promedio por movimiento, el punto de convergencia y la menor cantidad de movimientos alcanzada por cada algoritmo seg\'un distintas rewards para una f\'acil comparaci\'on entre ellos. Es importante para la comparaci\'on recordar que RMax fue ejecutado sobre un tablero de menor tama\'no; asimismo incluimos en esta secci\'on Sarsa-$\lambda$ pese a no haber logrado resultados aceptables.
+
+Los tiempos de procesamiento se ven poco afectados por la aplicaci\'on de rewards, manteni\'endose bajos para algoritmos livianos como Q-learning o Sarsa, y con valores m\'as altos para Dyna, Sarsa-$\lambda$ y especialmente RMax.
+
+La convergencia var\'ia dependiendo del algoritmo. Un model-based, como ser Dyna, acelera notablemente la convergencia al tener hints de navegaci\'on o de bombas, aunque la aplicaci\'on de rewards proporcionales a la salida para las bombas result\'o no ser acertada. En el caso de Q-learning, siendo model free, por el contrario, las rewards por bombas aceleran la convergencia, mientras que la navegaci\'on la hace m\'as lenta.
+
+Tal vez la conclusi\'on m\'as destacable sea el cambio generado en la estrategia \'optima al a\'nadir rewards por stones destruidas. Los algoritmos que mejores resultados dieron, Q-Learning y Dyna, generan una estrategia sub\'optima al incluir estas rewards. Esto puede explicarse en el hecho de que el agente, al obtener una recompensa al destruir una pared, opta por destruir paredes innecesarias en lugar de dirigirse a la salida lo m\'as r\'apidamente posible. 
+
+De este hecho concluimos que el decay factor $\gamma$ no era lo suficientemente pronunciado, con lo que en t\'erminos de largo plazo el agente juzg\'o que era m\'as provechoso destruir m\'as stones a pesar de ver reducida por decay la recompensa final.
+
+\begin{table}
+\label{table:rewards}
+\centering
+
+\begin{tabular}{|ll|r|r|r|}
+\hline
+\textbf{Agente} & \textbf{Reward} & \textbf{Tiempo} & \textbf{Convergencia} & \textbf{Optimo} \\
+\hline
+\hline
+Q Learning & None & 7.41e-05 & 167 & 13 \\
+Q Learning & Navigation & 6.45e-05 & 329 & 13 \\
+Q Learning & Bomb & 7.34e-05 & 129 & 21 \\
+Q Learning & $\Delta_{exit}$ Bomb & 7.69e-05 & 105 & 21 \\
+\hline
+Dyna & None & 1.27e-02 & 115 & 13 \\
+Dyna & Navigation & 1.19e-03 & 2 & 13 \\
+Dyna & Bomb & 8.79e-03 & 30 & 27 \\
+Dyna & $\Delta_{exit}$ Bomb & 3.40e-03 & 155 & 24 \\
+\hline
+Sarsa & None & 5.89e-05 & None & 13 \\
+Sarsa & Navigation & 4.77e-05 & None & 13 \\
+Sarsa & Bomb& 6.04e-05 & None & 13 \\
+Sarsa & $\Delta_{exit}$ Bomb & 5.26e-05 & None & 13 \\
+\hline
+Sarsa-$\lambda$ & None & 1.89e-02 & None & 16 \\
+Sarsa-$\lambda$ & Bomb & 1.89e-02 & None & 26 \\
+Sarsa-$\lambda$ & Navigation & 1.77e-02 & None & 20 \\
+Sarsa-$\lambda$ & $\Delta_{exit}$ Bomb & 1.61e-02 & None & 23 \\
+\hline
+R-Max $_{3 \times 3}$ & None & 6.15e-02 & 18 & 10 \\
+R-Max $_{3 \times 3}$& Navigation & 1.08e-01 & 29 & 9 \\
+R-Max $_{3 \times 3}$& Bomb & 2.73e-02 & 15 & 10 \\
+R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
+\hline
+\end{tabular}
+
+\caption{Tiempo promedio por movimiento, cantidad de juegos requerida hasta lograr convergencia y mejor estrategia desarrollada para ganar medida en cantidad de movimientos; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($20\%$) de los ganados.}
+
+\end{table}
+
+
+\clearpage
+
+
 
 
 	\subsection{Rewards Intermedios por posici\'on del bomberman}
@@ -300,7 +423,7 @@ DynaBombProportionalToExit-result.out & 3.40e-03 & 155 & 24 \\
 QLearningBombProportionalToExit-result.out & 7.69e-05 & 105 & 21 \\
 SarsaBombProportionalToExit-result.out & 5.26e-05 & None & 13 \\
 SarsaLambdaBombProportionalToExit-result.out & 1.61e-02 & None & 23 \\
-DynaNavigationRewards-result.out & 3.75e-03 & 1184 & 13 \\
+DynaNavigationRewards-result.out & 1.19e-03 & 2 & 13 \\
 QlearningNavigationReward-result.out & 6.45e-05 & 329 & 13 \\
 SarsaLambdaNavigationRewards-result.out & 1.77e-02 & None & 20 \\
 SarsaNavigationReward-result.out & 4.77e-05 & None & 13 \\
