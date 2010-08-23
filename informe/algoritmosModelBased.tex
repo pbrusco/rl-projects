@@ -48,6 +48,67 @@ for visited in self.visitedStates:
 
 Por otro lado, se almacena en un diccionario los valores de los estados pertenecientes a \textbf{visitados}. O sea, dado un estado como clave, se devuelve su valor. De esta manera, los valores iniciales para Value Iteration se setean a partir de este diccionario, pues, para cada acción, lo normal es que el valor de todos los estados casi no cambie. De este modo, se reduce fuertemente la cantidad de veces que hay que iterar en Value Iteration.
 
+\paragraph{}Para determinar si se sigue iterando o no, se usa la norma infinito para comparar los valores nuevos con los viejos, o sea, se toma la máxima diferencia. Al principio usábamos norma 2, pero esto tenía problemas de overflow, pues hay que sumar el cuadrado de todas las diferencia, lo que puede dar un número excesivamente grande.
+
+\paragraph{}El factor de descuento $(\gamma)$ quedó seteado en 0.85.
+
 \subsubsection{RMax Factorizado}
+
+\paragraph{}Para la implementación de Rmax factorizado, nos basamos en los items \cite{frmax1}, \cite{frmax2} y \cite{frmax3} de la bibliografía al final del trabajo.
+
+\paragraph{}Nuestro juego parecía un caso donde se podía ganar mucho al factorizar Rmax. Esto lo suponíamos pues la muerte del agente por explosión de bomba solamente depende de la distancia entre la bomba y el agente. En cambio, sin factorizar, el agente no puede aprender que la bomba cerca siempre lo va a matar, pues explotar una bomba en un casillero o en otro son dos estados diferentes, y sin factorizar es imposible extraer esta información. De esta manera, el agente tardaría muchísimo en no matarse con bombas, pues cada vez que llega a un casillero nuevo no tiene información sobre qué pasa si explota la bomba ahí, o, inclusive, en el mismo casillero pero con una pared rota. Suponíamos que se iba a mejorar mucho la convergencia al factorizar el estado, para que el agente aprenda rápido a no matarse con bombas.
+
+\paragraph{}Para realizar esto, siguiendo la bibliografía mencionada al inicio de la sección, factorizamos el estado en diferentes partes, así como también la recompensa. De este modo, tenemos dos DBNs de dependencias:
+\begin{itemize}
+	\item una para transiciones: dado un factor de estado y una acción, del valor de qué factores depende el nuevo valor de dicho factor al realizar la acción
+	\item una para recompensas: dado un factor de recompensa y una acción, del valor de qué factores de estado depende el valor de recompensa de dicho factor de recompensa al realizar la acción
+\end{itemize}
+
+A continuación ponemos las dependencias de factores de estado para las transiciones:
+
+	\clearpage
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{DropBombDependencies.PNG}
+			\caption{dependencias de la acción poner bomba}
+		\end{figure}
+				\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{ExplodeBombDependenciesDeltaBFactorFalse.PNG}
+			\caption{dependencias de la acción explotar bomba sin tener al factor deltaBomb}
+		\end{figure}
+				\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{ExplodeBombDependenciesDeltaBFactorTrue.PNG}
+			\caption{dependencias de la acción explotar bomba teniendo al factor deltaBomb}
+		\end{figure}
+						\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{NavigationActionDependencies.PNG}
+			\caption{dependencias de la acción moverse}
+		\end{figure}
+
+Como se explicó al inicio del informe, el factor deltaBomb es redundante, pero es útil para la factorización, ya que la muerte por explosión de la bomba depende exclusivamente de él, lo que haría que el agente aprenda más rápido a no morirse con la explosión.
+
+\paragraph{}Los factores de recompensa son:
+
+\begin{itemize}
+	\item Recompensa por morir
+	\item Recompensa por posición
+	\item Recompensa por destruir una pared
+	\item Recompensa por no moverse de estado
+\end{itemize}
+
+A su vez, se define un Rmax particular para cada factor (a depender de la configuración de corrida). De este modo, si no se conoce el valor de un factor, se asume rmax para ese factor en particular.
+
+\paragraph{}Siguiendo la bibliografía, dado un estado y una acción, la probabilidad empírica de moverse a otro estado se calcula como la productoria de las probabilidades para cada factor de llegar a dicho nuevo factor dado el valor de sus dependencias. La recompensa empírica es la suma de los factores de recompensa para dicho estado y acción (o rmax de dicho factor si no es conocido).
+
+\paragraph{}Se varía de KWIK de la misma forma que en el caso de rmax no factorizado: se considera que un conjunto de factores es conocido si se pasó por su valores por lo menos una vez, y siempre se actualiza su valor. Esto se hizo para mantener una continuidad entre Rmax y Rmax factorizado.
+
+\paragraph{}\textbf{Detalles de implementación:}
+
+\paragraph{}La parte de Value iteration es análoga al algoritmo de Rmax sin factorizar.
+
+\paragraph{}En el caso de factorizado, es necesario cambiar las estructuras de almacenamiento: En el caso de Rmax sin factorizar, para transiciones, nos alcanzaba mantener un diccionario de, dado un estado, una acción y el siguiente estado, cuántas veces se realizó dicha transición. Ahora, es necesario almacenarlo para tupla de factores. O sea, dados una acción, un factor final y un conjunto de factores, cuántas veces sucedió la transición de dicho conjunto con dicha acción hacia el nuevo valor del factor. Para el caso de recompensas, donde antes se mantenía un diccionario de, dado un estado y una acción, cuál era la recompensa empírica, ahora hay que almacenar, para cada tipo de factor recompensa, dados una acción, un conjunto de factores de estado (los factores de los cuales depende el factor de recompensa), cuál es el valor empírico de dicho tipo de factor recompensa dado el valor de sus factores estado de los que depende.
 
 \input{dyna.tex}
