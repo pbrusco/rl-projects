@@ -1,0 +1,114 @@
+\subsubsection{RMax}
+
+\paragraph{}Para implementar Rmax en nuestro trabajo, decidimos basarnos en la versión de KWIK-Rmax presente en las slides de la quinta clase del curso. Además, para más detalle sobre KWIK, y sobre las cotas matemáticas necesarias, nos basamos fuertemente en una disertación de Lihong Li \cite{li}.
+
+\paragraph{}Un agente Rmax, al ser model based, va armando un modelo completo en base a la experiencia adquirida y, al momento de decidir qué acción tomar, elige aquélla que considera más valiosa en base a todo el modelo que tiene computado el agente. Entonces, el algoritmo se divide en dos fases: una fase de aprendizaje, donde actualizamos el modelo en base a la experiencia empírica, y la fase de toma de decisión, donde, en base al modelo, mediante alguna técnica como value iteration, decidimos qué acción es la que más conviene tomar.
+
+\paragraph{}A continuación se presenta el pseudocódigo de KWIK-Rmax extraído de la disertación Li \cite{li}, página 145:
+
+	\clearpage
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{kwik-rmax.png}
+			\caption{kwik-rmax}
+		\end{figure}
+
+\paragraph{}En el algoritmo, es la línea 12 donde se decide la próxima acción. En la línea 13 obtenemos el reward y el estado siguiente, valores que se usan a continuación para la fase de aprendizaje. \textbf{$A_T$} y \textbf{$A_R$} son los algoritmos que, dado un par estado-acción, determinan, respectivamente, el valor empírico de la probabilidad de moverse al estado deseado y el valor empírico del reward esperado, o, si no tienen suficientes datos, dicen que dicho par estado-acción es desconocido. Con una cota suficientemente grande, se garantiza que dicho algoritmo sea PAC dados $\epsilon$ y $\delta$. En la sección 7.2.1, página 148, Li da un valor para esta cota (donde $n$ es la cantidad de estados y $m$ la cantidad de acciones):
+
+\[
+	O(\frac{n^2m}{\epsilon^2}ln(\frac{nm}{\delta}))
+\]
+
+\paragraph{}Sin embargo, en nuestro caso, tenemos el problema de la gran cantidad de estados posibles: En el tablero de 5 x 5 (el tablero utilizado para todas las pruebas) tenemos: 21 casilleros posibles para el agente, 21 casilleros posibles para la bomba, $2^5$ estados de paredes explotadas. Lo que da un total de 21 x 21 x 32 = 14112 estados. Entonces, asumiendo $\epsilon = 1$ y $\gamma = 1$, la cuenta de la cota igualmente es la siguiente (recordar que tenemos 6 acciones posibles):
+\[
+	14000^2\cdot6\cdot ln(14000\cdot6) \geq 10^9
+\]
+
+Este número resulta claramente inmanejable, no se puede pretender pasar por un par estado-acción tantas veces para que sea considerado conocido. Entonces, tuvimos que pensar otras alternativas para nuestro trabajo. Tendremos que contentarnos con un Rmax que no sea PAC.
+
+\paragraph{}Una primera alternativa fue simplemente bajar la cota para que un estado pase a ser conocido, tomando otros valores de referencia (la dimensión del tablero nada más por ejemplo). Esto nos trae el problema de definir arbitrariamente este valor. Un valor muy grande puede hacer que tarde mucho en aprender el modelo (pues necesita muchas corridas para considerar que un par estado-acción es conocido), y un valor muy chico puede contentarse con valores más alejados de la realidad. Al final, implementamos Rmax de la manera siguiente:
+
+\paragraph{}Un par estado-acción es considerado conocido con que se pase por él por lo menos una vez. Sin embargo, siempre que se pasa por dicho par se actualiza su valor empírico (a diferencia de KWIK donde, una vez algo es conocido, no se actualiza más). Esto hace que tengamos que correr Value iteration cada vez pero, si casi no cambiaron los valores, en una iteración se resuelve Value iteration.
+
+\paragraph{}\textbf{Detalles de implementación:}
+
+\paragraph{}
+
+Para decidir qué acción tomar, utilizamos el algoritmo de value iteration presentado en la segunda clase del curso. Sin embargo, en vez de iterar por todos los posibles estados en el doble ciclo, llevamos almacenados dos conjuntos: una para estados desde los cuales realizamos por lo menos una vez una acción (por lo que tenemos cierta información), a este conjunto lo llamaremos \textbf{visitados}; y otro de los estados que sabemos su existencia (o sea, \textbf{visitados} más lo que alguna vez llegamos pero no realizamos ninguna acción desde ellos), a este conjunto lo llamaremos \textbf{alcanzables}. Esto lo hicimos pues era una locura iterar por todos los posibles estados en dos ciclos anidados y, además, nos parece coherente que el agente sólo calcule a partir de los estados que sabe que existen y no con el conjunto total. Los estados en los cuales vamos a iterar su valor calculado son los pertenecientes a \textbf{visitados}, pues vamos a asumir Vmax para los demás (para los que pertenecen a \textbf{alcanzables} y no a \textbf{visitados}), pues, al no tener información alguna sobre ellos (más allá de su existencia), siempre suponemos Vmax, por lo que no tiene sentido incluirlos en las iteraciones de Value iteration. Entonces, las guardas de los ciclos quedarían así (código python, extraído de RmaxAgent.py):
+
+\begin{verbatim}
+
+for visited in self.visitedStates:
+  for action in Action.ACTIONS:
+    #inicializo con el reward dado el estado y la accion
+    partialQ = self.getRValue(action, visited)
+    for possible in self.reachableStates: #todos los estados que se que existen
+
+\end{verbatim}
+
+Por otro lado, se almacena en un diccionario los valores de los estados pertenecientes a \textbf{visitados}. O sea, dado un estado como clave, se devuelve su valor. De esta manera, los valores iniciales para Value Iteration se setean a partir de este diccionario, pues, para cada acción, lo normal es que el valor de todos los estados casi no cambie. De este modo, se reduce fuertemente la cantidad de veces que hay que iterar en Value Iteration.
+
+\paragraph{}Para determinar si se sigue iterando o no, se usa la norma infinito para comparar los valores nuevos con los viejos, o sea, se toma la máxima diferencia. Al principio usábamos norma 2, pero esto tenía problemas de overflow, pues hay que sumar el cuadrado de todas las diferencia, lo que puede dar un número excesivamente grande.
+
+\paragraph{}El factor de descuento $(\gamma)$ quedó seteado en 0.85.
+
+\subsubsection{RMax Factorizado}
+
+\paragraph{}Para la implementación de Rmax factorizado, nos basamos en los items \cite{frmax1}, \cite{frmax2} y \cite{frmax3} de la bibliografía al final del trabajo.
+
+\paragraph{}Nuestro juego parecía un caso donde se podía ganar mucho al factorizar Rmax. Esto lo suponíamos pues la muerte del agente por explosión de bomba solamente depende de la distancia entre la bomba y el agente. En cambio, sin factorizar, el agente no puede aprender que la bomba cerca siempre lo va a matar, pues explotar una bomba en un casillero o en otro son dos estados diferentes, y sin factorizar es imposible extraer esta información. De esta manera, el agente tardaría muchísimo en no matarse con bombas, pues cada vez que llega a un casillero nuevo no tiene información sobre qué pasa si explota la bomba ahí, o, inclusive, en el mismo casillero pero con una pared rota. Suponíamos que se iba a mejorar mucho la convergencia al factorizar el estado, para que el agente aprenda rápido a no matarse con bombas.
+
+\paragraph{}Para realizar esto, siguiendo la bibliografía mencionada al inicio de la sección, factorizamos el estado en diferentes partes, así como también la recompensa. De este modo, tenemos dos DBNs de dependencias:
+\begin{itemize}
+	\item una para transiciones: dado un factor de estado y una acción, del valor de qué factores depende el nuevo valor de dicho factor al realizar la acción
+	\item una para recompensas: dado un factor de recompensa y una acción, del valor de qué factores de estado depende el valor de recompensa de dicho factor de recompensa al realizar la acción
+\end{itemize}
+
+A continuación ponemos las dependencias de factores de estado para las transiciones:
+
+	\clearpage
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{DropBombDependencies.PNG}
+			\caption{dependencias de la acción poner bomba}
+		\end{figure}
+				\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{ExplodeBombDependenciesDeltaBFactorFalse.PNG}
+			\caption{dependencias de la acción explotar bomba sin tener al factor deltaBomb}
+		\end{figure}
+				\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{ExplodeBombDependenciesDeltaBFactorTrue.PNG}
+			\caption{dependencias de la acción explotar bomba teniendo al factor deltaBomb}
+		\end{figure}
+						\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{NavigationActionDependencies.PNG}
+			\caption{dependencias de la acción moverse}
+		\end{figure}
+
+Como se explicó al inicio del informe, el factor deltaBomb es redundante, pero es útil para la factorización, ya que la muerte por explosión de la bomba depende exclusivamente de él, lo que haría que el agente aprenda más rápido a no morirse con la explosión.
+
+\paragraph{}Los factores de recompensa son:
+
+\begin{itemize}
+	\item Recompensa por morir
+	\item Recompensa por posición
+	\item Recompensa por destruir una pared
+	\item Recompensa por no moverse de estado
+\end{itemize}
+
+A su vez, se define un Rmax particular para cada factor (a depender de la configuración de corrida). De este modo, si no se conoce el valor de un factor, se asume rmax para ese factor en particular.
+
+\paragraph{}Siguiendo la bibliografía, dado un estado y una acción, la probabilidad empírica de moverse a otro estado se calcula como la productoria de las probabilidades para cada factor de llegar a dicho nuevo factor dado el valor de sus dependencias. La recompensa empírica es la suma de los factores de recompensa para dicho estado y acción (o rmax de dicho factor si no es conocido).
+
+\paragraph{}Se varía de KWIK de la misma forma que en el caso de rmax no factorizado: se considera que un conjunto de factores es conocido si se pasó por su valores por lo menos una vez, y siempre se actualiza su valor. Esto se hizo para mantener una continuidad entre Rmax y Rmax factorizado.
+
+\paragraph{}\textbf{Detalles de implementación:}
+
+\paragraph{}La parte de Value iteration es análoga al algoritmo de Rmax sin factorizar.
+
+\paragraph{}En el caso de factorizado, es necesario cambiar las estructuras de almacenamiento: En el caso de Rmax sin factorizar, para transiciones, nos alcanzaba mantener un diccionario de, dado un estado, una acción y el siguiente estado, cuántas veces se realizó dicha transición. Ahora, es necesario almacenarlo para tupla de factores. O sea, dados una acción, un factor final y un conjunto de factores, cuántas veces sucedió la transición de dicho conjunto con dicha acción hacia el nuevo valor del factor. Para el caso de recompensas, donde antes se mantenía un diccionario de, dado un estado y una acción, cuál era la recompensa empírica, ahora hay que almacenar, para cada tipo de factor recompensa, dados una acción, un conjunto de factores de estado (los factores de los cuales depende el factor de recompensa), cuál es el valor empírico de dicho tipo de factor recompensa dado el valor de sus factores estado de los que depende.
+
+\input{dyna.tex}
