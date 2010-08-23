@@ -54,7 +54,7 @@
 	En nuestro programa vamos a representar el Estado como una tupla con los valores que listaremos a continuaci\'on:
 \begin{itemize}
 \item \textbf{bomberman position}: Tupla con la posición $i,j$ del agente en el tablero, en un momento determinado; valor inicial $(0,0)$.
-7\item \textbf{bomb position}: Tupla con la posicion $i,j$ de la bomba en el tablero, si es que la hay; toma un valor distinguido en caso de que no haya una bomba presente.
+\item \textbf{bomb position}: Tupla con la posicion $i,j$ de la bomba en el tablero, si es que la hay; toma un valor distinguido en caso de que no haya una bomba presente.
 \item \textbf{stones}: Arreglo de valores booleanos. Cada posición $i$ del arreglo indica si esa pared rompible está presente en el tablero, es decir si a\'un no fue destruida por el agente. El orden de las paredes va de arriba a la izquierda a abajo a la izquierda. Inicialmente están todas presentes. En el archivo \textit{sample\_board.txt} se puede ver la configuración de los distintos tableros usados.
 \item \textbf{died}: Valor booleano que indica si el agente murió, lo que implica el fin de la partida.
 \end{itemize}
@@ -256,9 +256,7 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 
 	Los algoritmos model based que implementamos, fueron corridos en mapas de tamaño 3 debido a que tardaban mucho en correr para mapas de tamaño 5. En la figura \ref{fig:comparaNoRewardsBased} se puede ver que ambos convergen muy rápido. Y que una vez que RMax llega a la salida, no cambia su política. En cambio Dyna varía su política, lo cual causa que a veces el agente pierda. 
 
-	\paragraph{}Rmax para tablero de 5x5 tardaban demasiado las corridas. Dejamos el algoritmo corriendo por un día entero y nunca llegamos a las 1000 iteraciones.
-	
-	\paragraph{}Rmax factorizado no llegó a converger para mapas de 3x3 inclusive. No sabemos por qué pasa esto, ya que, según la factorización, el agente debería aprender en 5 explosiones que siempre que una bomba explota cerca de él, se muere. Sin embargo, después de muchas iteraciones, el agente seguía muriendo por explosión de bomba. Suponemos que tenemos un error en el algoritmo de rmax factorizado (puede ser en el aprendizaje o en la elección), o en el algoritmo para factorizar el estado, y para, dado un factor, codificar su valor en un entero que sea único. Sea cual sea el error, no pudimos hacer anda rmax factorizado. Igualmente, enviamos el código.
+
 
 	\subsection{Aplicando Rewards Intermedios}
 	
@@ -401,6 +399,9 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 	Veremos ahora los resultados que obtuvimos para cada algoritmo en los distintos ambientes. Analizaremos solamente los algoritmos que convergen.
 	
 	\subsubsection{QLearning}
+	Como se puede ver en la figura \ref{fig:QLearningAmbientes} el algoritmo de QLearning tarda más en alcanzar una política óptima cuando la navegación es estocástica. Este resultado es de esperarse ya que lo que el agente aprendió para un estado, no siempre dará el mismo resultado al aplicarse de nuevo. Además de esto, el agente tiene más corridas en las que pierde aún después de haber alcanzado la política óptima, lo cual también evidencia lo que mencionamos antes.
+	
+	En cambio en el caso de la explosión estocástica se observa un resultado que llama la atención: El agente encuentra la política óptima antes.  Creemos que este resultado se debió a una corrida particular del algoritmo en el cual ``tuvo suerte'' y encontró pronto la salida. De todas maneras, también para este caso ocurre que los valores aún después de haber alcanzado la política óptima están más dispersos y se observa una mayor cantidad de corridas en las cuales el agente pierde después de haber alcanzado la política óptima.
 	\begin{figure}
 \centering
 \subfloat[Deterministico]{\includegraphics[width=0.5\textwidth]{corridas/QlearningNoRewards-result.png}}
@@ -425,8 +426,6 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 \caption{Rmax en distintos tipos de ambientes.}
 \label{fig:RmaxAmbientes}
 \end{figure}
-	
-Los resultados no varían en relación a un ambiente determinístico.
 	
 \subsubsection{Dyna}
 	\begin{figure}
@@ -495,19 +494,6 @@ StochasticNav.Rmax-result.out & 4.93e-01 & 25 & 11 \\
 \end{table}
 
 \section{Conclusiones}
-
-\subsection{Rmax y rmax factorizado}
-
-En ambos casos, los resultados son negativos, y nos dejan con sabor amargo.
-
-\paragraph{}En el caso de rmax, concluimos que tenemos un algoritmo correcto, pero que no escala. Esto se debe suponemos a la cantidad de estados que hay que manejar, y al costo de hacer value iteration cada vez. A medida que vamos conociendo nuevos estados, el algoritmo de value iteration se vuelve más pesado. Para 3x3 converge muy rápidamente, pero una vez que encuentra un camino hacia la salida se queda probando ese sin explorar más, por más de que no sea el camino óptimo (el algoritmo no es PAC). Nuestro juego en particular no es una buena situación para rmax por la gran cantidad de estados, éstos se vuelven inmanejables.
-
-\paragraph{}El caso de rmax factorizado es todavía peor, no logramos hacer que convergiera ni para el tablero de 3x3. No sabemos bien a qué se debe esto, pues, según la factorización, al morir el agente con una bomba solamente debería importarle el deltaBomb, por lo que debería aprender rápido a alejarse. Sin embargo, esto no sucede. Suponemos que tenemos algún \textit{bug} en el algoritmo, en la parte de aprendizaje o en la parte de cálculo de siguiente acción, en el cálculo del valor empírico de las función de transición o de recompensa para factor, o en otras partes ajenas al algoritmo, como por ejemplo en la factorización del estado, o del reward, o en el cálculo de valor único de cada factor dado un estado, no pudimos encontrar la falla. Tampoco descartamos un error conceptual del algoritmo de rmax factorizado.
-
-\paragraph{}Es, entonces, en parte, una desilución los resultados alcanzados por rmax y rmax factorizados, pues les dedicamos mucho tiempo a estos dos algoritmos, a leer papers sobre ellos para entender la idea, a implementarlos, optimizarlos, pensar variantes, y no llegamos a ningún buen resultado con ellos. Tratamos de tener algoritmos que tuvieran una garantía teórica de ser PAC y abandonamos esta idea porque la vimos imposible. Rmax no es viable para el tablero de 5x5 (donde sí son viables los algoritmos model free) y rmax factorizado ni siquiera está correcto.
-
-\section{Trabajo futuro}
-\input{futuro.tex}
 
 \clearpage
 
