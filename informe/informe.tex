@@ -239,13 +239,13 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \label{fig:comparaNoRewardsFree}
 \end{figure} 
 
-	Los algoritmos que se ven en la figura \ref{fig:comparaNoRewardsFree} corrieron para un mapa de tamaño 5. 
+	\paragraph{} Los algoritmos que se ven en la figura \ref{fig:comparaNoRewardsFree} corrieron para un mapa de tamaño 5. 
 	
-	Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. Lo más probable es que esto esté sucediendo por los parámetros utilizados, ya que en otras implementaciones, pudimos observar que se utilizaban valores como 42412. Creemos que modificando estos parámetros nuestros algoritmos pueden llegar a converger más rápidamente, pero no dispusimos del tiempo necesario para hacer las pruebas.
+	\paragraph{}Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. Lo más probable es que esto esté sucediendo por los parámetros utilizados, ya que en otras implementaciones, pudimos observar que se utilizaban otros valores, como $\alpha$ mas chicos o $\delta$ más cercanos a 1. Creemos que modificando estos parámetros nuestros algoritmos pueden llegar a converger más rápidamente, pero no dispusimos del tiempo necesario para hacer las pruebas.
 	
-	 En sarsa($\lambda$) lo que sucede es que se están fortaleciendo experiencias que no dieron buen resultado, es posible que bajando la cantidad de veces que se fortalecen las experiencias (N) o cambiando la importancia que se le da a esas experiencias, se logren mejores resultados.
+	 \paragraph{}En sarsa($\lambda$) lo que sucede es que se están fortaleciendo experiencias que no dieron buen resultado, es posible que bajando la cantidad de veces que se fortalecen las experiencias (N) o cambiando la importancia que se le da a esas experiencias, se logren mejores resultados.
 	
-	Sin embargo QLearning si converge a partir de juego 400.
+	\paragraph{}Sin embargo QLearning si converge a partir de juego 400.
 	
 	\subsubsection{Model Based}
 	\clearpage
