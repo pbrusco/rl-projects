@@ -54,7 +54,7 @@
 	En nuestro programa vamos a representar el Estado como una tupla con los valores que listaremos a continuaci\'on:
 \begin{itemize}
 \item \textbf{bomberman position}: Tupla con la posición $i,j$ del agente en el tablero, en un momento determinado; valor inicial $(0,0)$.
-\item \textbf{bomb position}: Tupla con la posicion $i,j$ de la bomba en el tablero, si es que la hay; toma un valor distinguido en caso de que no haya una bomba presente.
+7\item \textbf{bomb position}: Tupla con la posicion $i,j$ de la bomba en el tablero, si es que la hay; toma un valor distinguido en caso de que no haya una bomba presente.
 \item \textbf{stones}: Arreglo de valores booleanos. Cada posición $i$ del arreglo indica si esa pared rompible está presente en el tablero, es decir si a\'un no fue destruida por el agente. El orden de las paredes va de arriba a la izquierda a abajo a la izquierda. Inicialmente están todas presentes. En el archivo \textit{sample\_board.txt} se puede ver la configuración de los distintos tableros usados.
 \item \textbf{died}: Valor booleano que indica si el agente murió, lo que implica el fin de la partida.
 \end{itemize}
@@ -239,13 +239,13 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \label{fig:comparaNoRewardsFree}
 \end{figure} 
 
-	Los algoritmos que se ven en la figura \ref{fig:comparaNoRewardsFree} corrieron para un mapa de tamaño 5. 
+	\paragraph{} Los algoritmos que se ven en la figura \ref{fig:comparaNoRewardsFree} corrieron para un mapa de tamaño 5. 
 	
-	Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. Lo más probable es que esto esté sucediendo por los parámetros utilizados, ya que en otras implementaciones, pudimos observar que se utilizaban valores como 42412. Creemos que modificando estos parámetros nuestros algoritmos pueden llegar a converger más rápidamente, pero no dispusimos del tiempo necesario para hacer las pruebas.
+	\paragraph{}Lo primero que se puede observar es que ni sarsa ni sarsa($\lambda$) están convergiendo. Lo más probable es que esto esté sucediendo por los parámetros utilizados, ya que en otras implementaciones, pudimos observar que se utilizaban otros valores, como $\alpha$ mas chicos o $\delta$ más cercanos a 1. Creemos que modificando estos parámetros nuestros algoritmos pueden llegar a converger más rápidamente, pero no dispusimos del tiempo necesario para hacer las pruebas.
 	
-	 En sarsa($\lambda$) lo que sucede es que se están fortaleciendo experiencias que no dieron buen resultado, es posible que bajando la cantidad de veces que se fortalecen las experiencias (N) o cambiando la importancia que se le da a esas experiencias, se logren mejores resultados.
+	 \paragraph{}En sarsa($\lambda$) lo que sucede es que se están fortaleciendo experiencias que no dieron buen resultado, es posible que bajando la cantidad de veces que se fortalecen las experiencias (N) o cambiando la importancia que se le da a esas experiencias, se logren mejores resultados.
 	
-	Sin embargo QLearning si converge a partir de juego 400.
+	\paragraph{}Sin embargo QLearning si converge a partir de juego 400.
 	
 	\subsubsection{Model Based}
 	\clearpage
@@ -504,6 +504,9 @@ En ambos casos, los resultados son negativos, y nos dejan con sabor amargo.
 \paragraph{}El caso de rmax factorizado es todavía peor, no logramos hacer que convergiera ni para el tablero de 3x3. No sabemos bien a qué se debe esto, pues, según la factorización, al morir el agente con una bomba solamente debería importarle el deltaBomb, por lo que debería aprender rápido a alejarse. Sin embargo, esto no sucede. Suponemos que tenemos algún \textit{bug} en el algoritmo, en la parte de aprendizaje o en la parte de cálculo de siguiente acción, en el cálculo del valor empírico de las función de transición o de recompensa para factor, o en otras partes ajenas al algoritmo, como por ejemplo en la factorización del estado, o del reward, o en el cálculo de valor único de cada factor dado un estado, no pudimos encontrar la falla. Tampoco descartamos un error conceptual del algoritmo de rmax factorizado.
 
 \paragraph{}Es, entonces, en parte, una desilución los resultados alcanzados por rmax y rmax factorizados, pues les dedicamos mucho tiempo a estos dos algoritmos, a leer papers sobre ellos para entender la idea, a implementarlos, optimizarlos, pensar variantes, y no llegamos a ningún buen resultado con ellos. Tratamos de tener algoritmos que tuvieran una garantía teórica de ser PAC y abandonamos esta idea porque la vimos imposible. Rmax no es viable para el tablero de 5x5 (donde sí son viables los algoritmos model free) y rmax factorizado ni siquiera está correcto.
+
+\section{Trabajo futuro}
+\input{futuro.tex}
 
 \clearpage
 
