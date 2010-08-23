@@ -147,7 +147,7 @@ La implementaci\'on de la clase estado, su factorizaci\'on y las funciones de co
 \section{Algoritmos de Aprendizaje}
 	Programamos agentes con pol\'iticas de aprendizaje distintas. En esta sección explicaremos en detalle qué agentes hicimos, cómo implementamos cada una de las políticas de aprendizaje y algunas características teóricas de los algoritmos implementados. 
 	\subsection{Agentes Model-Free}
-		\newpage
+
 		\input{algoritmosModelFree.tex}
 	\subsection{Agentes Model-Based}	
 		\input{algoritmosModelBased.tex}
@@ -435,7 +435,9 @@ R-Max $_{3 \times 3}$& $\Delta_{exit}$ Bomb & 1.14e-01 & 28 & 9 \\
 \label{fig:RmaxAmbientes}
 \end{figure}
 	
-Los resultados no varían en relación a un ambiente determinístico.
+La aplicaci\'on de navegaci\'on estoc\'astica no produce una mejora sobre el punto de convergencia del algoritmo, el cual sigue requiriendo entre 10 y 20 iteraciones para encontrar una estrategia ganadora; la explosi\'on estoc\'astica, en cambio, s\'i permite que el algoritmo arribe a una estrategia ganadora en una cantidad \'infima de juegos.
+
+Ambas configuraciones estoc\'asticas producen que la estrategia ganadora arribada no mantenga una cantidad constante de movimientos, pues ante una misma secuencia el algoritmo puede arribar a distintos estados. Es notable c\'omo, a pesar de estos cambios, R-Max consiga recuperarse de una acci\'on con resultado distinto del m\'as probable y generar una secuencia ganadora, sin perder en una sola ocasi\'on una vez aprendido c\'omo ganar.
 	
 \clearpage	
 	
