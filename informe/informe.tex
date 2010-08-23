@@ -446,69 +446,6 @@ Los resultados no varían en relación a un ambiente determinístico.
 \label{fig:DynaAmbientes}
 \end{figure}
 
-\subsubsection{Comparaci\'on}
-	Tal como hicimos en la sección anterior, aquí presentamos la tabla con los tiempos promedios y las políticas alcanzadas por cada algoritmo.
-	
-	Se puede ver que, salvo casos excepcionales, en los que seguramente la acciónes estocásticas hicieron que alguna corrida particular tardara muy poc
-	
-
-\section{Stats}
-
-\begin{table}
-\centering
-
-\begin{tabular}{|l|r|r|r|}
-\hline
-\textbf{Agente} & \textbf{Tiempo} & \textbf{Convergencia} & \textbf{Optimo} \\
-\hline
-DynaNoRewards & 1.27e-02 & 115 & 13 \\
-QlearningNoRewards& 7.41e-05 & 167 & 13 \\
-SarsaLambdaNoRewards & 1.89e-02 & None & 16 \\
-SarsaNoRewards & 5.89e-05 & None & 13 \\
-RmaxNoRewards & 6.15e-02 & 18 & 10 \\
-StochasticExploDyna & 4.26e-03 & 19 & 16 \\
-StochasticExploQLearn & 5.01e-05 & 8 & 13 \\
-StochasticExploSarsa & 4.18e-05 & 4997 & 17 \\
-StochasticExploRmax & 8.86e-02 & 4 & 12 \\
-StochasticNav.QLearn & 5.74e-05 & 372 & 13 \\
-StochasticNav.Sarsa & 4.47e-05 & None & 13 \\
-StochasticNav.Dyna & 3.38e-03 & 3041 & 14 \\
-StochasticNav.Rmax & 4.93e-01 & 25 & 11 \\
-\hline
-DynaBombRewards-result.out & 8.79e-03 & 30 & 27 \\
-Qlearning-bombR-result.out & 7.34e-05 & 129 & 21 \\
-SarsaBombReward-result.out & 6.04e-05 & None & 13 \\
-SarsaLambdaBombRewards-result.out & 1.89e-02 & None & 26 \\
-DynaBombProportionalToExit-result.out & 3.40e-03 & 155 & 24 \\
-QLearningBombProportionalToExit-result.out & 7.69e-05 & 105 & 21 \\
-SarsaBombProportionalToExit-result.out & 5.26e-05 & None & 13 \\
-SarsaLambdaBombProportionalToExit-result.out & 1.61e-02 & None & 23 \\
-DynaNavigationRewards-result.out & 1.19e-03 & 2 & 13 \\
-QlearningNavigationReward-result.out & 6.45e-05 & 329 & 13 \\
-SarsaLambdaNavigationRewards-result.out & 1.77e-02 & None & 20 \\
-SarsaNavigationReward-result.out & 4.77e-05 & None & 13 \\
-DynaNoRewards-result.out & 1.27e-02 & 115 & 13 \\
-QlearningNoRewards-result.out & 7.41e-05 & 167 & 13 \\
-SarsaLambdaNoRewards-result.out & 1.89e-02 & None & 16 \\
-SarsaNoRewards-result.out & 5.89e-05 & None & 13 \\
-RMaxBombProportionalToExit-result.out & 1.14e-01 & 28 & 9 \\
-RMaxBombRewards-result.out & 2.73e-02 & 15 & 10 \\
-RMaxNavigationRewards-result.out & 1.08e-01 & 29 & 9 \\
-RmaxNoRewards-result.out & 6.15e-02 & 18 & 10 \\
-StochasticExplo.Dyna-result.out & 4.26e-03 & 19 & 16 \\
-StochasticExplo.QLearn-result.out & 5.01e-05 & 8 & 13 \\
-StochasticExplo.Sarsa-result.out & 4.18e-05 & 4997 & 17 \\
-StochasticExplo.Rmax-result.out & 8.86e-02 & 4 & 12 \\
-StochasticNav.QLearn-result.out & 5.74e-05 & 372 & 13 \\
-StochasticNav.Sarsa-result.out & 4.47e-05 & None & 13 \\
-StochasticNav.Dyna-result.out & 3.38e-03 & 3041 & 14 \\
-StochasticNav.Rmax-result.out & 4.93e-01 & 25 & 11 \\
-\end{tabular}
-
-\caption{Tiempo promedio por movimiento, cantidad de juegos requerida hasta lograr convergencia y mejor estrategia desarrollada para ganar medida en cantidad de movimientos; definimos convergencia como el punto a partir del cual la cantidad de juegos perdidos no supera determinado porcentaje ($20\%$) de los ganados.}
-
-\end{table}
-
 \section{Conclusiones}
 
 \subsection{Q-Learning, sarsa y  sarsa($\lambda$)}
