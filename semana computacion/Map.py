@@ -4,13 +4,17 @@ import random
 sys.path.append('images')
 
 
+
+
 from Maps import *
 from ToVisualize import *
 from VisualSettings import *
 import pygame as pg
 import os
 
+
 class Map:
+	
 
 	def __init__(self):
 		self.restart()		
@@ -18,9 +22,11 @@ class Map:
 	def restart(self):
 		self.pos = (0, 0)
 		self.bombPos = None
-		self.explodePos = None
+		self.explodePos = None	
 		
-
+		
+		
+				
 		self.background  = pg.image.load(os.path.join("images/backgrounds",random.choice(os.listdir("images/backgrounds"))))
 		self.stoneImg  = pg.image.load(os.path.join("images/stones",random.choice(os.listdir("images/stones"))))
 		self.wallImg  = pg.image.load(os.path.join("images/walls",random.choice(os.listdir("images/walls"))))
@@ -31,8 +37,20 @@ class Map:
 		self.deadImg  = pg.image.load(os.path.join("images/deads",random.choice(os.listdir("images/deads"))))
 		self.winImg  = pg.image.load(os.path.join("images/wins",random.choice(os.listdir("images/wins"))))
 
-	
-    
+
+		self.background = pg.transform.scale(self.background, (48,48))
+		self.stoneImg = pg.transform.scale(self.stoneImg, (48,48))		
+   		self.wallImg = pg.transform.scale(self.wallImg, (48,48))
+   		self.exitImg = pg.transform.scale(self.exitImg, (48,48))
+   		self.bomberImg1 = pg.transform.scale(self.bomberImg1, (48,48))
+   		self.bombImg1 = pg.transform.scale(self.bombImg1, (48,48))
+
+   		self.deadImg = pg.transform.scale(self.deadImg, (BOARD_HEIGHT*TAMBLOQUE, BOARD_WIDTH*TAMBLOQUE))
+		self.winImg = pg.transform.scale(self.winImg, (BOARD_HEIGHT*TAMBLOQUE, BOARD_WIDTH*TAMBLOQUE))
+
+
+
+
     #for screen position:
 	def posTablero(self,j,i): 
 		return (i*TAMBLOQUE ,j*COLUMNA)
@@ -42,15 +60,15 @@ class Map:
 		return (l1[0]+l2[0],l1[1]+l2[1])
 		
 	#move object in screen.	
-	def move(self,dire,obj,screen):
+	def move(self,dire,obj,screen,StonesCopy):
 		self.pos = self.coordSum(self.pos,dire)
-		self.drawScreen(screen)
+		self.drawScreen(screen,StonesCopy)
 		pg.display.flip()
       
 
-	def drawScreen(self,screen):
+	def drawScreen(self,screen,StonesCopy):
 		self.drawBackground(screen)
-		self.drawStones(screen)
+		self.drawStones(screen,StonesCopy)
 		self.drawBomb(screen)
 		self.drawExplosion(screen)
 		self.drawExit(screen)
@@ -62,10 +80,11 @@ class Map:
 			for j in range(BOARD_HEIGHT):
 				screen.blit(self.background, self.posTablero(i,j))		
 
-	def drawStones(self,screen):			
+	def drawStones(self,screen,StonesCopy):			
 		for i in range(BOARD_WIDTH):
 			for j in range(BOARD_HEIGHT):
-				if (i,j) in STONES:
+				if (i,j) in StonesCopy:
+				
 					screen.blit(self.stoneImg, self.posTablero(i,j))
 				
 	def drawBomberman(self,screen):				
