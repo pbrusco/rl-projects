@@ -1,7 +1,7 @@
 import sys
+import random
 
-
-sys.path.append('../rl.bomber')
+sys.path.append('images')
 
 
 from Maps import *
@@ -13,28 +13,23 @@ import os
 class Map:
 
 	def __init__(self):
-		
-		#load default images:
-		self.stoneImg = pg.image.load(os.path.join("images","Fl-brick.png"))
-		self.wallImg = pg.image.load(os.path.join("images","Fl-black.png"))
-		self.background  = pg.image.load(os.path.join("images","Fl_lawn.png"))
-		self.salidaImg  = pg.image.load(os.path.join("images","salida.png"))
-		self.bomberImg1 = pg.image.load(os.path.join("images","thGoomba.gif"))
-		self.exitImg = pg.image.load(os.path.join("images","salida.png"))
-		self.bombImg1 = pg.image.load(os.path.join("images","bomb1.png"))
-		self.explodeImg = pg.image.load(os.path.join("images","explode2.png"))		
-		self.deadImg = pg.image.load(os.path.join("images","guason.jpg"))
-		self.winImg = pg.image.load(os.path.join("images","flawless.jpg"))
-
-		#starting positions:
-		self.pos = (0, 0)
-		self.bombPos = None
-		self.explodePos = None
-			
+		self.restart()		
+					
 	def restart(self):
 		self.pos = (0, 0)
 		self.bombPos = None
 		self.explodePos = None
+		
+
+		self.background  = pg.image.load(os.path.join("images/backgrounds",random.choice(os.listdir("images/backgrounds"))))
+		self.stoneImg  = pg.image.load(os.path.join("images/stones",random.choice(os.listdir("images/stones"))))
+		self.wallImg  = pg.image.load(os.path.join("images/walls",random.choice(os.listdir("images/walls"))))
+		self.exitImg  = pg.image.load(os.path.join("images/exits",random.choice(os.listdir("images/exits"))))
+		self.bomberImg1  = pg.image.load(os.path.join("images/players",random.choice(os.listdir("images/players"))))
+		self.bombImg1  = pg.image.load(os.path.join("images/bombs",random.choice(os.listdir("images/bombs"))))
+		self.explodeImg  = pg.image.load(os.path.join("images/explotions",random.choice(os.listdir("images/explotions"))))
+		self.deadImg  = pg.image.load(os.path.join("images/deads",random.choice(os.listdir("images/deads"))))
+		self.winImg  = pg.image.load(os.path.join("images/wins",random.choice(os.listdir("images/wins"))))
 
 	
     
