@@ -1,5 +1,5 @@
 import time
-from Visual import *
+from Map import *
 
 print "Wellcome to bomberRL"
 print "Press S to start, F for fullscreen, UP and DOWN for speed change"
@@ -124,6 +124,8 @@ while True:
 		screen.blit(m.deadImg,(0,0))
 		pg.display.flip()
 		time.sleep(2)
+		m.restart()
+
 		
 
 	else:
@@ -131,12 +133,17 @@ while True:
 	
 	i = i + 1
 	if i == len(movements): 
-		break
+		if movements[-1] != DEAD:
+			screen.fill((0,0,0))	
+			screen.blit(m.winImg,(0,0))
+			pg.display.flip()
+			time.sleep(2)
+			print "YOU WIN.. "
 
-if movements[-1] != DEAD:
-	screen.fill((0,0,0))	
-	screen.blit(m.winImg,(0,0))
-	pg.display.flip()
-	time.sleep(2)
-	print "YOU WIN.. FLAWLESS VICTORY"
+		m.restart()
+		i = 0
+		m.drawScreen(screen)	
+		notPaused = False		
+
+
 exit()
